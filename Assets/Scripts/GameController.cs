@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour {
 	[SerializeField]
 	private Button specialButton;
 	[SerializeField]
-	private Image specialBarImage;
+	private Slider specialBarSlider;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -101,12 +101,12 @@ public class GameController : MonoBehaviour {
 		}
 
 		// Animate special bar
-		if (specialBarImage.fillAmount < specialBar && specialBarImage.fillAmount + SPECIAL_BAR_MODIFIER <= specialBar) {
-			specialBarImage.fillAmount += SPECIAL_BAR_MODIFIER;
-		} else if (specialBarImage.fillAmount > specialBar && specialBarImage.fillAmount - SPECIAL_BAR_MODIFIER >= specialBar) {
-			specialBarImage.fillAmount -= SPECIAL_BAR_MODIFIER;
+		if (specialBarSlider.value < specialBar && specialBarSlider.value + SPECIAL_BAR_MODIFIER <= specialBar) {
+			specialBarSlider.value += SPECIAL_BAR_MODIFIER;
+		} else if (specialBarSlider.value > specialBar && specialBarSlider.value - SPECIAL_BAR_MODIFIER >= specialBar) {
+			specialBarSlider.value -= SPECIAL_BAR_MODIFIER;
 		} else {
-			specialBarImage.fillAmount = specialBar;
+			specialBarSlider.value = specialBar;
 		}
 
 		if (shuffledTime > 0 && isShuffled) {
