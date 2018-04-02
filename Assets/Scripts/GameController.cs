@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	private static float SPECIAL_BAR_MODIFIER = 0.01f;
+
 
 	[SerializeField]
 	private Text problemText;
@@ -44,11 +46,18 @@ public class GameController : MonoBehaviour {
 	private float comboTimer;
 	private float specialBar;
 
+	private bool isShuffled = false;
+	private float shuffledTime = 0f;
+
+	private System.Random _random = new System.Random();
+
+	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
 	public Character playerCharacter;
 
 	void Start () {
 		// Force portrain orientation
-		Screen.orientation = ScreenOrientation.Portrait;
+		Screen.orientation = ScreenOrientation.Landscape;
 
 		// Add onClick listener to all number buttons
 		foreach (Button button in numberButtons) {
@@ -98,6 +107,13 @@ public class GameController : MonoBehaviour {
 			specialBarImage.fillAmount -= SPECIAL_BAR_MODIFIER;
 		} else {
 			specialBarImage.fillAmount = specialBar;
+		}
+
+		if (shuffledTime > 0 && isShuffled) {
+			shuffledTime -= Time.deltaTime;
+			if (shuffledTime < 0) {
+				revertKeypad ();
+			}
 		}
 	}
 
@@ -155,5 +171,38 @@ public class GameController : MonoBehaviour {
 	public void useSpecial () {
 		specialBar = 0;
 		specialButton.interactable = false;
+	}
+
+	private void Shuffle(int[] array)
+	{
+		int n = array.Length;
+		for (int i = 0; i < n; i++)	{
+			int r = i + _random.Next(n - i);
+			int temp = array[r];
+			array[r] = array[i];
+			array[i] = temp;
+		}
+	}
+
+	public void shuffleKeypad() {
+		int i = 0;
+		Shuffle (shuffleKeypadArray);
+		foreach (Button button in numberButtons) {
+			button.name = "Button - " + shuffleKeypadArray [i].ToString ();
+			button.GetComponentsInChildren<Text> ()[0].text = shuffleKeypadArray [i].ToString ();
+			i++;
+		}
+		isShuffled = true;
+		shuffledTime = 5.0f;
+	}
+
+	public void revertKeypad() {
+		int i = 0;
+		foreach (Button button in numberButtons) {
+			button.name = "Button - " + i.ToString ();
+			button.GetComponentsInChildren<Text> ()[0].text = i.ToString ();
+			i++;
+		}
+		shuffledTime = 0;
 	}
 }
