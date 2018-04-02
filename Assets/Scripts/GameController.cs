@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour {
+public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private static GameController _instance;
 
@@ -17,8 +17,13 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	private static float SPECIAL_BAR_MODIFIER = 0.01f;
+	[SerializeField]
+	private float COMBO_MULTIPLIER;
 
+	[SerializeField]
+	private const float SPECIAL_BAR_MODIFIER = 0.01f;
+	[SerializeField]
+	private const float HEALTH_BAR_MODIFIER = 1f;
 
 	[SerializeField]
 	private Text problemText;
@@ -35,25 +40,40 @@ public class GameController : MonoBehaviour {
 	[SerializeField]
 	private Slider comboTimerSlider;
 	[SerializeField]
-	private Button specialButton;
+	private GameObject specialButton;
+
 	[SerializeField]
-	private Slider specialBarSlider;
+	private Slider ownSpecialBarSlider;
+	[SerializeField]
+	private Slider ownHealthBarSlider;
+
+	[SerializeField]
+	private Slider opponentSpecialBarSlider;
+	[SerializeField]
+	private Slider opponentHealthBarSlider;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
 	private int difficulty;
+
 	private int combo;
 	private float comboTimer;
-	private float specialBar;
+
+	private float ownSpecialGauge;
+	private float ownHealthGauge;
+
+	private float opponentSpecialGauge;
+	private float opponentHealthGauge;
 
 	private bool isShuffled = false;
 	private float shuffledTime = 0f;
 
-	private System.Random _random = new System.Random();
-
 	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	public Character playerCharacter;
+	public Character ownCharacter;
+	public Character opponentCharacter;
+
+	#region Gameplay related
 
 	void Start () {
 		// Force portrain orientation
@@ -79,15 +99,24 @@ public class GameController : MonoBehaviour {
 
 		// Initialize combo & comboTimer
 		combo = 0;
-		comboTimerSlider.maxValue = playerCharacter.getComboTimer ();
+		comboTimerSlider.maxValue = ownCharacter.getComboTimer ();
 
-		// Initialize special bar
-		specialBar = 0;
+		// Initialize own special & health
+		ownSpecialGauge = 0;
+		ownHealthGauge = ownCharacter.getMaxHp ();
+		ownHealthBarSlider.maxValue = ownHealthGauge;
+		ownHealthBarSlider.value = ownHealthGauge;
+
+		// Initialize opponent's special & health
+		opponentSpecialGauge = 0;
+		opponentHealthGauge = opponentCharacter.getMaxHp ();
+		opponentHealthBarSlider.maxValue = opponentHealthGauge;
+		opponentHealthBarSlider.value = opponentHealthGauge;
 
 		// Generate problem
 		difficulty = Difficulty.MEDIUM;
 		difficultyButtons [difficulty].interactable = false;
-		problemSet = playerCharacter.generateProblem (difficulty);
+		problemSet = ownCharacter.generateProblem (difficulty);
 		problemText.text = problemSet.Key;
 	}
 
@@ -100,20 +129,28 @@ public class GameController : MonoBehaviour {
 			resetCombo ();
 		}
 
-		// Animate special bar
-		if (specialBarSlider.value < specialBar && specialBarSlider.value + SPECIAL_BAR_MODIFIER <= specialBar) {
-			specialBarSlider.value += SPECIAL_BAR_MODIFIER;
-		} else if (specialBarSlider.value > specialBar && specialBarSlider.value - SPECIAL_BAR_MODIFIER >= specialBar) {
-			specialBarSlider.value -= SPECIAL_BAR_MODIFIER;
-		} else {
-			specialBarSlider.value = specialBar;
-		}
+		// Animate bars
+		AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
+		AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
+		AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
+		AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
 
+		// Manage button shuffle
 		if (shuffledTime > 0 && isShuffled) {
 			shuffledTime -= Time.deltaTime;
 			if (shuffledTime < 0) {
 				revertKeypad ();
 			}
+		}
+	}
+
+	void AnimateSlider (Slider slider, float gauge, float modifier) {
+		if (slider.value < gauge && slider.value + modifier <= gauge) {
+			slider.value += modifier;
+		} else if (slider.value > gauge && slider.value - modifier >= gauge) {
+			slider.value -= modifier;
+		} else {
+			slider.value = gauge;
 		}
 	}
 
@@ -133,7 +170,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void generateNewProblem () {
-		problemSet = playerCharacter.generateProblem (difficulty);
+		problemSet = ownCharacter.generateProblem (difficulty);
 		problemText.text = problemSet.Key;
 	}
 
@@ -154,37 +191,60 @@ public class GameController : MonoBehaviour {
 	public void judgeAnswer() {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
+
+			// Add combo
 			++combo;
 			comboText.text = "" + combo;
-			comboTimer = playerCharacter.getComboTimer ();
-			specialBar += playerCharacter.getSpecialBarIncrease () [difficulty];
-			if (specialBar >= 1) {
-				specialBar = 1;
-				specialButton.interactable = true;
+			comboTimer = ownCharacter.getComboTimer ();
+
+			// Increase own special gauge
+			ownSpecialGauge += ownCharacter.getSpecialBarIncrease () [difficulty];
+			if (ownSpecialGauge >= 1) {
+				ownSpecialGauge = 1;
+				specialButton.SetActive (true);
 			}
+
+			// Decrease opponent's health
+			opponentHealthGauge -= ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+
+			// Call RPC
+			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
+			this.photonView.RPC ("modifyOwnHealthGauge", PhotonTargets.Others, opponentHealthGauge);
 		} else {
 			resetCombo ();
 		}
 		answerText.text = "0";
 	}
 
-	public void useSpecial () {
-		specialBar = 0;
-		specialButton.interactable = false;
+	[PunRPC]
+	void modifyOpponentSpecialGauge (float specialGauge) {
+		opponentSpecialGauge = specialGauge;
 	}
 
-	private void Shuffle(int[] array)
-	{
+	[PunRPC]
+	void modifyOwnHealthGauge (float healthGauge) {
+		ownHealthGauge = healthGauge;
+	}
+					
+	public void useSpecial () {
+		ownSpecialGauge = 0;
+		specialButton.SetActive (false);
+		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
+		this.photonView.RPC ("shuffleKeypad", PhotonTargets.Others);
+	}
+
+	void Shuffle(int[] array) {
 		int n = array.Length;
 		for (int i = 0; i < n; i++)	{
-			int r = i + _random.Next(n - i);
+			int r = i + Random.Range(0, n - i);
 			int temp = array[r];
 			array[r] = array[i];
 			array[i] = temp;
 		}
 	}
 
-	public void shuffleKeypad() {
+	[PunRPC]
+	void shuffleKeypad() {
 		int i = 0;
 		Shuffle (shuffleKeypadArray);
 		foreach (Button button in numberButtons) {
@@ -196,7 +256,7 @@ public class GameController : MonoBehaviour {
 		shuffledTime = 5.0f;
 	}
 
-	public void revertKeypad() {
+	void revertKeypad() {
 		int i = 0;
 		foreach (Button button in numberButtons) {
 			button.name = "Button - " + i.ToString ();
@@ -205,4 +265,28 @@ public class GameController : MonoBehaviour {
 		}
 		shuffledTime = 0;
 	}
+
+	#endregion
+
+	#region others
+
+	public override void OnLeftRoom () {
+		SceneManager.LoadScene (0);
+	}
+
+	public void leaveRoom () {
+		PhotonNetwork.LeaveRoom ();
+	}
+
+	public override void OnPhotonPlayerDisconnected (PhotonPlayer other) {
+		Debug.Log ("OnPhotonPlayerDisconnected()");
+		leaveRoom ();
+	}
+
+	void IPunObservable.OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo Info) {
+
+	}
+
+	#endregion
+
 }

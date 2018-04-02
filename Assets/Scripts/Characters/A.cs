@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class A : Character {
 
-	private static int MAX_HP= 100;
+	private static int MAX_HP = 200;
 	private static float COMBO_TIMER = 5;
 	private static int EASY_DAMAGE = 10;
 	private static int MEDIUM_DAMAGE = 15;
