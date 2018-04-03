@@ -61,6 +61,16 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[SerializeField]
 	private Slider opponentHealthBarSlider;
 
+	[SerializeField]
+	private GameObject ownCharacterObject;
+	[SerializeField]
+	private GameObject opponentCharacterObject;
+
+	[SerializeField]
+	private GameObject resultPanel;
+	[SerializeField]
+	private Text resultText;
+
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
 	private int difficulty;
@@ -74,14 +84,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
 
-	public Character ownCharacter;
-	public Character opponentCharacter;
+	private Character ownCharacter;
+	private Character opponentCharacter;
 
 	#region Gameplay related
 
 	void Start () {
 		Debug.Log ("SCRIPT STARTED");
-		ownCharacter = (Character)gameObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
+		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
 		this.photonView.RPC ("assignOpponentCharacter", PhotonTargets.Others, CharacterHolder.Instance.OwnCharacterName);
 
 		// Force portrain orientation
@@ -200,6 +210,10 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 			// Decrease opponent's health
 			opponentHealthGauge -= ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+			if (opponentHealthGauge <= 0) {
+				resultPanel.SetActive (true);
+				resultText.text = "WIN";
+			}
 
 			// Call RPC
 			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
@@ -218,13 +232,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[PunRPC]
 	void modifyOwnHealthGauge (float healthGauge) {
 		ownHealthGauge = healthGauge;
+		if (ownHealthGauge <= 0) {
+			resultPanel.SetActive (true);
+			resultText.text = "LOSE";
+		}
 	}
 					
 	public void useSpecial () {
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-		this.photonView.RPC ("opponentCharacter.useSpecial", PhotonTargets.Others);
+		opponentCharacter.photonView.RPC ("useSpecial", PhotonTargets.Others);
 	}
 
 	public Button[] getNumberButtons() {
@@ -233,7 +251,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	[PunRPC]
 	public void assignOpponentCharacter (string characterName) {
-		opponentCharacter = (Character)gameObject.AddComponent (System.Type.GetType (characterName));
+		opponentCharacter = (Character)opponentCharacterObject.AddComponent (System.Type.GetType (characterName));
 		opponentSpecialGauge = 0;
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 		opponentHealthBarSlider.maxValue = opponentHealthGauge;

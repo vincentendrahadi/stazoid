@@ -14,13 +14,14 @@ public class Pencil : Character {
 	private static float MEDIUM_INCREASE = 0.15f;
 	private static float HARD_INCREASE = 0.25f;
 
+	private const float SHUFFLED_TIME = 5.0f;
 
 	private bool isShuffled = false;
 	private float shuffledTime = 0f;
 
 	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	void update() {
+	void Update () {
 		// Manage button shuffle
 		if (shuffledTime > 0 && isShuffled) {
 			shuffledTime -= Time.deltaTime;
@@ -84,7 +85,7 @@ public class Pencil : Character {
 			i++;
 		}
 		isShuffled = true;
-		shuffledTime = 5.0f;
+		shuffledTime = SHUFFLED_TIME;
 	}
 
 	void revertKeypad() {

@@ -5,23 +5,22 @@ using UnityEngine.UI;
 
 public class Eraser : Character {
 
-	private static int MAX_HP = 200;
+	private static int MAX_HP = 250;
 	private static float COMBO_TIMER = 5;
-	private static int EASY_DAMAGE = 10;
-	private static int MEDIUM_DAMAGE = 15;
-	private static int HARD_DAMAGE = 25;
-	private static float EASY_INCREASE = 0.1f;
-	private static float MEDIUM_INCREASE = 0.15f;
-	private static float HARD_INCREASE = 0.25f;
+	private static int EASY_DAMAGE = 7;
+	private static int MEDIUM_DAMAGE = 12;
+	private static int HARD_DAMAGE = 22;
+	private static float EASY_INCREASE = 0.2f;
+	private static float MEDIUM_INCREASE = 0.3f;
+	private static float HARD_INCREASE = 0.5f;
 
-	private const float ERASED_TIME = 6.0f;
-
+	private const float ERASED_TIME = 5.0f;
 
 	private bool isErased = false;
 	private float erasedTime = 0f;
 
 
-	void update() {
+	void Update () {
 		// Manage button shuffle
 		if (erasedTime > 0 && isErased) {
 			erasedTime -= Time.deltaTime;
@@ -69,14 +68,11 @@ public class Eraser : Character {
 		int i = 0;
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
-			if (i != erasedIndex) {
-				button.name = "Button - " + i.ToString ();
-				button.GetComponentsInChildren<Text> () [0].text = i.ToString ();
-				i++;
-			} else {
+			if (i == erasedIndex) {
 				button.name = "Button - ";
 				button.GetComponentsInChildren<Text> () [0].text = "";
 			}
+			i++;
 		}
 		isErased = true;
 		erasedTime = ERASED_TIME;

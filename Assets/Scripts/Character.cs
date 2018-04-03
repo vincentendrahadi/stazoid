@@ -37,8 +37,7 @@ public abstract class Character : Photon.PunBehaviour, IPunObservable {
 	public float[] getSpecialBarIncrease () {
 		return specialBarIncrease;
 	}
-
-	[PunRPC]
+		
 	abstract public void useSpecial();
 
 		
