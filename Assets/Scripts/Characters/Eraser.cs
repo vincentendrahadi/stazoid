@@ -7,11 +7,11 @@ public class Eraser : Character {
 
 	private static int MAX_HP = 250;
 	private static float COMBO_TIMER = 5;
-	private static int EASY_DAMAGE = 7;
+	private static int EASY_DAMAGE = 10;
 	private static int MEDIUM_DAMAGE = 12;
-	private static int HARD_DAMAGE = 22;
+	private static int HARD_DAMAGE = 20;
 	private static float EASY_INCREASE = 0.2f;
-	private static float MEDIUM_INCREASE = 0.3f;
+	private static float MEDIUM_INCREASE = 0.25f;
 	private static float HARD_INCREASE = 0.5f;
 
 	private const float ERASED_TIME = 5.0f;
@@ -61,7 +61,12 @@ public class Eraser : Character {
 			firstNumber = Random.Range (10, 100);
 			secondNumber = Random.Range (10, 100);
 		}
-		return new KeyValuePair<string, int>(firstNumber + " + " + secondNumber, firstNumber + secondNumber);
+		if (firstNumber < secondNumber) {
+			int temp = firstNumber;
+			firstNumber = secondNumber;
+			secondNumber = temp;
+		}
+		return new KeyValuePair<string, int>(firstNumber + " - " + secondNumber, firstNumber - secondNumber);
 	}
 	void eraseKeypad() {
 		int erasedIndex = Random.Range (0, 9);
