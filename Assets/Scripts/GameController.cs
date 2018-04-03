@@ -65,10 +65,10 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
 
-	private bool isShuffled = false;
-	private float shuffledTime = 0f;
+	//private bool isShuffled = false;
+	//private float shuffledTime = 0f;
 
-	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	//private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 	public Character ownCharacter;
 	public Character opponentCharacter;
@@ -136,12 +136,12 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
 
 		// Manage button shuffle
-		if (shuffledTime > 0 && isShuffled) {
+		/*if (shuffledTime > 0 && isShuffled) {
 			shuffledTime -= Time.deltaTime;
 			if (shuffledTime < 0) {
 				revertKeypad ();
 			}
-		}
+		}*/
 	}
 
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
@@ -230,10 +230,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-		this.photonView.RPC ("shuffleKeypad", PhotonTargets.Others);
+		this.photonView.RPC ("ownCharacter.useSpecial", PhotonTargets.Others);
 	}
 
-	void Shuffle(int[] array) {
+	public Button[] getNumberButtons() {
+		return numberButtons;
+	}
+
+	/*void Shuffle(int[] array) {
 		int n = array.Length;
 		for (int i = 0; i < n; i++)	{
 			int r = i + Random.Range(0, n - i);
@@ -264,7 +268,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			i++;
 		}
 		shuffledTime = 0;
-	}
+	}*/
 
 	#endregion
 

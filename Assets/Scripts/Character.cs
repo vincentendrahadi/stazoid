@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public abstract class Character : MonoBehaviour {
+public abstract class Character : Photon.PunBehaviour, IPunObservable {
 
 	protected int maxHp;
 	protected float comboTimer;
@@ -13,6 +14,10 @@ public abstract class Character : MonoBehaviour {
 	protected int hardDamage;
 
 	public abstract KeyValuePair<string, int> generateProblem (int difficulty);
+
+	void IPunObservable.OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo Info) {
+
+	}
 
 	public int getMaxHp () {
 		return maxHp;
@@ -29,5 +34,9 @@ public abstract class Character : MonoBehaviour {
 	public float[] getSpecialBarIncrease () {
 		return specialBarIncrease;
 	}
+
+	[PunRPC]
+	abstract public void useSpecial();
+
 		
 }

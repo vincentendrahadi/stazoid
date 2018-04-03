@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class A : Character {
+public class Eraser : Character {
 
 	private static int MAX_HP = 200;
 	private static float COMBO_TIMER = 5;
@@ -12,6 +13,24 @@ public class A : Character {
 	private static float EASY_INCREASE = 0.1f;
 	private static float MEDIUM_INCREASE = 0.15f;
 	private static float HARD_INCREASE = 0.25f;
+
+	private const float ERASED_TIME = 6.0f;
+
+
+	private bool isErased = false;
+	private float erasedTime = 0f;
+
+
+	void update() {
+		// Manage button shuffle
+		if (erasedTime > 0 && isErased) {
+			erasedTime -= Time.deltaTime;
+			if (erasedTime < 0) {
+				revertKeypad ();
+			}
+		}
+	}
+
 
 	void Awake () {
 		maxHp = MAX_HP;
@@ -44,6 +63,41 @@ public class A : Character {
 			secondNumber = Random.Range (10, 100);
 		}
 		return new KeyValuePair<string, int>(firstNumber + " + " + secondNumber, firstNumber + secondNumber);
+	}
+	void eraseKeypad() {
+		int erasedIndex = Random.Range (0, 9);
+		int i = 0;
+		Button[] numberButtons = GameController.Instance.getNumberButtons ();
+		foreach (Button button in numberButtons) {
+			if (i != erasedIndex) {
+				button.name = "Button - " + i.ToString ();
+				button.GetComponentsInChildren<Text> () [0].text = i.ToString ();
+				i++;
+			} else {
+				button.name = "Button - ";
+				button.GetComponentsInChildren<Text> () [0].text = "";
+			}
+		}
+		isErased = true;
+		erasedTime = ERASED_TIME;
+	}
+
+	void revertKeypad() {
+		int i = 0;
+		Button[] numberButtons = GameController.Instance.getNumberButtons ();
+		foreach (Button button in numberButtons) {
+			button.name = "Button - " + i.ToString ();
+			button.GetComponentsInChildren<Text> ()[0].text = i.ToString ();
+			i++;
+		}
+		erasedTime = 0;
+	}
+
+	[PunRPC]
+	public override void useSpecial ()
+	{
+		eraseKeypad ();
+		throw new System.NotImplementedException ();
 	}
 
 }
