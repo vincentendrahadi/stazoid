@@ -17,6 +17,8 @@ public class Launcher : Photon.PunBehaviour {
 	private Button playButton;
 	[SerializeField]
 	private GameObject statusText;
+	[SerializeField]
+	private Button selectedCharacterButton;
 
 	private bool isConnecting;
 
@@ -33,7 +35,11 @@ public class Launcher : Photon.PunBehaviour {
 		statusText.SetActive (true);
 		playButton.interactable = false;
 
-		PhotonNetwork.ConnectUsingSettings (GAME_VERSION);
+		if (PhotonNetwork.connected) {
+			PhotonNetwork.JoinRandomRoom ();
+		} else {
+			PhotonNetwork.ConnectUsingSettings (GAME_VERSION);
+		}
 	}
 
 	public override void OnConnectedToMaster () {
@@ -57,6 +63,8 @@ public class Launcher : Photon.PunBehaviour {
 
 	public override void OnJoinedRoom () {
 		Debug.Log ("Stazoid/Launcher: OnJoinedRoom() called by PUN");
+
+		CharacterHolder.Instance.OwnCharacterName = selectedCharacterButton.transform.GetChild (0).GetComponent <Text> ().text;
 	}
 
 	void EnterGame () {
@@ -75,6 +83,14 @@ public class Launcher : Photon.PunBehaviour {
 
 			EnterGame ();
 		}
+	}
+
+	private Character ownCharacter;
+
+	public void chooseCharacter (Button button) {
+		selectedCharacterButton.interactable = true;
+		selectedCharacterButton = button;
+		selectedCharacterButton.interactable = false;
 	}
 
 }

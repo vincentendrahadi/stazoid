@@ -5,6 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameController : Photon.PunBehaviour, IPunObservable {
+	#region IPunObservable implementation
+	void IPunObservable.OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo info)
+	{
+		
+	}
+	#endregion
 
 	private static GameController _instance;
 
@@ -24,6 +30,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private const float SPECIAL_BAR_MODIFIER = 0.01f;
 	[SerializeField]
 	private const float HEALTH_BAR_MODIFIER = 1f;
+
+	[SerializeField]
+	private GameObject blockingPanel;
 
 	[SerializeField]
 	private Text problemText;
@@ -65,19 +74,18 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
 
-	//private bool isShuffled = false;
-	//private float shuffledTime = 0f;
-
-	//private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
 	public Character ownCharacter;
 	public Character opponentCharacter;
 
 	#region Gameplay related
 
 	void Start () {
+		Debug.Log ("SCRIPT STARTED");
+		ownCharacter = (Character)gameObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
+		this.photonView.RPC ("assignOpponentCharacter", PhotonTargets.Others, CharacterHolder.Instance.OwnCharacterName);
+
 		// Force portrain orientation
-		Screen.orientation = ScreenOrientation.Landscape;
+		// Screen.orientation = ScreenOrientation.Landscape;
 
 		// Add onClick listener to all number buttons
 		foreach (Button button in numberButtons) {
@@ -107,12 +115,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownHealthBarSlider.maxValue = ownHealthGauge;
 		ownHealthBarSlider.value = ownHealthGauge;
 
-		// Initialize opponent's special & health
-		opponentSpecialGauge = 0;
-		opponentHealthGauge = opponentCharacter.getMaxHp ();
-		opponentHealthBarSlider.maxValue = opponentHealthGauge;
-		opponentHealthBarSlider.value = opponentHealthGauge;
-
 		// Generate problem
 		difficulty = Difficulty.MEDIUM;
 		difficultyButtons [difficulty].interactable = false;
@@ -134,14 +136,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
 		AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
 		AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
-
-		// Manage button shuffle
-		/*if (shuffledTime > 0 && isShuffled) {
-			shuffledTime -= Time.deltaTime;
-			if (shuffledTime < 0) {
-				revertKeypad ();
-			}
-		}*/
 	}
 
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
@@ -230,46 +224,24 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-		this.photonView.RPC ("ownCharacter.useSpecial", PhotonTargets.Others);
+		this.photonView.RPC ("opponentCharacter.useSpecial", PhotonTargets.Others);
 	}
 
 	public Button[] getNumberButtons() {
 		return numberButtons;
 	}
 
-	/*void Shuffle(int[] array) {
-		int n = array.Length;
-		for (int i = 0; i < n; i++)	{
-			int r = i + Random.Range(0, n - i);
-			int temp = array[r];
-			array[r] = array[i];
-			array[i] = temp;
-		}
-	}
-
 	[PunRPC]
-	void shuffleKeypad() {
-		int i = 0;
-		Shuffle (shuffleKeypadArray);
-		foreach (Button button in numberButtons) {
-			button.name = "Button - " + shuffleKeypadArray [i].ToString ();
-			button.GetComponentsInChildren<Text> ()[0].text = shuffleKeypadArray [i].ToString ();
-			i++;
-		}
-		isShuffled = true;
-		shuffledTime = 5.0f;
+	public void assignOpponentCharacter (string characterName) {
+		opponentCharacter = (Character)gameObject.AddComponent (System.Type.GetType (characterName));
+		opponentSpecialGauge = 0;
+		opponentHealthGauge = opponentCharacter.getMaxHp ();
+		opponentHealthBarSlider.maxValue = opponentHealthGauge;
+		opponentHealthBarSlider.value = opponentHealthGauge;
+
+		blockingPanel.SetActive (false);
 	}
-
-	void revertKeypad() {
-		int i = 0;
-		foreach (Button button in numberButtons) {
-			button.name = "Button - " + i.ToString ();
-			button.GetComponentsInChildren<Text> ()[0].text = i.ToString ();
-			i++;
-		}
-		shuffledTime = 0;
-	}*/
-
+		
 	#endregion
 
 	#region others
@@ -286,11 +258,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		Debug.Log ("OnPhotonPlayerDisconnected()");
 		leaveRoom ();
 	}
-
-	void IPunObservable.OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo Info) {
-
-	}
-
+		
 	#endregion
 
 }

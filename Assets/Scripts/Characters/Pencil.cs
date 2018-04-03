@@ -102,7 +102,6 @@ public class Pencil : Character {
 	public override void useSpecial ()
 	{
 		shuffleKeypad();
-		throw new System.NotImplementedException ();
 	}
 
 }

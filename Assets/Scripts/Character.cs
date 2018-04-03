@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class Character : Photon.PunBehaviour, IPunObservable {
+	
+	#region IPunObservable implementation
+	void IPunObservable.OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo info)
+	{
+		
+	}
+	#endregion
 
 	protected int maxHp;
 	protected float comboTimer;
@@ -14,10 +21,6 @@ public abstract class Character : Photon.PunBehaviour, IPunObservable {
 	protected int hardDamage;
 
 	public abstract KeyValuePair<string, int> generateProblem (int difficulty);
-
-	void IPunObservable.OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo Info) {
-
-	}
 
 	public int getMaxHp () {
 		return maxHp;

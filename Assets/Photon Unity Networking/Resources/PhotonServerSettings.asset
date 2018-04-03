@@ -45,4 +45,6 @@ MonoBehaviour:
   - modifyOpponentSpecialGauge
   - modifyOwnHealthGauge
   - shuffleKeypad
+  - useSpecial
+  - assignOpponentCharacter
   DisableAutoOpenWizard: 1

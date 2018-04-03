@@ -97,7 +97,6 @@ public class Eraser : Character {
 	public override void useSpecial ()
 	{
 		eraseKeypad ();
-		throw new System.NotImplementedException ();
 	}
 
 }
