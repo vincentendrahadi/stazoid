@@ -15,10 +15,10 @@ public class Eraser : Character {
 	private static float HARD_INCREASE = 0.5f;
 
 	private const float ERASED_TIME = 5.0f;
+	private const int ERASED_COUNT = 3;
 
 	private bool isErased = false;
 	private float erasedTime = 0f;
-
 
 	void Update () {
 		// Manage button shuffle
@@ -69,13 +69,18 @@ public class Eraser : Character {
 		return new KeyValuePair<string, int>(firstNumber + " - " + secondNumber, firstNumber - secondNumber);
 	}
 	void eraseKeypad() {
-		int erasedIndex = Random.Range (0, 9);
+		HashSet <int> toBeErased = new HashSet <int> ();
+		while (toBeErased.Count < ERASED_COUNT) {
+			int erasedIndex = Random.Range (0, 9);
+			if (!toBeErased.Contains (erasedIndex)) {
+				toBeErased.Add (erasedIndex);
+			}
+		}
 		int i = 0;
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
-			if (i == erasedIndex) {
-				button.name = "Button - ";
-				button.GetComponentsInChildren<Text> () [0].text = "";
+			if (toBeErased.Contains (i)) {
+				button.interactable = false;
 			}
 			i++;
 		}
@@ -87,9 +92,7 @@ public class Eraser : Character {
 		int i = 0;
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
-			button.name = "Button - " + i.ToString ();
-			button.GetComponentsInChildren<Text> ()[0].text = i.ToString ();
-			i++;
+			button.interactable = true;
 		}
 		erasedTime = 0;
 	}

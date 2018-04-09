@@ -19,7 +19,7 @@ public class Pencil : Character {
 	private bool isShuffled = false;
 	private float shuffledTime = 0f;
 
-	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 	void Update () {
 		// Manage button shuffle
@@ -79,9 +79,9 @@ public class Pencil : Character {
 		int i = 0;
 		Shuffle (shuffleKeypadArray);
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
+		Vector3[] numberButtonDefaultPositions = GameController.Instance.getNumberButtonDeffaultPositions ();
 		foreach (Button button in numberButtons) {
-			button.name = "Button - " + shuffleKeypadArray [i].ToString ();
-			button.GetComponentsInChildren<Text> ()[0].text = shuffleKeypadArray [i].ToString ();
+			button.transform.position = numberButtonDefaultPositions [shuffleKeypadArray [i]];
 			i++;
 		}
 		isShuffled = true;
@@ -91,9 +91,9 @@ public class Pencil : Character {
 	void revertKeypad() {
 		int i = 0;
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
+		Vector3[] numberButtonDefaultPositions = GameController.Instance.getNumberButtonDeffaultPositions ();
 		foreach (Button button in numberButtons) {
-			button.name = "Button - " + i.ToString ();
-			button.GetComponentsInChildren<Text> ()[0].text = i.ToString ();
+			button.transform.position = numberButtonDefaultPositions [i];
 			i++;
 		}
 		shuffledTime = 0;

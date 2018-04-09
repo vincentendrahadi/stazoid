@@ -89,6 +89,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private Character ownCharacter;
 	private Character opponentCharacter;
 
+	private List <Vector3> numberButtonDefaultPositions;
+
 	#region Gameplay related
 
 	void Start () {
@@ -99,11 +101,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		// Force portrain orientation
 		// Screen.orientation = ScreenOrientation.Landscape;
 
-		// Add onClick listener to all number buttons
+		// Add onClick listener to all number buttons and get default position of all number buttons
+		numberButtonDefaultPositions = new List <Vector3> ();
 		foreach (Button button in numberButtons) {
 			button.onClick.AddListener (delegate {
 				addNumberToAnswer (button.name [9]);
 			});
+			numberButtonDefaultPositions.Add (button.transform.position);
 		}
 
 		// Add onClick listener to all difficulty buttons
@@ -173,6 +177,10 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (answerText.text == "") {
 			answerText.text = "0";
 		}
+	}
+
+	public void deleteAnswer () {
+		answerText.text = "0";
 	}
 
 	void generateNewProblem () {
@@ -265,6 +273,10 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	public Button[] getNumberButtons() {
 		return numberButtons;
+	}
+
+	public Vector3[] getNumberButtonDeffaultPositions() {
+		return numberButtonDefaultPositions.ToArray ();
 	}
 
 	[PunRPC]
