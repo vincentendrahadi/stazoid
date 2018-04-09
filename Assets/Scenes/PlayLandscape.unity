@@ -4276,7 +4276,7 @@ MonoBehaviour:
   specialButton: {fileID: 1028734064}
   ownSpecialBarSlider: {fileID: 230809888}
   ownHealthBarSlider: {fileID: 1208342328}
-  opponentSpecialBarSlider: {fileID: 1348552118}
+  opponentSpecialBarSlider: {fileID: 1875171522}
   opponentHealthBarSlider: {fileID: 1348552118}
   ownCharacterObject: {fileID: 794880644}
   opponentCharacterObject: {fileID: 1684455191}
