@@ -30,6 +30,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private const float SPECIAL_BAR_MODIFIER = 0.01f;
 	[SerializeField]
 	private const float HEALTH_BAR_MODIFIER = 1f;
+	[SerializeField]
+	private const float DAMAGE_TO_SPECIAL_DIVISOR = 100f;
 
 	[SerializeField]
 	private GameObject blockingPanel;
@@ -209,15 +211,23 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 
 			// Decrease opponent's health
-			opponentHealthGauge -= ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+			opponentHealthGauge -= damage;
 			if (opponentHealthGauge <= 0) {
 				resultPanel.SetActive (true);
 				resultText.text = "WIN";
 			}
 
+			// Increase opponent's special gauge
+			opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+			if (opponentSpecialGauge >= 1) {
+				opponentSpecialGauge = 1;
+			}
+
 			// Call RPC
 			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
 			this.photonView.RPC ("modifyOwnHealthGauge", PhotonTargets.Others, opponentHealthGauge);
+			this.photonView.RPC ("modifyOwnSpecialGauge", PhotonTargets.Others, opponentSpecialGauge);
 		} else {
 			resetCombo ();
 		}
@@ -227,6 +237,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[PunRPC]
 	void modifyOpponentSpecialGauge (float specialGauge) {
 		opponentSpecialGauge = specialGauge;
+	}
+
+	[PunRPC]
+	void modifyOwnSpecialGauge (float specialGauge) {
+		ownSpecialGauge = specialGauge;
+		if (ownSpecialGauge >= 1) {
+			specialButton.SetActive (true);
+		}
 	}
 
 	[PunRPC]

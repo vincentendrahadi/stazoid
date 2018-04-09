@@ -47,4 +47,5 @@ MonoBehaviour:
   - shuffleKeypad
   - useSpecial
   - assignOpponentCharacter
+  - modifyOwnSpecialGauge
   DisableAutoOpenWizard: 1
