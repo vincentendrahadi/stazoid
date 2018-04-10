@@ -7,6 +7,7 @@ public class Launcher : Photon.PunBehaviour {
 
 	private const string GAME_VERSION = "1";
 	private const string PLAY_SCENE_NAME = "PlayLandscape"; 
+	private const string SINGLE_PLAYER_SCENE_NAME = "SinglePlayer";
 
 	[SerializeField]
 	private PhotonLogLevel LOG_LEVEL = PhotonLogLevel.Informational;
@@ -19,6 +20,8 @@ public class Launcher : Photon.PunBehaviour {
 	private GameObject statusText;
 	[SerializeField]
 	private Button selectedCharacterButton;
+	[SerializeField]
+	private Button[] characterList;
 
 	private bool isConnecting;
 
@@ -28,6 +31,18 @@ public class Launcher : Photon.PunBehaviour {
 		PhotonNetwork.logLevel = LOG_LEVEL;
 
 		statusText.SetActive (false);
+	}
+
+	public string getNPCCharacterName() {
+		int opponentCharacterNameIndex = Random.Range (0, characterList.Length);
+		return characterList [opponentCharacterNameIndex].transform.GetChild (0).GetComponent <Text> ().text;
+	}
+
+	public void PlayWithNPC() {
+		CharacterHolder.Instance.OwnCharacterName = selectedCharacterButton.transform.GetChild (0).GetComponent <Text> ().text;
+		CharacterHolder.Instance.NpcCharacterName = getNPCCharacterName ();
+		Debug.Log (CharacterHolder.Instance.NpcCharacterName);
+		Application.LoadLevel (SINGLE_PLAYER_SCENE_NAME);
 	}
 
 	public void Connect () {

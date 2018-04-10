@@ -25,6 +25,11 @@ public class Eraser : Character {
 		if (erasedTime > 0 && isErased) {
 			erasedTime -= Time.deltaTime;
 			if (erasedTime < 0) {
+				try{
+					npcRevertKeypad();
+				} catch (System.Exception e) {
+					Debug.Log ("Not in Single Player Mode");
+				}
 				revertKeypad ();
 			}
 		}
@@ -95,6 +100,39 @@ public class Eraser : Character {
 			button.interactable = true;
 		}
 		erasedTime = 0;
+	}
+
+	void npcEraseKeypad() {
+		HashSet <int> toBeErased = new HashSet <int> ();
+		while (toBeErased.Count < ERASED_COUNT) {
+			int erasedIndex = Random.Range (0, 9);
+			if (!toBeErased.Contains (erasedIndex)) {
+				toBeErased.Add (erasedIndex);
+			}
+		}
+		int i = 0;
+		Button[] numberButtons = GetComponent<SinglePlayerController> ().getNumberButtons();
+		foreach (Button button in numberButtons) {
+			if (toBeErased.Contains (i)) {
+				button.interactable = false;
+			}
+			i++;
+		}
+		isErased = true;
+		erasedTime = ERASED_TIME;
+	}
+
+	void npcRevertKeypad() {
+		int i = 0;
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		foreach (Button button in numberButtons) {
+			button.interactable = true;
+		}
+		erasedTime = 0;
+	}
+
+	public override void npcUseSpecial() {
+		npcEraseKeypad ();
 	}
 
 	[PunRPC]

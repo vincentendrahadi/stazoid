@@ -26,6 +26,11 @@ public class Pencil : Character {
 		if (shuffledTime > 0 && isShuffled) {
 			shuffledTime -= Time.deltaTime;
 			if (shuffledTime < 0) {
+				try {
+					npcRevertKeypad();
+				} catch (System.Exception e) {
+					Debug.Log ("Not Single Player Mode");
+				}
 				revertKeypad ();
 			}
 		}
@@ -99,10 +104,39 @@ public class Pencil : Character {
 		shuffledTime = 0;
 	}
 
+	void npcShuffleKeypad() {
+		int i = 0;
+		Shuffle (shuffleKeypadArray);
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		Vector3[] numberButtonDefaultPositions = SinglePlayerController.Instance.getNumberButtonDeffaultPositions ();
+		foreach (Button button in numberButtons) {
+			button.transform.position = numberButtonDefaultPositions [shuffleKeypadArray [i]];
+			i++;
+		}
+		isShuffled = true;
+		shuffledTime = SHUFFLED_TIME;
+	}
+
+	void npcRevertKeypad() {
+		int i = 0;
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		Vector3[] numberButtonDefaultPositions = SinglePlayerController.Instance.getNumberButtonDeffaultPositions ();
+		foreach (Button button in numberButtons) {
+			button.transform.position = numberButtonDefaultPositions [i];
+			i++;
+		}
+		shuffledTime = 0;
+	}
+
+	public override void npcUseSpecial() {
+		npcShuffleKeypad ();
+	}
+
 	[PunRPC]
 	public override void useSpecial ()
 	{
 		shuffleKeypad();
 	}
+		
 
 }
