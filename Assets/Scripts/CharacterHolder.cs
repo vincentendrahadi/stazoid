@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterHolder : MonoBehaviour {
 
 	private string ownCharacterName;
+	private string npcCharacterName;
 
 	private static CharacterHolder instance;
 	public static CharacterHolder Instance {
@@ -26,6 +27,15 @@ public class CharacterHolder : MonoBehaviour {
 		}
 		set {
 			ownCharacterName = value;
+		}
+	}
+
+	public string NpcCharacterName {
+		get {
+			return npcCharacterName;
+		}
+		set {
+			npcCharacterName = value;
 		}
 	}
 
