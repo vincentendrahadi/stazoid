@@ -48,4 +48,6 @@ MonoBehaviour:
   - useSpecial
   - assignOpponentCharacter
   - modifyOwnSpecialGauge
+  - playerWin
+  - setOpponentResult
   DisableAutoOpenWizard: 1

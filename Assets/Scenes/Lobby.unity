@@ -723,7 +723,7 @@ MonoBehaviour:
   playButton: {fileID: 1344599694}
   statusText: {fileID: 343194922}
   selectedCharacterButton: {fileID: 249484886}
-  cancelButton: {fileID: 0}
+  cancelButton: {fileID: 456517363}
 --- !u!1 &1327436054
 GameObject:
   m_ObjectHideFlags: 0

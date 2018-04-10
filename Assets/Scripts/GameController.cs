@@ -23,6 +23,12 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		}
 	}
 
+	private class Result {
+		public const int LOSE = -1;
+		public const int DRAW = 0;
+		public const int WIN = 1;
+	}
+
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
 
@@ -91,15 +97,15 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private List <Vector3> numberButtonDefaultPositions;
 
+	private int resultSentCount;
+	private int playerResult;
+	private int opponentResult;
+
 	#region Gameplay related
 
 	void Start () {
-		Debug.Log ("SCRIPT STARTED");
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
 		this.photonView.RPC ("assignOpponentCharacter", PhotonTargets.Others, CharacterHolder.Instance.OwnCharacterName);
-
-		// Force portrain orientation
-		// Screen.orientation = ScreenOrientation.Landscape;
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
 		numberButtonDefaultPositions = new List <Vector3> ();
@@ -136,6 +142,11 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		difficultyButtons [difficulty].interactable = false;
 		problemSet = ownCharacter.generateProblem (difficulty);
 		problemText.text = problemSet.Key;
+
+		// Initialize receivedResult
+		playerResult = Result.DRAW;
+		opponentResult = Result.DRAW;
+		resultSentCount = 0;
 	}
 
 	void Update () {
@@ -222,8 +233,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
 			opponentHealthGauge -= damage;
 			if (opponentHealthGauge <= 0) {
-				resultPanel.SetActive (true);
-				resultText.text = "WIN";
+				playerResult = Result.WIN;
 			}
 
 			// Increase opponent's special gauge
@@ -260,7 +270,30 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownHealthGauge = healthGauge;
 		if (ownHealthGauge <= 0) {
 			resultPanel.SetActive (true);
-			resultText.text = "LOSE";
+			playerResult = Result.LOSE;
+			resultSentCount = 1;
+			this.photonView.RPC ("setOpponentResult", PhotonTargets.Others, Result.WIN);
+		}
+	}
+
+	[PunRPC]
+	void setOpponentResult (int result) {
+		Debug.Log (playerResult + " " + opponentResult);
+		opponentResult = result;
+		if (resultSentCount < 1) {
+			++resultSentCount;
+			this.photonView.RPC ("setOpponentResult", PhotonTargets.Others, -result);
+		} else {
+			resultPanel.SetActive (true);
+			if (playerResult == opponentResult) {
+				if (playerResult == Result.LOSE) {
+					resultText.text = "LOSE";
+				} else {
+					resultText.text = "WIN";
+				}
+			} else {
+				resultText.text = "DRAW";
+			}
 		}
 	}
 					
@@ -289,6 +322,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 		blockingPanel.SetActive (false);
 	}
+
+	[PunRPC]
+	void playerWin () {
+		resultPanel.SetActive (true);
+		resultText.text = "WIN";
+	}
+		
 		
 	#endregion
 
