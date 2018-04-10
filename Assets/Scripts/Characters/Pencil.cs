@@ -19,6 +19,8 @@ public class Pencil : Character {
 	private bool isShuffled = false;
 	private float shuffledTime = 0f;
 
+	private bool isNPC = false;
+
 	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 	void Update () {
@@ -26,12 +28,12 @@ public class Pencil : Character {
 		if (shuffledTime > 0 && isShuffled) {
 			shuffledTime -= Time.deltaTime;
 			if (shuffledTime < 0) {
-				try {
-					npcRevertKeypad();
-				} catch (System.Exception e) {
-					Debug.Log ("Not Single Player Mode");
+				if (isNPC == true) {
+					npcRevertKeypad ();
+				} else {
+					revertKeypad ();
 				}
-				revertKeypad ();
+
 			}
 		}
 	}
@@ -105,6 +107,7 @@ public class Pencil : Character {
 	}
 
 	void npcShuffleKeypad() {
+		isNPC = true;
 		int i = 0;
 		Shuffle (shuffleKeypadArray);
 		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
@@ -118,6 +121,7 @@ public class Pencil : Character {
 	}
 
 	void npcRevertKeypad() {
+		isNPC = false;
 		int i = 0;
 		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
 		Vector3[] numberButtonDefaultPositions = SinglePlayerController.Instance.getNumberButtonDeffaultPositions ();

@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class SinglePlayerController : MonoBehaviour {
 
-	private static GameController _instance;
+	private static SinglePlayerController _instance;
 
-	public static GameController Instance {
+	public static SinglePlayerController Instance {
 		get {
 			if (_instance == null) {
-				_instance = (GameController)FindObjectOfType (typeof(GameController));
+				_instance = (SinglePlayerController)FindObjectOfType (typeof(SinglePlayerController));
 			}
 			return _instance;
 		}

@@ -19,18 +19,19 @@ public class Eraser : Character {
 
 	private bool isErased = false;
 	private float erasedTime = 0f;
+	private bool isNPC = false;
 
 	void Update () {
 		// Manage button shuffle
 		if (erasedTime > 0 && isErased) {
 			erasedTime -= Time.deltaTime;
 			if (erasedTime < 0) {
-				try{
-					npcRevertKeypad();
-				} catch (System.Exception e) {
-					Debug.Log ("Not in Single Player Mode");
+				if (isNPC == true) {
+					npcRevertKeypad ();
+				} else {
+					revertKeypad ();
 				}
-				revertKeypad ();
+
 			}
 		}
 	}
@@ -94,7 +95,6 @@ public class Eraser : Character {
 	}
 
 	void revertKeypad() {
-		int i = 0;
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
 			button.interactable = true;
@@ -103,6 +103,7 @@ public class Eraser : Character {
 	}
 
 	void npcEraseKeypad() {
+		isNPC = true;
 		HashSet <int> toBeErased = new HashSet <int> ();
 		while (toBeErased.Count < ERASED_COUNT) {
 			int erasedIndex = Random.Range (0, 9);
@@ -111,7 +112,7 @@ public class Eraser : Character {
 			}
 		}
 		int i = 0;
-		Button[] numberButtons = GetComponent<SinglePlayerController> ().getNumberButtons();
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
 			if (toBeErased.Contains (i)) {
 				button.interactable = false;
@@ -123,7 +124,7 @@ public class Eraser : Character {
 	}
 
 	void npcRevertKeypad() {
-		int i = 0;
+		isNPC = false;
 		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
 			button.interactable = true;

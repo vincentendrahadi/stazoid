@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Launcher : Photon.PunBehaviour {
 
@@ -41,8 +42,7 @@ public class Launcher : Photon.PunBehaviour {
 	public void PlayWithNPC() {
 		CharacterHolder.Instance.OwnCharacterName = selectedCharacterButton.transform.GetChild (0).GetComponent <Text> ().text;
 		CharacterHolder.Instance.NpcCharacterName = getNPCCharacterName ();
-		Debug.Log (CharacterHolder.Instance.NpcCharacterName);
-		Application.LoadLevel (SINGLE_PLAYER_SCENE_NAME);
+		SceneManager.LoadScene (SINGLE_PLAYER_SCENE_NAME);
 	}
 
 	public void Connect () {
