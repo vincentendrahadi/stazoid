@@ -19,6 +19,8 @@ public class Launcher : Photon.PunBehaviour {
 	private GameObject statusText;
 	[SerializeField]
 	private Button selectedCharacterButton;
+	[SerializeField]
+	private GameObject cancelButton;
 
 	private bool isConnecting;
 
@@ -26,20 +28,23 @@ public class Launcher : Photon.PunBehaviour {
 		PhotonNetwork.autoJoinLobby = false;
 		PhotonNetwork.automaticallySyncScene = true;
 		PhotonNetwork.logLevel = LOG_LEVEL;
-
-		statusText.SetActive (false);
 	}
 
 	public void Connect () {
 		isConnecting = true;
 		statusText.SetActive (true);
 		playButton.interactable = false;
+		cancelButton.SetActive (true);
 
 		if (PhotonNetwork.connected) {
 			PhotonNetwork.JoinRandomRoom ();
 		} else {
 			PhotonNetwork.ConnectUsingSettings (GAME_VERSION);
 		}
+	}
+
+	public void Disconnect () {
+		PhotonNetwork.Disconnect ();
 	}
 
 	public override void OnConnectedToMaster () {
@@ -52,8 +57,10 @@ public class Launcher : Photon.PunBehaviour {
 	public override void OnDisconnectedFromPhoton () {
 		Debug.Log ("Stazoid/Launcher: OnDisconnectedFromPhoton() was called by PUN");
 
+		isConnecting = false;
 		statusText.SetActive (false);
 		playButton.interactable = true;
+		cancelButton.SetActive (false);
 	}
 
 	public override void OnPhotonRandomJoinFailed (object[] codeAndMsg) {
