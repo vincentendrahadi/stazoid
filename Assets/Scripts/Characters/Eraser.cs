@@ -89,7 +89,6 @@ public class Eraser : Character {
 	}
 
 	void revertKeypad() {
-		int i = 0;
 		Button[] numberButtons = GameController.Instance.getNumberButtons ();
 		foreach (Button button in numberButtons) {
 			button.interactable = true;

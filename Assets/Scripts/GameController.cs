@@ -25,9 +25,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private class Result {
 		public const int LOSE = -1;
-		public const int DRAW = 0;
+		public const int NEUTRAL = 0;
 		public const int WIN = 1;
 	}
+
+	private const int WIN_NEEDED = 3;
+
+	private const float ANNOUNCEMENT_DELAY = 3.0f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -75,9 +79,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private GameObject opponentCharacterObject;
 
 	[SerializeField]
+	private GameObject countDownPanel;
+
+	[SerializeField]
 	private GameObject resultPanel;
 	[SerializeField]
 	private Text resultText;
+
+	[SerializeField]
+	private WinCounter ownWinCounter;
+	[SerializeField]
+	private WinCounter opponentWinCounter;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -97,9 +109,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private List <Vector3> numberButtonDefaultPositions;
 
-	private int resultSentCount;
-	private int playerResult;
-	private int opponentResult;
+	private bool resultReceived;
 
 	#region Gameplay related
 
@@ -136,17 +146,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownHealthGauge = ownCharacter.getMaxHp ();
 		ownHealthBarSlider.maxValue = ownHealthGauge;
 		ownHealthBarSlider.value = ownHealthGauge;
+		specialButton.SetActive (false);
+
+		// Initialize difficulty
+		difficulty = Difficulty.MEDIUM;
 
 		// Generate problem
-		difficulty = Difficulty.MEDIUM;
-		difficultyButtons [difficulty].interactable = false;
 		problemSet = ownCharacter.generateProblem (difficulty);
 		problemText.text = problemSet.Key;
 
-		// Initialize receivedResult
-		playerResult = Result.DRAW;
-		opponentResult = Result.DRAW;
-		resultSentCount = 0;
+		// Initialize result received
+		resultReceived = false;
 	}
 
 	void Update () {
@@ -200,6 +210,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	}
 
 	void changeDifficulty(int difficulty) {
+		deleteAnswer ();
 		difficultyButtons [this.difficulty].interactable = true;
 		this.difficulty = difficulty;
 		generateNewProblem ();
@@ -232,9 +243,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			// Decrease opponent's health
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
 			opponentHealthGauge -= damage;
-			if (opponentHealthGauge <= 0) {
-				playerResult = Result.WIN;
-			}
 
 			// Increase opponent's special gauge
 			opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
@@ -246,10 +254,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
 			this.photonView.RPC ("modifyOwnHealthGauge", PhotonTargets.Others, opponentHealthGauge);
 			this.photonView.RPC ("modifyOwnSpecialGauge", PhotonTargets.Others, opponentSpecialGauge);
+			if (opponentHealthGauge <= 0) {
+				resultPanel.SetActive (true);
+				this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
+			}
 		} else {
 			resetCombo ();
 		}
-		answerText.text = "0";
+		deleteAnswer ();
 	}
 
 	[PunRPC]
@@ -270,30 +282,44 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownHealthGauge = healthGauge;
 		if (ownHealthGauge <= 0) {
 			resultPanel.SetActive (true);
-			playerResult = Result.LOSE;
-			resultSentCount = 1;
-			this.photonView.RPC ("setOpponentResult", PhotonTargets.Others, Result.WIN);
+			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
+		}
+	}
+
+	string getResultText (float healthPercentage) {
+		if (healthPercentage > 0.99f) {
+			return "PERFECT";
+		} else if (healthPercentage < 0.1f) {
+			return "GREAT";
+		} else {
+			return "K.O";
 		}
 	}
 
 	[PunRPC]
-	void setOpponentResult (int result) {
-		Debug.Log (playerResult + " " + opponentResult);
-		opponentResult = result;
-		if (resultSentCount < 1) {
-			++resultSentCount;
-			this.photonView.RPC ("setOpponentResult", PhotonTargets.Others, -result);
+	void setResult (int result) {
+		if (result == Result.LOSE) {
+			opponentWinCounter.add ();
 		} else {
-			resultPanel.SetActive (true);
-			if (playerResult == opponentResult) {
-				if (playerResult == Result.LOSE) {
-					resultText.text = "LOSE";
-				} else {
-					resultText.text = "WIN";
-				}
+			ownWinCounter.add ();
+		}
+		if (!resultReceived) {
+			resultReceived = true;
+			if (result == Result.LOSE) {
+				resultText.text = getResultText (opponentHealthGauge / opponentCharacter.getMaxHp ());
 			} else {
-				resultText.text = "DRAW";
+				resultText.text = getResultText (ownHealthGauge / ownCharacter.getMaxHp ());
 			}
+		} else {
+			resultText.text = "DOUBLE K.O";
+		}
+			
+		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
+			StopCoroutine (newRound ());
+			StartCoroutine (newRound ());
+		} else {
+			StopCoroutine (announceWinner ());
+			StartCoroutine (announceWinner ());
 		}
 	}
 					
@@ -321,14 +347,39 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		opponentHealthBarSlider.value = opponentHealthGauge;
 
 		blockingPanel.SetActive (false);
-	}
-
-	[PunRPC]
-	void playerWin () {
-		resultPanel.SetActive (true);
-		resultText.text = "WIN";
+		countDownPanel.SetActive (true);
 	}
 		
+	IEnumerator newRound () {
+		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
+
+		ownHealthGauge = ownCharacter.getMaxHp ();
+		combo = 0;
+		comboTimer = 0;
+
+		opponentHealthGauge = opponentCharacter.getMaxHp ();
+
+		resultText.text = "";
+		resultPanel.SetActive (false);
+
+		generateNewProblem ();
+
+		countDownPanel.SetActive (true);
+	}
+
+	IEnumerator announceWinner () {
+		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
+
+		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
+			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
+				resultText.text = "WIN";
+			} else {
+				resultText.text = "DRAW";
+			}
+		} else {
+			resultText.text = "LOSE";
+		}
+	}
 		
 	#endregion
 

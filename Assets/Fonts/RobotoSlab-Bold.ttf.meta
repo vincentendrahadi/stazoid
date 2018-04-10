@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 8f3e425a2614a6a449cd88cf43f0693c
-timeCreated: 1522481736
+guid: 53b80b08bab0a944795c6d312a609941
+timeCreated: 1523366985
 licenseType: Free
 TrueTypeFontImporter:
   externalObjects: {}
@@ -10,12 +10,11 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Roboto Condensed
+  fontName: Roboto Slab
   fontNames:
-  - Roboto Condensed
+  - Roboto Slab
   fallbackFontReferences:
-  - {fileID: 12800000, guid: 3c094aa836c82fc418354c56c3f4df48, type: 3}
-  - {fileID: 12800000, guid: 41efa18d0d366d44ba91743208d4027f, type: 3}
+  - {fileID: 12800000, guid: 32970b1f100792d49bed00d68d45d626, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

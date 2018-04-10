@@ -50,4 +50,5 @@ MonoBehaviour:
   - modifyOwnSpecialGauge
   - playerWin
   - setOpponentResult
+  - setResult
   DisableAutoOpenWizard: 1
