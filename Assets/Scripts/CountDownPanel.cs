@@ -15,7 +15,7 @@ public class CountDownPanel : MonoBehaviour {
 	private float countDown;
 	private int round;
 
-	void Start () {
+	void Awake () {
 		round = 1;
 	}
 
