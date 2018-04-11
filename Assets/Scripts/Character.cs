@@ -40,5 +40,7 @@ public abstract class Character : Photon.PunBehaviour, IPunObservable {
 		
 	abstract public void useSpecial();
 
+	abstract public void npcUseSpecial();
+
 		
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Launcher : Photon.PunBehaviour {
 
 	private const string GAME_VERSION = "1";
 	private const string PLAY_SCENE_NAME = "PlayLandscape"; 
+	private const string SINGLE_PLAYER_SCENE_NAME = "SinglePlayer";
 
 	[SerializeField]
 	private PhotonLogLevel LOG_LEVEL = PhotonLogLevel.Informational;
@@ -20,7 +22,10 @@ public class Launcher : Photon.PunBehaviour {
 	[SerializeField]
 	private Button selectedCharacterButton;
 	[SerializeField]
+	private Button[] characterList;
+	[SerializeField]
 	private GameObject cancelButton;
+
 
 	private bool isConnecting;
 
@@ -28,6 +33,17 @@ public class Launcher : Photon.PunBehaviour {
 		PhotonNetwork.autoJoinLobby = false;
 		PhotonNetwork.automaticallySyncScene = true;
 		PhotonNetwork.logLevel = LOG_LEVEL;
+	}
+
+	public string getNPCCharacterName() {
+		int opponentCharacterNameIndex = Random.Range (0, characterList.Length);
+		return characterList [opponentCharacterNameIndex].transform.GetChild (0).GetComponent <Text> ().text;
+	}
+
+	public void PlayWithNPC() {
+		CharacterHolder.Instance.OwnCharacterName = selectedCharacterButton.transform.GetChild (0).GetComponent <Text> ().text;
+		CharacterHolder.Instance.NpcCharacterName = getNPCCharacterName ();
+		SceneManager.LoadScene (SINGLE_PLAYER_SCENE_NAME);
 	}
 
 	public void Connect () {

@@ -19,6 +19,8 @@ public class Pencil : Character {
 	private bool isShuffled = false;
 	private float shuffledTime = 0f;
 
+	private bool isNPC = false;
+
 	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 	void Update () {
@@ -26,7 +28,12 @@ public class Pencil : Character {
 		if (shuffledTime > 0 && isShuffled) {
 			shuffledTime -= Time.deltaTime;
 			if (shuffledTime < 0) {
-				revertKeypad ();
+				if (isNPC == true) {
+					npcRevertKeypad ();
+				} else {
+					revertKeypad ();
+				}
+
 			}
 		}
 	}
@@ -99,10 +106,41 @@ public class Pencil : Character {
 		shuffledTime = 0;
 	}
 
+	void npcShuffleKeypad() {
+		isNPC = true;
+		int i = 0;
+		Shuffle (shuffleKeypadArray);
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		Vector3[] numberButtonDefaultPositions = SinglePlayerController.Instance.getNumberButtonDeffaultPositions ();
+		foreach (Button button in numberButtons) {
+			button.transform.position = numberButtonDefaultPositions [shuffleKeypadArray [i]];
+			i++;
+		}
+		isShuffled = true;
+		shuffledTime = SHUFFLED_TIME;
+	}
+
+	void npcRevertKeypad() {
+		isNPC = false;
+		int i = 0;
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		Vector3[] numberButtonDefaultPositions = SinglePlayerController.Instance.getNumberButtonDeffaultPositions ();
+		foreach (Button button in numberButtons) {
+			button.transform.position = numberButtonDefaultPositions [i];
+			i++;
+		}
+		shuffledTime = 0;
+	}
+
+	public override void npcUseSpecial() {
+		npcShuffleKeypad ();
+	}
+
 	[PunRPC]
 	public override void useSpecial ()
 	{
 		shuffleKeypad();
 	}
+		
 
 }

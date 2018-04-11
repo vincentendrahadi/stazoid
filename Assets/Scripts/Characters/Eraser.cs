@@ -19,13 +19,19 @@ public class Eraser : Character {
 
 	private bool isErased = false;
 	private float erasedTime = 0f;
+	private bool isNPC = false;
 
 	void Update () {
 		// Manage button shuffle
 		if (erasedTime > 0 && isErased) {
 			erasedTime -= Time.deltaTime;
 			if (erasedTime < 0) {
-				revertKeypad ();
+				if (isNPC == true) {
+					npcRevertKeypad ();
+				} else {
+					revertKeypad ();
+				}
+
 			}
 		}
 	}
@@ -94,6 +100,40 @@ public class Eraser : Character {
 			button.interactable = true;
 		}
 		erasedTime = 0;
+	}
+
+	void npcEraseKeypad() {
+		isNPC = true;
+		HashSet <int> toBeErased = new HashSet <int> ();
+		while (toBeErased.Count < ERASED_COUNT) {
+			int erasedIndex = Random.Range (0, 9);
+			if (!toBeErased.Contains (erasedIndex)) {
+				toBeErased.Add (erasedIndex);
+			}
+		}
+		int i = 0;
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		foreach (Button button in numberButtons) {
+			if (toBeErased.Contains (i)) {
+				button.interactable = false;
+			}
+			i++;
+		}
+		isErased = true;
+		erasedTime = ERASED_TIME;
+	}
+
+	void npcRevertKeypad() {
+		isNPC = false;
+		Button[] numberButtons = SinglePlayerController.Instance.getNumberButtons ();
+		foreach (Button button in numberButtons) {
+			button.interactable = true;
+		}
+		erasedTime = 0;
+	}
+
+	public override void npcUseSpecial() {
+		npcEraseKeypad ();
 	}
 
 	[PunRPC]

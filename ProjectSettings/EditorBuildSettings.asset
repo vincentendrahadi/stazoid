@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayLandscape.unity
     guid: 602706b34ac136b4098655880e2b6f89
+  - enabled: 1
+    path: Assets/Scenes/SinglePlayer.unity
+    guid: 730101b781ca9a043a531434569c0427

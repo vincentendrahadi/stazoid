@@ -24,7 +24,7 @@ public class CountDownPanel : MonoBehaviour {
 		if (round == FINAL_ROUND) { 
 			countDownText.text = "FINAL ROUND";
 		} else {
-			countDownText.text = "ROUND 1";
+			countDownText.text = "ROUND " + round;
 		}
 	}
 
