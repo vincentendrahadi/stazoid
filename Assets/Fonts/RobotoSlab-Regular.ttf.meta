@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 1bdcc72fbb767fa419bfa757681dffcd
-timeCreated: 1522481736
+guid: e599149aedcba2f499d4caf2695f91ba
+timeCreated: 1523366985
 licenseType: Free
 TrueTypeFontImporter:
   externalObjects: {}
@@ -10,12 +10,13 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Roboto
+  fontName: Roboto Slab
   fontNames:
-  - Roboto
+  - Roboto Slab
   fallbackFontReferences:
-  - {fileID: 12800000, guid: 16b436124960a0644ae1dfc53df4635d, type: 3}
-  - {fileID: 12800000, guid: 0ab53b1ea1269884f8eb1bc63d1dce0d, type: 3}
+  - {fileID: 12800000, guid: 53b80b08bab0a944795c6d312a609941, type: 3}
+  - {fileID: 12800000, guid: 32970b1f100792d49bed00d68d45d626, type: 3}
+  - {fileID: 12800000, guid: 678dfc1f191cffc418dfe041b3a4f176, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

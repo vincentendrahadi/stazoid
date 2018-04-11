@@ -17,6 +17,17 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 	}
 
+
+	private class Result {
+		public const int LOSE = -1;
+		public const int NEUTRAL = 0;
+		public const int WIN = 1;
+	}
+
+	private const int WIN_NEEDED = 3;
+
+	private const float ANNOUNCEMENT_DELAY = 3.0f;
+
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
 
@@ -34,6 +45,7 @@ public class SinglePlayerController : MonoBehaviour {
 	private Text problemText;
 	[SerializeField]
 	private Text answerText;
+
 	[SerializeField]
 	private Button backspaceButton;
 	[SerializeField]
@@ -41,11 +53,12 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private Button[] difficultyButtons;
 	[SerializeField]
+	private GameObject specialButton;
+
+	[SerializeField]
 	private Text comboText;
 	[SerializeField]
 	private Slider comboTimerSlider;
-	[SerializeField]
-	private GameObject specialButton;
 
 	[SerializeField]
 	private Slider ownSpecialBarSlider;
@@ -63,11 +76,25 @@ public class SinglePlayerController : MonoBehaviour {
 	private GameObject opponentCharacterObject;
 
 	[SerializeField]
+	private GameObject countDownPanel;
+
+	[SerializeField]
+	private WinCounter ownWinCounter;
+	[SerializeField]
+	private WinCounter opponentWinCounter;
+
+	[SerializeField]
 	private GameObject resultPanel;
 	[SerializeField]
 	private Text resultText;
 
+	private bool isBlocked = true;
+	private bool isHealthGaugeZero = false;
+	private bool ownWin = false;
+	private bool npcWin = false;
+
 	private KeyValuePair<string, int> problemSet;
+
 	private int solution;
 	private int difficulty;
 
@@ -97,12 +124,12 @@ public class SinglePlayerController : MonoBehaviour {
 
 
 	void Start () {
-		Debug.Log ("Single Player");
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
 		opponentCharacter = (Character)opponentCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.NpcCharacterName));
 
-		// Force landscape orientation
-		// Screen.orientation = ScreenOrientation.Landscape;
+		blockingPanel.SetActive (false);
+		countDownPanel.SetActive (true);
+		isBlocked = true;
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
 		numberButtonDefaultPositions = new List <Vector3> ();
@@ -156,34 +183,6 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 
 	void Update () {
-		// Update combo timer
-		if (comboTimer > 0) {
-			comboTimer -= Time.deltaTime;
-			comboTimerSlider.value = comboTimer;
-		} else {
-			resetCombo ();
-		}
-
-		//Update npc combo timer
-		if (npcComboTimer > 0) {
-			npcComboTimer -= Time.deltaTime;
-		} else {
-			npcComboCount = 0;
-		}
-			
-		//Update npc attack time
-		if (npcAttackTime > 0) {
-			npcAttackTime -= Time.deltaTime;
-		} else {
-			npcAttack ();
-		}
-
-		//Update npc attack time multiplier because of special
-		if (npcAttackTimeMultiplierTime > 0) {
-			npcAttackTimeMultiplierTime -= Time.deltaTime;
-		} else {
-			npcAttackTimeMultiplier = 1.0f;
-		}
 
 		// Animate bars
 		AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
@@ -191,11 +190,49 @@ public class SinglePlayerController : MonoBehaviour {
 		AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
 		AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
 
-
-//		//NPC use special
-		if(opponentSpecialGauge >= 1) {
-			npcUseSpecial ();
+		if (countDownPanel.activeInHierarchy || blockingPanel.activeInHierarchy || resultPanel.activeInHierarchy) {
+			isBlocked = true;
+		} else {
+			isBlocked = false;
 		}
+
+		if (!isBlocked) {
+			// Update combo timer
+			if (comboTimer > 0) {
+				comboTimer -= Time.deltaTime;
+				comboTimerSlider.value = comboTimer;
+			} else {
+				resetCombo ();
+			}
+
+			//Update npc combo timer
+			if (npcComboTimer > 0) {
+				npcComboTimer -= Time.deltaTime;
+			} else {
+				npcComboCount = 0;
+			}
+			
+			//Update npc attack time
+			if (npcAttackTime > 0) {
+				npcAttackTime -= Time.deltaTime;
+			} else {
+				npcAttack ();
+			}
+
+			//Update npc attack time multiplier because of special
+			if (npcAttackTimeMultiplierTime > 0) {
+				npcAttackTimeMultiplierTime -= Time.deltaTime;
+			} else {
+				npcAttackTimeMultiplier = 1.0f;
+			}
+
+			//NPC use special
+			if (opponentSpecialGauge >= 1) {
+				npcUseSpecial ();
+			}
+				
+		}
+
 	}
 		
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
@@ -274,20 +311,20 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 
 		// Decrease opponent's health
-		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + combo * COMBO_MULTIPLIER);
+		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
 		ownHealthGauge -= damage;
 		if (ownHealthGauge <= 0) {
-			resultPanel.SetActive (true);
-			resultText.text = "LOSE";
+			npcWin = true;
+			isBlocked = true;
+			setResult (Result.LOSE);
 		}
-
 		// Increase opponent's special gauge
 		ownSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
 		if (ownSpecialGauge >= 1) {
 			ownSpecialGauge = 1;
 		}
 
-		// Call RPC
+		// Modify Slider
 		modifyOpponentSpecialGauge(opponentSpecialGauge);
 		modifyOpponentHealthGauge (opponentHealthGauge);
 		modifyOwnHealthGauge (ownHealthGauge);
@@ -311,11 +348,12 @@ public class SinglePlayerController : MonoBehaviour {
 			}
 
 			// Decrease opponent's health
-			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER)*10;
 			opponentHealthGauge -= damage;
 			if (opponentHealthGauge <= 0) {
-				resultPanel.SetActive (true);
-				resultText.text = "WIN";
+				ownWin = true;
+				isBlocked = true;			
+				setResult (Result.WIN);
 			}
 
 			// Increase opponent's special gauge
@@ -329,9 +367,6 @@ public class SinglePlayerController : MonoBehaviour {
 			modifyOpponentHealthGauge (opponentHealthGauge);
 			modifyOwnHealthGauge (ownHealthGauge);
 			modifyOwnSpecialGauge (ownSpecialGauge);
-//			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-//			this.photonView.RPC ("modifyOwnHealthGauge", PhotonTargets.Others, opponentHealthGauge);
-//			this.photonView.RPC ("modifyOwnSpecialGauge", PhotonTargets.Others, opponentSpecialGauge);
 		} else {
 			resetCombo ();
 		}
@@ -355,10 +390,6 @@ public class SinglePlayerController : MonoBehaviour {
 		
 	void modifyOwnHealthGauge (float healthGauge) {
 		ownHealthGauge = healthGauge;
-		if (ownHealthGauge <= 0) {
-			resultPanel.SetActive (true);
-			resultText.text = "LOSE";
-		}
 	}
 
 	public void npcUseSpecial() {
@@ -371,8 +402,6 @@ public class SinglePlayerController : MonoBehaviour {
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;
 		npcAttackTimeMultiplier = 1.15f;
-//		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-//		opponentCharacter.photonView.RPC ("useSpecial", PhotonTargets.Others);
 	}
 
 	public Button[] getNumberButtons() {
@@ -386,6 +415,72 @@ public class SinglePlayerController : MonoBehaviour {
 	public void quitRoom() {
 		SceneManager.LoadScene ("Lobby");
 	}
+	void setResult (int result) {
+		if (result == Result.LOSE) {
+			opponentWinCounter.add ();
+		} else {
+			ownWinCounter.add ();
+		}
+		resultPanel.SetActive (true);
+		if (!(npcWin && ownWin)) {
+			if (result == Result.LOSE) {
+				resultText.text = getResultText (opponentHealthGauge / opponentCharacter.getMaxHp ());
+			} else {
+				resultText.text = getResultText (ownHealthGauge / ownCharacter.getMaxHp ());
+			}
+		} else {
+			resultText.text = "DOUBLE K.O";
+		}
 
+		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
+			StopCoroutine (newRound ());
+			StartCoroutine (newRound ());
+		} else {
+			StopCoroutine (announceWinner ());
+			StartCoroutine (announceWinner ());
+		}
+		npcWin = false;
+		ownWin = false;
+	}
+
+	string getResultText (float healthPercentage) {
+		if (healthPercentage > 0.99f) {
+			return "PERFECT";
+		} else if (healthPercentage < 0.1f) {
+			return "GREAT";
+		} else {
+			return "K.O";
+		}
+	}
+
+	IEnumerator newRound () {
+		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
+
+		ownHealthGauge = ownCharacter.getMaxHp ();
+		combo = 0;
+		comboTimer = 0;
+
+		opponentHealthGauge = opponentCharacter.getMaxHp ();
+
+		resultText.text = "";
+		resultPanel.SetActive (false);
+
+		generateNewProblem ();
+
+		countDownPanel.SetActive (true);
+	}
+
+	IEnumerator announceWinner () {
+		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
+		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
+			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
+				resultText.text = "WIN";
+			} else {
+				resultText.text = "DRAW";
+			}
+		} else {
+			resultText.text = "LOSE";
+		}
+	}
 		
 }
