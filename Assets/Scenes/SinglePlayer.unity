@@ -3400,7 +3400,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1762323240}
         m_MethodName: useSpecial
         m_Mode: 1
         m_Arguments:
