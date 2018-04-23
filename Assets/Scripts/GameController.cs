@@ -36,6 +36,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		public const int SPECIAL_USE = 3;
 		public const int WIN = 4;
 		public const int LOSE = 5;
+		public const int DRAW = 6;
 	}
 
 	private const int WIN_NEEDED = 3;
@@ -406,6 +407,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 				audioSource.PlayOneShot (audioClips [AudioSourceIndex.WIN]);
 			} else {
 				resultText.text = "DRAW";
+				audioSource.PlayOneShot (audioClips [AudioSourceIndex.DRAW]);
 			}
 		} else {
 			resultText.text = "LOSE";

@@ -499,6 +499,7 @@ public class SinglePlayerController : MonoBehaviour {
 				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.WIN]);
 			} else {
 				resultText.text = "DRAW";
+				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.DRAW]);
 			}
 		} else {
 			resultText.text = "LOSE";
