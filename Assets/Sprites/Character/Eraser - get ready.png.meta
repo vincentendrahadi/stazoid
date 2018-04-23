@@ -4,27 +4,27 @@ timeCreated: 1524471104
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Eraser - get ready_0
-    21300002: Eraser - get ready_1
-    21300004: Eraser - get ready_2
+    21300000: Eraser - get ready_6
+    21300002: Eraser - get ready_5
+    21300004: Eraser - get ready_4
     21300006: Eraser - get ready_3
-    21300008: Eraser - get ready_5
-    21300010: Eraser - get ready_6
-    21300012: Eraser - get ready_8
-    21300014: Eraser - get ready_9
-    21300016: Eraser - get ready_10
+    21300008: Eraser - get ready_2
+    21300010: Eraser - get ready_1
+    21300012: Eraser - get ready_0
+    21300014: Eraser - get ready_13
+    21300016: Eraser - get ready_12
     21300018: Eraser - get ready_11
-    21300020: Eraser - get ready_12
-    21300022: Eraser - get ready_13
-    21300024: Eraser - get ready_14
-    21300026: Eraser - get ready_15
-    21300028: Eraser - get ready_16
-    21300030: Eraser - get ready_17
+    21300020: Eraser - get ready_10
+    21300022: Eraser - get ready_9
+    21300024: Eraser - get ready_8
+    21300026: Eraser - get ready_7
+    21300028: Eraser - get ready_20
+    21300030: Eraser - get ready_19
     21300032: Eraser - get ready_18
-    21300034: Eraser - get ready_19
-    21300036: Eraser - get ready_20
-    21300038: Eraser - get ready_21
-    21300040: Eraser - get ready_22
+    21300034: Eraser - get ready_17
+    21300036: Eraser - get ready_16
+    21300038: Eraser - get ready_15
+    21300040: Eraser - get ready_14
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -131,7 +131,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Eraser - get ready_0
+      name: Eraser - get ready_6
       rect:
         serializedVersion: 2
         x: 82
@@ -145,11 +145,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_1
+      name: Eraser - get ready_5
       rect:
         serializedVersion: 2
         x: 613
-        y: 2225
+        y: 2220
         width: 452
         height: 849
       alignment: 6
@@ -159,7 +159,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_2
+      name: Eraser - get ready_4
       rect:
         serializedVersion: 2
         x: 1149
@@ -187,11 +187,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_5
+      name: Eraser - get ready_2
       rect:
         serializedVersion: 2
-        x: 2188
-        y: 2225
+        x: 2183
+        y: 2220
         width: 496
         height: 849
       alignment: 6
@@ -201,7 +201,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_6
+      name: Eraser - get ready_1
       rect:
         serializedVersion: 2
         x: 2743
@@ -215,7 +215,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_8
+      name: Eraser - get ready_0
       rect:
         serializedVersion: 2
         x: 3263
@@ -229,10 +229,10 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_9
+      name: Eraser - get ready_13
       rect:
         serializedVersion: 2
-        x: 71
+        x: 60
         y: 1239
         width: 493
         height: 845
@@ -243,7 +243,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_10
+      name: Eraser - get ready_12
       rect:
         serializedVersion: 2
         x: 596
@@ -260,7 +260,7 @@ TextureImporter:
       name: Eraser - get ready_11
       rect:
         serializedVersion: 2
-        x: 1134
+        x: 1129
         y: 1238
         width: 446
         height: 846
@@ -271,7 +271,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_12
+      name: Eraser - get ready_10
       rect:
         serializedVersion: 2
         x: 1660
@@ -285,7 +285,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_13
+      name: Eraser - get ready_9
       rect:
         serializedVersion: 2
         x: 2217
@@ -299,7 +299,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_14
+      name: Eraser - get ready_8
       rect:
         serializedVersion: 2
         x: 2728
@@ -313,7 +313,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_15
+      name: Eraser - get ready_7
       rect:
         serializedVersion: 2
         x: 3249
@@ -327,7 +327,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_16
+      name: Eraser - get ready_20
       rect:
         serializedVersion: 2
         x: 12
@@ -341,7 +341,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_17
+      name: Eraser - get ready_19
       rect:
         serializedVersion: 2
         x: 546
@@ -369,7 +369,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_19
+      name: Eraser - get ready_17
       rect:
         serializedVersion: 2
         x: 1634
@@ -383,7 +383,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_20
+      name: Eraser - get ready_16
       rect:
         serializedVersion: 2
         x: 2163
@@ -397,7 +397,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_21
+      name: Eraser - get ready_15
       rect:
         serializedVersion: 2
         x: 2699
@@ -411,7 +411,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - get ready_22
+      name: Eraser - get ready_14
       rect:
         serializedVersion: 2
         x: 3240

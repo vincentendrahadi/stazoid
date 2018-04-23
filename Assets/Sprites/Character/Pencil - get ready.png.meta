@@ -5,26 +5,26 @@ licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Pencil - get ready_0
-    21300002: Pencil - get ready_2
-    21300004: Pencil - get ready_4
-    21300006: Pencil - get ready_6
-    21300008: Pencil - get ready_8
-    21300010: Pencil - get ready_10
-    21300012: Pencil - get ready_12
-    21300014: Pencil - get ready_14
-    21300016: Pencil - get ready_15
-    21300018: Pencil - get ready_16
-    21300020: Pencil - get ready_17
-    21300022: Pencil - get ready_18
-    21300024: Pencil - get ready_19
-    21300026: Pencil - get ready_20
-    21300028: Pencil - get ready_21
-    21300030: Pencil - get ready_22
-    21300032: Pencil - get ready_23
-    21300034: Pencil - get ready_24
-    21300036: Pencil - get ready_25
-    21300038: Pencil - get ready_26
-    21300040: Pencil - get ready_27
+    21300002: Pencil - get ready_1
+    21300004: Pencil - get ready_2
+    21300006: Pencil - get ready_3
+    21300008: Pencil - get ready_4
+    21300010: Pencil - get ready_5
+    21300012: Pencil - get ready_6
+    21300014: Pencil - get ready_7
+    21300016: Pencil - get ready_12
+    21300018: Pencil - get ready_8
+    21300020: Pencil - get ready_9
+    21300022: Pencil - get ready_10
+    21300024: Pencil - get ready_11
+    21300026: Pencil - get ready_13
+    21300028: Pencil - get ready_14
+    21300030: Pencil - get ready_15
+    21300032: Pencil - get ready_16
+    21300034: Pencil - get ready_17
+    21300036: Pencil - get ready_18
+    21300038: Pencil - get ready_19
+    21300040: Pencil - get ready_20
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -145,7 +145,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_2
+      name: Pencil - get ready_1
       rect:
         serializedVersion: 2
         x: 552
@@ -159,7 +159,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_4
+      name: Pencil - get ready_2
       rect:
         serializedVersion: 2
         x: 1075
@@ -173,7 +173,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_6
+      name: Pencil - get ready_3
       rect:
         serializedVersion: 2
         x: 1602
@@ -187,7 +187,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_8
+      name: Pencil - get ready_4
       rect:
         serializedVersion: 2
         x: 2142
@@ -201,7 +201,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_10
+      name: Pencil - get ready_5
       rect:
         serializedVersion: 2
         x: 2654
@@ -215,7 +215,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_12
+      name: Pencil - get ready_6
       rect:
         serializedVersion: 2
         x: 3188
@@ -229,7 +229,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_14
+      name: Pencil - get ready_7
       rect:
         serializedVersion: 2
         x: 14
@@ -243,7 +243,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_15
+      name: Pencil - get ready_12
       rect:
         serializedVersion: 2
         x: 2713
@@ -257,7 +257,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_16
+      name: Pencil - get ready_8
       rect:
         serializedVersion: 2
         x: 553
@@ -271,7 +271,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_17
+      name: Pencil - get ready_9
       rect:
         serializedVersion: 2
         x: 1052
@@ -285,11 +285,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_18
+      name: Pencil - get ready_10
       rect:
         serializedVersion: 2
-        x: 1646
-        y: 1229
+        x: 1641
+        y: 1234
         width: 542
         height: 804
       alignment: 6
@@ -299,7 +299,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_19
+      name: Pencil - get ready_11
       rect:
         serializedVersion: 2
         x: 2196
@@ -313,7 +313,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_20
+      name: Pencil - get ready_13
       rect:
         serializedVersion: 2
         x: 3218
@@ -327,7 +327,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_21
+      name: Pencil - get ready_14
       rect:
         serializedVersion: 2
         x: 0
@@ -341,7 +341,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_22
+      name: Pencil - get ready_15
       rect:
         serializedVersion: 2
         x: 546
@@ -355,7 +355,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_23
+      name: Pencil - get ready_16
       rect:
         serializedVersion: 2
         x: 1087
@@ -369,11 +369,11 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_24
+      name: Pencil - get ready_17
       rect:
         serializedVersion: 2
         x: 1638
-        y: 103
+        y: 98
         width: 545
         height: 797
       alignment: 6
@@ -383,7 +383,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_25
+      name: Pencil - get ready_18
       rect:
         serializedVersion: 2
         x: 2192
@@ -397,7 +397,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_26
+      name: Pencil - get ready_19
       rect:
         serializedVersion: 2
         x: 2734
@@ -411,7 +411,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pencil - get ready_27
+      name: Pencil - get ready_20
       rect:
         serializedVersion: 2
         x: 3264
