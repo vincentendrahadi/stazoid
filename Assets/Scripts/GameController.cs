@@ -91,6 +91,11 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[SerializeField]
 	private WinCounter opponentWinCounter;
 
+	[SerializeField]
+	private AudioSource audioSource;
+	[SerializeField]
+	private AudioClip[] audioClips;
+
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
 	private int difficulty;
@@ -228,6 +233,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
 
+			// Play sound effects
+			audioSource.PlayOneShot (audioClips[0]);
+
 			// Add combo
 			++combo;
 			comboText.text = "" + combo;
@@ -260,6 +268,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 		} else {
 			resetCombo ();
+
+			// Play sound effects
+			audioSource.PlayOneShot (audioClips[1]);
 		}
 		deleteAnswer ();
 	}

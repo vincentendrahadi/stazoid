@@ -88,6 +88,11 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private Text resultText;
 
+	[SerializeField]
+	private AudioSource audioSource;
+	[SerializeField]
+	private AudioClip[] audioClips;
+
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
 	private bool ownWin = false;
@@ -120,7 +125,6 @@ public class SinglePlayerController : MonoBehaviour {
 	private List<string> characterList;
 
 	private List <Vector3> numberButtonDefaultPositions;
-
 
 
 	void Start () {
@@ -335,6 +339,9 @@ public class SinglePlayerController : MonoBehaviour {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
 
+			// Play sound effects
+			audioSource.PlayOneShot (audioClips[0]);
+
 			// Add combo
 			++combo;
 			comboText.text = "" + combo;
@@ -369,6 +376,9 @@ public class SinglePlayerController : MonoBehaviour {
 			modifyOwnSpecialGauge (ownSpecialGauge);
 		} else {
 			resetCombo ();
+
+			// Play sound effects
+			audioSource.PlayOneShot (audioClips[1]);
 		}
 		answerText.text = "0";
 	}
