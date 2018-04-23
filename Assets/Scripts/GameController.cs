@@ -41,6 +41,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
+	private const float GAME_OVER_DELAY = 5.0f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -100,6 +101,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[SerializeField]
 	private WinCounter opponentWinCounter;
 
+	[SerializeField]
+	private AudioSource backgroundMusic;
 	[SerializeField]
 	private AudioSource audioSource;
 	[SerializeField]
@@ -396,16 +399,20 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	IEnumerator announceWinner () {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
-
+		backgroundMusic.volume = 0.5f;
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
+				audioSource.PlayOneShot (audioClips [AudioSourceIndex.WIN]);
 			} else {
 				resultText.text = "DRAW";
 			}
 		} else {
 			resultText.text = "LOSE";
+			audioSource.PlayOneShot (audioClips [AudioSourceIndex.LOSE]);
 		}
+		yield return new WaitForSeconds (GAME_OVER_DELAY);
+		leaveRoom ();
 	}
 		
 	#endregion

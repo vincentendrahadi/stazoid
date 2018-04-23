@@ -5231,6 +5231,7 @@ MonoBehaviour:
   resultText: {fileID: 1329481492}
   ownWinCounter: {fileID: 1861209724}
   opponentWinCounter: {fileID: 703170619}
+  backgroundMusic: {fileID: 980687024}
   audioSource: {fileID: 2115485356}
   audioClips:
   - {fileID: 8300000, guid: cd523fa79c85ce845978809d43854ef8, type: 3}

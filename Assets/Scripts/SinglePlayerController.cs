@@ -27,6 +27,7 @@ public class SinglePlayerController : MonoBehaviour {
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
+	private const float GAME_OVER_DELAY = 5.0f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -503,6 +504,8 @@ public class SinglePlayerController : MonoBehaviour {
 			resultText.text = "LOSE";
 			audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.LOSE]);
 		}
+		yield return new WaitForSeconds (GAME_OVER_DELAY);
+		quitRoom ();
 	}
 		
 }
