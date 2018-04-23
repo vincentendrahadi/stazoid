@@ -5230,6 +5230,7 @@ MonoBehaviour:
   opponentWinCounter: {fileID: 703170619}
   resultPanel: {fileID: 1566288492}
   resultText: {fileID: 1329481492}
+  backgroundMusic: {fileID: 1419660566}
   audioSource: {fileID: 1805174695}
   audioClips:
   - {fileID: 8300000, guid: cd523fa79c85ce845978809d43854ef8, type: 3}
@@ -5609,7 +5610,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 100
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

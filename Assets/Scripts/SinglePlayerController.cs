@@ -89,6 +89,8 @@ public class SinglePlayerController : MonoBehaviour {
 	private Text resultText;
 
 	[SerializeField]
+	private AudioSource backgroundMusic;
+	[SerializeField]
 	private AudioSource audioSource;
 	[SerializeField]
 	private AudioClip[] audioClips;
@@ -489,14 +491,17 @@ public class SinglePlayerController : MonoBehaviour {
 
 	IEnumerator announceWinner () {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
+		backgroundMusic.volume = 0.5f;
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
+				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.WIN]);
 			} else {
 				resultText.text = "DRAW";
 			}
 		} else {
 			resultText.text = "LOSE";
+			audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.LOSE]);
 		}
 	}
 		
