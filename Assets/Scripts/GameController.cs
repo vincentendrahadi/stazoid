@@ -29,6 +29,15 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		public const int WIN = 1;
 	}
 
+	public class AudioSourceIndex {
+		public const int CORRECT = 0;
+		public const int FALSE = 1;
+		public const int SPECIAL_FULL = 2;
+		public const int SPECIAL_USE = 3;
+		public const int WIN = 4;
+		public const int LOSE = 5;
+	}
+
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
@@ -234,7 +243,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			generateNewProblem ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[0]);
+			audioSource.PlayOneShot (audioClips[AudioSourceIndex.CORRECT]);
 
 			// Add combo
 			++combo;
@@ -245,6 +254,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			ownSpecialGauge += ownCharacter.getSpecialBarIncrease () [difficulty];
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
+				if (!specialButton.activeSelf) {
+					audioSource.PlayOneShot (audioClips [AudioSourceIndex.SPECIAL_FULL]);
+				}
 				specialButton.SetActive (true);
 			}
 
@@ -270,7 +282,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			resetCombo ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[1]);
+			audioSource.PlayOneShot (audioClips[AudioSourceIndex.FALSE]);
 		}
 		deleteAnswer ();
 	}
@@ -284,6 +296,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	void modifyOwnSpecialGauge (float specialGauge) {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
+			if (!specialButton.activeSelf) {
+				audioSource.PlayOneShot (audioClips [AudioSourceIndex.SPECIAL_FULL]);
+			}
 			specialButton.SetActive (true);
 		}
 	}
@@ -335,6 +350,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	}
 					
 	public void useSpecial () {
+		audioSource.PlayOneShot(audioClips[AudioSourceIndex.SPECIAL_USE]);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);

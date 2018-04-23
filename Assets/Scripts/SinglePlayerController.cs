@@ -340,7 +340,7 @@ public class SinglePlayerController : MonoBehaviour {
 			generateNewProblem ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[0]);
+			audioSource.PlayOneShot (audioClips[GameController.AudioSourceIndex.CORRECT]);
 
 			// Add combo
 			++combo;
@@ -351,6 +351,9 @@ public class SinglePlayerController : MonoBehaviour {
 			ownSpecialGauge += ownCharacter.getSpecialBarIncrease () [difficulty];
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
+				if (!specialButton.activeSelf) {
+					audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.SPECIAL_FULL]);
+				}
 				specialButton.SetActive (true);
 			}
 
@@ -378,7 +381,7 @@ public class SinglePlayerController : MonoBehaviour {
 			resetCombo ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[1]);
+			audioSource.PlayOneShot (audioClips[GameController.AudioSourceIndex.FALSE]);
 		}
 		answerText.text = "0";
 	}
@@ -394,6 +397,9 @@ public class SinglePlayerController : MonoBehaviour {
 	void modifyOwnSpecialGauge (float specialGauge) {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
+			if (!specialButton.activeSelf) {
+				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.SPECIAL_FULL]);
+			}
 			specialButton.SetActive (true);
 		}
 	}
@@ -408,6 +414,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 					
 	public void useSpecial () {
+		audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.SPECIAL_USE]);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;

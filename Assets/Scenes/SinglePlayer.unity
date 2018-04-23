@@ -5234,6 +5234,10 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: cd523fa79c85ce845978809d43854ef8, type: 3}
   - {fileID: 8300000, guid: 4f2b35b05716dd940a463867b612e060, type: 3}
+  - {fileID: 8300000, guid: 8d0cabfba20c80943acad902487ab730, type: 3}
+  - {fileID: 8300000, guid: 15fab4a34e3dfb74388e829d02b8cf7a, type: 3}
+  - {fileID: 8300000, guid: 5aed14636b5f9b648965f3af683fddc1, type: 3}
+  - {fileID: 8300000, guid: 96451715edd012643902e2bca68dd0e3, type: 3}
 --- !u!4 &1762323241
 Transform:
   m_ObjectHideFlags: 0
