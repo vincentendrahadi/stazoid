@@ -1,0 +1,432 @@
+fileFormatVersion: 2
+guid: e0e0adf7c2c34934a8623b93e978d734
+timeCreated: 1524471104
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Eraser - get ready_0
+    21300002: Eraser - get ready_1
+    21300004: Eraser - get ready_2
+    21300006: Eraser - get ready_3
+    21300008: Eraser - get ready_5
+    21300010: Eraser - get ready_6
+    21300012: Eraser - get ready_8
+    21300014: Eraser - get ready_9
+    21300016: Eraser - get ready_10
+    21300018: Eraser - get ready_11
+    21300020: Eraser - get ready_12
+    21300022: Eraser - get ready_13
+    21300024: Eraser - get ready_14
+    21300026: Eraser - get ready_15
+    21300028: Eraser - get ready_16
+    21300030: Eraser - get ready_17
+    21300032: Eraser - get ready_18
+    21300034: Eraser - get ready_19
+    21300036: Eraser - get ready_20
+    21300038: Eraser - get ready_21
+    21300040: Eraser - get ready_22
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Eraser - get ready_0
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 2225
+        width: 449
+        height: 849
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_1
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 2225
+        width: 452
+        height: 849
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_2
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 2225
+        width: 459
+        height: 849
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_3
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 2225
+        width: 475
+        height: 849
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_5
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 2225
+        width: 496
+        height: 849
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_6
+      rect:
+        serializedVersion: 2
+        x: 2743
+        y: 2226
+        width: 493
+        height: 846
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_8
+      rect:
+        serializedVersion: 2
+        x: 3263
+        y: 2225
+        width: 511
+        height: 849
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_9
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 1239
+        width: 493
+        height: 845
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_10
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 1239
+        width: 491
+        height: 845
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_11
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 1238
+        width: 446
+        height: 846
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_12
+      rect:
+        serializedVersion: 2
+        x: 1660
+        y: 1236
+        width: 445
+        height: 848
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_13
+      rect:
+        serializedVersion: 2
+        x: 2217
+        y: 1236
+        width: 446
+        height: 848
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_14
+      rect:
+        serializedVersion: 2
+        x: 2728
+        y: 1236
+        width: 447
+        height: 848
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_15
+      rect:
+        serializedVersion: 2
+        x: 3249
+        y: 1236
+        width: 447
+        height: 847
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_16
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 96
+        width: 517
+        height: 802
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_17
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 96
+        width: 520
+        height: 817
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_18
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 99
+        width: 519
+        height: 824
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_19
+      rect:
+        serializedVersion: 2
+        x: 1634
+        y: 96
+        width: 524
+        height: 839
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_20
+      rect:
+        serializedVersion: 2
+        x: 2163
+        y: 96
+        width: 526
+        height: 841
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_21
+      rect:
+        serializedVersion: 2
+        x: 2699
+        y: 100
+        width: 485
+        height: 843
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get ready_22
+      rect:
+        serializedVersion: 2
+        x: 3240
+        y: 96
+        width: 490
+        height: 847
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

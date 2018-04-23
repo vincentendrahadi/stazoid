@@ -1,0 +1,432 @@
+fileFormatVersion: 2
+guid: cec0ad6dd999dad49aa51073643003d7
+timeCreated: 1524471099
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Pencil - get ready_0
+    21300002: Pencil - get ready_2
+    21300004: Pencil - get ready_4
+    21300006: Pencil - get ready_6
+    21300008: Pencil - get ready_8
+    21300010: Pencil - get ready_10
+    21300012: Pencil - get ready_12
+    21300014: Pencil - get ready_14
+    21300016: Pencil - get ready_15
+    21300018: Pencil - get ready_16
+    21300020: Pencil - get ready_17
+    21300022: Pencil - get ready_18
+    21300024: Pencil - get ready_19
+    21300026: Pencil - get ready_20
+    21300028: Pencil - get ready_21
+    21300030: Pencil - get ready_22
+    21300032: Pencil - get ready_23
+    21300034: Pencil - get ready_24
+    21300036: Pencil - get ready_25
+    21300038: Pencil - get ready_26
+    21300040: Pencil - get ready_27
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Pencil - get ready_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 2225
+        width: 523
+        height: 828
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_2
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 2225
+        width: 504
+        height: 838
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_4
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 2225
+        width: 491
+        height: 848
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_6
+      rect:
+        serializedVersion: 2
+        x: 1602
+        y: 2228
+        width: 499
+        height: 845
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_8
+      rect:
+        serializedVersion: 2
+        x: 2142
+        y: 2232
+        width: 494
+        height: 841
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_10
+      rect:
+        serializedVersion: 2
+        x: 2654
+        y: 2230
+        width: 491
+        height: 833
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_12
+      rect:
+        serializedVersion: 2
+        x: 3188
+        y: 2228
+        width: 487
+        height: 820
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_14
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 1229
+        width: 483
+        height: 808
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_15
+      rect:
+        serializedVersion: 2
+        x: 2713
+        y: 1240
+        width: 488
+        height: 792
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_16
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 1231
+        width: 486
+        height: 802
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_17
+      rect:
+        serializedVersion: 2
+        x: 1052
+        y: 1231
+        width: 516
+        height: 802
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_18
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 1229
+        width: 542
+        height: 804
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_19
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 1229
+        width: 516
+        height: 804
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_20
+      rect:
+        serializedVersion: 2
+        x: 3218
+        y: 1229
+        width: 499
+        height: 797
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 103
+        width: 520
+        height: 797
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_22
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 104
+        width: 514
+        height: 796
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_23
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 104
+        width: 519
+        height: 796
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_24
+      rect:
+        serializedVersion: 2
+        x: 1638
+        y: 103
+        width: 545
+        height: 797
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_25
+      rect:
+        serializedVersion: 2
+        x: 2192
+        y: 107
+        width: 547
+        height: 798
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_26
+      rect:
+        serializedVersion: 2
+        x: 2734
+        y: 107
+        width: 529
+        height: 799
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - get ready_27
+      rect:
+        serializedVersion: 2
+        x: 3264
+        y: 103
+        width: 526
+        height: 797
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
