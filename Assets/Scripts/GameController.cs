@@ -125,6 +125,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private Character ownCharacter;
 	private Character opponentCharacter;
 
+	private Animator ownCharacterAnimator;
+	private Animator opponentCharacterAnimator;
+
 	private List <Vector3> numberButtonDefaultPositions;
 
 	private bool resultReceived;
@@ -133,6 +136,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	void Start () {
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
+		ownCharacterAnimator = ownCharacterObject.GetComponent<Animator> ();
+		ownCharacterAnimator.runtimeAnimatorController = Resources.Load (ownCharacter.getControllerPath()) as RuntimeAnimatorController;
 		this.photonView.RPC ("assignOpponentCharacter", PhotonTargets.Others, CharacterHolder.Instance.OwnCharacterName);
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
@@ -372,6 +377,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[PunRPC]
 	public void assignOpponentCharacter (string characterName) {
 		opponentCharacter = (Character)opponentCharacterObject.AddComponent (System.Type.GetType (characterName));
+		opponentCharacterAnimator = opponentCharacterObject.GetComponent<Animator> ();
+		opponentCharacterAnimator.runtimeAnimatorController = Resources.Load (opponentCharacter.getControllerPath()) as RuntimeAnimatorController;
 		opponentSpecialGauge = 0;
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 		opponentHealthBarSlider.maxValue = opponentHealthGauge;
