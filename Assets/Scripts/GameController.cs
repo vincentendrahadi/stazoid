@@ -29,16 +29,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		public const int WIN = 1;
 	}
 
-	public class AudioSourceIndex {
-		public const int CORRECT = 0;
-		public const int FALSE = 1;
-		public const int SPECIAL_FULL = 2;
-		public const int SPECIAL_USE = 3;
-		public const int WIN = 4;
-		public const int LOSE = 5;
-		public const int DRAW = 6;
-	}
-
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
@@ -106,8 +96,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private AudioSource backgroundMusic;
 	[SerializeField]
 	private AudioSource audioSource;
-	[SerializeField]
-	private AudioClip[] audioClips;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -252,7 +240,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			generateNewProblem ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[AudioSourceIndex.CORRECT]);
+			audioSource.PlayOneShot (GameSFX.ANSWER_CORRECT);
 
 			// Add combo
 			++combo;
@@ -264,7 +252,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
 				if (!specialButton.activeSelf) {
-					audioSource.PlayOneShot (audioClips [AudioSourceIndex.SPECIAL_FULL]);
+					audioSource.PlayOneShot (GameSFX.SPECIAL_FULL);
 				}
 				specialButton.SetActive (true);
 			}
@@ -291,7 +279,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			resetCombo ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[AudioSourceIndex.FALSE]);
+			audioSource.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
 		deleteAnswer ();
 	}
@@ -306,7 +294,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
 			if (!specialButton.activeSelf) {
-				audioSource.PlayOneShot (audioClips [AudioSourceIndex.SPECIAL_FULL]);
+				audioSource.PlayOneShot (GameSFX.SPECIAL_FULL);
 			}
 			specialButton.SetActive (true);
 		}
@@ -359,7 +347,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	}
 					
 	public void useSpecial () {
-		audioSource.PlayOneShot(audioClips[AudioSourceIndex.SPECIAL_USE]);
+		audioSource.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
@@ -411,14 +399,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
-				audioSource.PlayOneShot (audioClips [AudioSourceIndex.WIN]);
+				audioSource.PlayOneShot (GameSFX.WIN);
 			} else {
 				resultText.text = "DRAW";
-				audioSource.PlayOneShot (audioClips [AudioSourceIndex.DRAW]);
+				audioSource.PlayOneShot (GameSFX.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
-			audioSource.PlayOneShot (audioClips [AudioSourceIndex.LOSE]);
+			audioSource.PlayOneShot (GameSFX.LOSE);
 		}
 		yield return new WaitForSeconds (GAME_OVER_DELAY);
 		leaveRoom ();

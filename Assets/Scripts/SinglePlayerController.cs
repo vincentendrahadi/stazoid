@@ -93,8 +93,6 @@ public class SinglePlayerController : MonoBehaviour {
 	private AudioSource backgroundMusic;
 	[SerializeField]
 	private AudioSource audioSource;
-	[SerializeField]
-	private AudioClip[] audioClips;
 
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
@@ -350,7 +348,7 @@ public class SinglePlayerController : MonoBehaviour {
 			generateNewProblem ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[GameController.AudioSourceIndex.CORRECT]);
+			audioSource.PlayOneShot (GameSFX.ANSWER_CORRECT);
 
 			// Add combo
 			++combo;
@@ -362,7 +360,7 @@ public class SinglePlayerController : MonoBehaviour {
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
 				if (!specialButton.activeSelf) {
-					audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.SPECIAL_FULL]);
+					audioSource.PlayOneShot (GameSFX.SPECIAL_FULL);
 				}
 				specialButton.SetActive (true);
 			}
@@ -391,7 +389,7 @@ public class SinglePlayerController : MonoBehaviour {
 			resetCombo ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (audioClips[GameController.AudioSourceIndex.FALSE]);
+			audioSource.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
 		answerText.text = "0";
 	}
@@ -408,7 +406,7 @@ public class SinglePlayerController : MonoBehaviour {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
 			if (!specialButton.activeSelf) {
-				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.SPECIAL_FULL]);
+				audioSource.PlayOneShot (GameSFX.SPECIAL_FULL);
 			}
 			specialButton.SetActive (true);
 		}
@@ -424,7 +422,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 					
 	public void useSpecial () {
-		audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.SPECIAL_USE]);
+		audioSource.PlayOneShot (GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;
@@ -503,14 +501,14 @@ public class SinglePlayerController : MonoBehaviour {
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
-				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.WIN]);
+				audioSource.PlayOneShot (GameSFX.WIN);
 			} else {
 				resultText.text = "DRAW";
-				audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.DRAW]);
+				audioSource.PlayOneShot (GameSFX.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
-			audioSource.PlayOneShot (audioClips [GameController.AudioSourceIndex.LOSE]);
+			audioSource.PlayOneShot (GameSFX.LOSE);
 		}
 		yield return new WaitForSeconds (GAME_OVER_DELAY);
 		quitRoom ();
