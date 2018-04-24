@@ -92,7 +92,9 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private AudioSource backgroundMusic;
 	[SerializeField]
-	private AudioSource audioSource;
+	private AudioSource sound;
+	[SerializeField]
+	private AudioSource tappingSound;
 
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
@@ -148,6 +150,7 @@ public class SinglePlayerController : MonoBehaviour {
 		foreach (Button button in numberButtons) {
 			button.onClick.AddListener (delegate {
 				addNumberToAnswer (button.name [9]);
+				tappingSound.PlayOneShot(GameSFX.TAP_NUMBER);
 			});
 			numberButtonDefaultPositions.Add (button.transform.position);
 		}
@@ -155,12 +158,15 @@ public class SinglePlayerController : MonoBehaviour {
 		// Add onClick listener to all difficulty buttons
 		difficultyButtons [Difficulty.EASY].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.EASY);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 		difficultyButtons [Difficulty.MEDIUM].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.MEDIUM);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 		difficultyButtons [Difficulty.HARD].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.HARD);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 
 		// Initialize combo & comboTimer
@@ -348,7 +354,7 @@ public class SinglePlayerController : MonoBehaviour {
 			generateNewProblem ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (GameSFX.ANSWER_CORRECT);
+			tappingSound.PlayOneShot (GameSFX.ANSWER_CORRECT);
 
 			// Add combo
 			++combo;
@@ -360,7 +366,7 @@ public class SinglePlayerController : MonoBehaviour {
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
 				if (!specialButton.activeSelf) {
-					audioSource.PlayOneShot (GameSFX.SPECIAL_FULL);
+					sound.PlayOneShot (GameSFX.SPECIAL_FULL);
 				}
 				specialButton.SetActive (true);
 			}
@@ -389,7 +395,7 @@ public class SinglePlayerController : MonoBehaviour {
 			resetCombo ();
 
 			// Play sound effects
-			audioSource.PlayOneShot (GameSFX.ANSWER_FALSE);
+			tappingSound.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
 		answerText.text = "0";
 	}
@@ -406,7 +412,7 @@ public class SinglePlayerController : MonoBehaviour {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
 			if (!specialButton.activeSelf) {
-				audioSource.PlayOneShot (GameSFX.SPECIAL_FULL);
+				sound.PlayOneShot (GameSFX.SPECIAL_FULL);
 			}
 			specialButton.SetActive (true);
 		}
@@ -422,7 +428,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 					
 	public void useSpecial () {
-		audioSource.PlayOneShot (GameSFX.SPECIAL_LAUNCH);
+		sound.PlayOneShot (GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;
@@ -501,14 +507,14 @@ public class SinglePlayerController : MonoBehaviour {
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
-				audioSource.PlayOneShot (GameSFX.WIN);
+				sound.PlayOneShot (GameSFX.WIN);
 			} else {
 				resultText.text = "DRAW";
-				audioSource.PlayOneShot (GameSFX.DRAW);
+				sound.PlayOneShot (GameSFX.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
-			audioSource.PlayOneShot (GameSFX.LOSE);
+			sound.PlayOneShot (GameSFX.LOSE);
 		}
 		yield return new WaitForSeconds (GAME_OVER_DELAY);
 		quitRoom ();
