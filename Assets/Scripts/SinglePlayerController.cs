@@ -125,6 +125,9 @@ public class SinglePlayerController : MonoBehaviour {
 	private Character ownCharacter;
 	private Character opponentCharacter;
 
+	private Animator ownCharacterAnimator;
+	private Animator opponentCharacterAnimator;
+
 	private List<string> characterList;
 
 	private List <Vector3> numberButtonDefaultPositions;
@@ -132,7 +135,11 @@ public class SinglePlayerController : MonoBehaviour {
 
 	void Start () {
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
+		ownCharacterAnimator = ownCharacterObject.GetComponent<Animator> ();
+		ownCharacterAnimator.runtimeAnimatorController = Resources.Load (ownCharacter.getControllerPath()) as RuntimeAnimatorController;
 		opponentCharacter = (Character)opponentCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.NpcCharacterName));
+		opponentCharacterAnimator = opponentCharacterObject.GetComponent<Animator> ();
+		opponentCharacterAnimator.runtimeAnimatorController = Resources.Load (opponentCharacter.getControllerPath()) as RuntimeAnimatorController;
 
 		blockingPanel.SetActive (false);
 		countDownPanel.SetActive (true);

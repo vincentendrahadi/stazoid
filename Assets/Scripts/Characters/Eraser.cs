@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Eraser : Character {
+	private const string CONTROLLER_PATH = "Animations/Eraser/EraserController";
 
 	private static int MAX_HP = 250;
 	private static float COMBO_TIMER = 5;
@@ -46,6 +47,10 @@ public class Eraser : Character {
 		specialBarIncrease [Difficulty.EASY] = EASY_INCREASE;
 		specialBarIncrease [Difficulty.MEDIUM] = MEDIUM_INCREASE;
 		specialBarIncrease [Difficulty.HARD] = HARD_INCREASE;
+	}
+
+	public override string getControllerPath() {
+		return CONTROLLER_PATH;
 	}
 
 	public override KeyValuePair<string, int> generateProblem (int difficulty)

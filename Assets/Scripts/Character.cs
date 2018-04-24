@@ -20,6 +20,8 @@ public abstract class Character : Photon.PunBehaviour, IPunObservable {
 	protected int mediumDamage;
 	protected int hardDamage;
 
+	public abstract string getControllerPath();
+
 	public abstract KeyValuePair<string, int> generateProblem (int difficulty);
 
 	public int getMaxHp () {
