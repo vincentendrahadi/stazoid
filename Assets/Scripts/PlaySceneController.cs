@@ -27,22 +27,15 @@ public class PlaySceneController : MonoBehaviour {
 		pauseCanvas.gameObject.SetActive (false);
 	}
 
-	public void toggleBGM() {
-		if (bgmToggle.isOn) {
-			bgmSource.volume = 1f;
-		} else {
-			bgmSource.volume = 0f;
-		}
+	public void mute() {
+		bgmSource.volume = 0f;
+		sfxSource [0].volume = 0f;
+		sfxSource [1].volume = 0f;
 	}
 
-	public void toggleSFX() {
-		if (sfxToggle.isOn) {
-			sfxSource[0].volume = 0.3f;
-			sfxSource[1].volume = 1f;
-		} else {
-			sfxSource[0].volume = 0f;
-			sfxSource[1].volume = 0f;
-		}
+	public void unmute() {
+		// isi sesuai nilai slider * MAX masing-masing (SoundInfo.MAX_something)
 	}
+		
 }
 
