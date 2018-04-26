@@ -28,10 +28,8 @@ public class PlaySceneController : MonoBehaviour {
 	private static bool isMute;
 
 	void Awake() {
-		Debug.Log("sfx" + PlayerPrefs.GetFloat("sfxVolume"));
 		bgmSlider.value = PlayerPrefs.GetFloat("bgmVolume");
 		sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
-		Debug.Log ("Setes");
 		if (PlayerPrefs.GetInt("isMute") == 1) {
 			muteToggle.isOn = true;
 			bgmSource.volume = 0f;
@@ -50,7 +48,6 @@ public class PlaySceneController : MonoBehaviour {
 		PlayerPrefs.SetInt ("isMute",isMute == true ? 1 : 0);
 		PlayerPrefs.SetFloat("bgmVolume", bgmSlider.value);
 		PlayerPrefs.SetFloat("sfxVolume", sfxSlider.value);
-		Debug.Log("sfx set " +  sfxSlider.value);
 	}
 
 	public void showPauseCanvas() {
