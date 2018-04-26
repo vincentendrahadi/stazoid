@@ -888,7 +888,7 @@ GameObject:
   - component: {fileID: 208443486}
   - component: {fileID: 208443487}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SfxSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -960,7 +960,18 @@ MonoBehaviour:
   m_Value: 0.65
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1762323243}
+        m_MethodName: sfxVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &208475848
@@ -3185,7 +3196,7 @@ GameObject:
   - component: {fileID: 742217957}
   - component: {fileID: 742217958}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: BgmSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3257,7 +3268,18 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1762323243}
+        m_MethodName: bgmVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &744102384
@@ -4507,6 +4529,8 @@ MonoBehaviour:
   - {fileID: 0}
   bgmToggle: {fileID: 1356141882}
   sfxToggle: {fileID: 0}
+  bgmSlider: {fileID: 0}
+  sfxSlider: {fileID: 0}
 --- !u!114 &999557897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5982,7 +6006,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1762323243}
-        m_MethodName: mute
+        m_MethodName: toggleMute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5994,7 +6018,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1407274611
 GameObject:
   m_ObjectHideFlags: 0
@@ -6844,6 +6868,8 @@ MonoBehaviour:
   - {fileID: 2115485356}
   bgmToggle: {fileID: 1356141882}
   sfxToggle: {fileID: 0}
+  bgmSlider: {fileID: 742217958}
+  sfxSlider: {fileID: 208443487}
 --- !u!1 &1765714888
 GameObject:
   m_ObjectHideFlags: 0
