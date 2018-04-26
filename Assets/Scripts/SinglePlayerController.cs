@@ -132,6 +132,8 @@ public class SinglePlayerController : MonoBehaviour {
 
 	private List <Vector3> numberButtonDefaultPositions;
 
+	private bool isPaused;
+
 
 	void Start () {
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
@@ -202,55 +204,66 @@ public class SinglePlayerController : MonoBehaviour {
 
 	void Update () {
 
-		// Animate bars
-		AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
-		AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
-		AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
-		AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
+		if (!isPaused) {
 
-		if (countDownPanel.activeInHierarchy || blockingPanel.activeInHierarchy || resultPanel.activeInHierarchy) {
-			isBlocked = true;
-		} else {
-			isBlocked = false;
-		}
+			// Animate bars
+			AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
+			AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
+			AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
+			AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
 
-		if (!isBlocked) {
-			// Update combo timer
-			if (comboTimer > 0) {
-				comboTimer -= Time.deltaTime;
-				comboTimerSlider.value = comboTimer;
+			if (countDownPanel.activeInHierarchy || blockingPanel.activeInHierarchy || resultPanel.activeInHierarchy) {
+				isBlocked = true;
 			} else {
-				resetCombo ();
+				isBlocked = false;
 			}
 
-			//Update npc combo timer
-			if (npcComboTimer > 0) {
-				npcComboTimer -= Time.deltaTime;
-			} else {
-				npcComboCount = 0;
-			}
-			
-			//Update npc attack time
-			if (npcAttackTime > 0) {
-				npcAttackTime -= Time.deltaTime;
-			} else {
-				npcAttack ();
-			}
+			if (!isBlocked) {
+				// Update combo timer
+				if (comboTimer > 0) {
+					comboTimer -= Time.deltaTime;
+					comboTimerSlider.value = comboTimer;
+				} else {
+					resetCombo ();
+				}
 
-			//Update npc attack time multiplier because of special
-			if (npcAttackTimeMultiplierTime > 0) {
-				npcAttackTimeMultiplierTime -= Time.deltaTime;
-			} else {
-				npcAttackTimeMultiplier = 1.0f;
-			}
-
-			//NPC use special
-			if (opponentSpecialGauge >= 1) {
-				npcUseSpecial ();
-			}
+				//Update npc combo timer
+				if (npcComboTimer > 0) {
+					npcComboTimer -= Time.deltaTime;
+				} else {
+					npcComboCount = 0;
+				}
 				
-		}
+				//Update npc attack time
+				if (npcAttackTime > 0) {
+					npcAttackTime -= Time.deltaTime;
+				} else {
+					npcAttack ();
+				}
 
+				//Update npc attack time multiplier because of special
+				if (npcAttackTimeMultiplierTime > 0) {
+					npcAttackTimeMultiplierTime -= Time.deltaTime;
+				} else {
+					npcAttackTimeMultiplier = 1.0f;
+				}
+
+				//NPC use special
+				if (opponentSpecialGauge >= 1) {
+					npcUseSpecial ();
+				}
+					
+			}
+
+		}
+	}
+
+	public void pauseGame() {
+		isPaused = true;
+	}
+
+	public void resumeGame() {
+		isPaused = false;
 	}
 		
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
