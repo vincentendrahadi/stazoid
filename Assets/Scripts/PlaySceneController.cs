@@ -19,10 +19,6 @@ public class PlaySceneController : MonoBehaviour {
 	[SerializeField]
 	private Toggle sfxToggle;
 
-	void Start() {
-		pauseCanvas.gameObject.SetActive (false);
-	}
-
 	public void showPauseCanvas() {
 		pauseCanvas.gameObject.SetActive (true);
 	}
