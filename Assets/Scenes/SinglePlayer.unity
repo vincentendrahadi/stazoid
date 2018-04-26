@@ -6664,7 +6664,7 @@ MonoBehaviour:
   sfxSource:
   - {fileID: 875848450}
   - {fileID: 1805174695}
-  bgmToggle: {fileID: 0}
+  muteToggle: {fileID: 572858804}
   sfxToggle: {fileID: 0}
   bgmSlider: {fileID: 1122652715}
   sfxSlider: {fileID: 2119390624}
@@ -8131,7 +8131,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.65
+  m_Value: 0.48
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
