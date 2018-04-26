@@ -19,6 +19,7 @@ public abstract class Character : Photon.PunBehaviour, IPunObservable {
 	protected int easyDamage;
 	protected int mediumDamage;
 	protected int hardDamage;
+	protected bool isPaused;
 
 	public abstract string getControllerPath();
 
@@ -38,6 +39,14 @@ public abstract class Character : Photon.PunBehaviour, IPunObservable {
 
 	public float[] getSpecialBarIncrease () {
 		return specialBarIncrease;
+	}
+
+	public void setPause () {
+		isPaused = true;
+	}
+
+	public void setUnpause () {
+		isPaused = false;
 	}
 		
 	abstract public void useSpecial();

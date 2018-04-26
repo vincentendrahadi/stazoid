@@ -23,16 +23,18 @@ public class Eraser : Character {
 	private bool isNPC = false;
 
 	void Update () {
-		// Manage button shuffle
-		if (erasedTime > 0 && isErased) {
-			erasedTime -= Time.deltaTime;
-			if (erasedTime < 0) {
-				if (isNPC == true) {
-					npcRevertKeypad ();
-				} else {
-					revertKeypad ();
-				}
+		if (!isPaused) {
+			// Manage button shuffle
+			if (erasedTime > 0 && isErased) {
+				erasedTime -= Time.deltaTime;
+				if (erasedTime < 0) {
+					if (isNPC == true) {
+						npcRevertKeypad ();
+					} else {
+						revertKeypad ();
+					}
 
+				}
 			}
 		}
 	}

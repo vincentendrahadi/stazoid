@@ -260,10 +260,14 @@ public class SinglePlayerController : MonoBehaviour {
 
 	public void pauseGame() {
 		isPaused = true;
+		ownCharacter.setPause ();
+		opponentCharacter.setPause ();
 	}
 
 	public void resumeGame() {
 		isPaused = false;
+		ownCharacter.setUnpause ();
+		opponentCharacter.setUnpause ();
 	}
 		
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
