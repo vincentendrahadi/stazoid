@@ -2,8 +2,10 @@
 using System.Collections;
 
 public class SnapScroller : MonoBehaviour {
-	public RectTransform listHolder;
-	public RectTransform center;
+	[SerializeField]
+	private RectTransform listHolder;
+	[SerializeField]
+	private RectTransform center;
 
 	private Transform[] scrolledObjList;
 	private float[] objVerticalDistanceToCenter;
@@ -11,12 +13,13 @@ public class SnapScroller : MonoBehaviour {
 	private float nearestDistanceToCenter;
 
 	private bool dragging = false;
-	public bool isScrollVertical;
+	private bool isScrollVertical;
 
 	private int verticalDistanceBetweenObj;
 	private int horizontalDistanceBetweenObj;
-	public int idxObjNearestToCenter;
 	private int listLength;
+
+	public int idxObjNearestToCenter;
 
 	// Use this for initialization
 	void Start () {
