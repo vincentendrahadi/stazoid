@@ -19,7 +19,7 @@ public class SnapScroller : MonoBehaviour {
 	private int horizontalDistanceBetweenObj;
 	private int listLength;
 
-	public int idxObjNearestToCenter;
+	public static int idxObjNearestToCenter;
 
 	// Use this for initialization
 	void Start () {
