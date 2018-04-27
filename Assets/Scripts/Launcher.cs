@@ -28,7 +28,8 @@ public class Launcher : Photon.PunBehaviour {
 	private Button[] characterList;
 	[SerializeField]
 	private GameObject cancelButton;
-
+	[SerializeField]
+	private Text characterNameDisplay;
 
 	private bool isConnecting;
 	private Button currentCharacter;
@@ -130,5 +131,6 @@ public class Launcher : Photon.PunBehaviour {
 		currentCharacter = characterList [SnapScroller.idxObjNearestToCenter];
 		currentCharacter.interactable = true;
 		currentCharacter.transform.localScale = ZOOMED_CHARACTER_SCALE;
+		characterNameDisplay.text = (currentCharacter.transform.GetChild (0).GetComponent <Text> ().text).ToUpper();
 	}
 }
