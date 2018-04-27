@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScrollRectSnap : MonoBehaviour {
+public class SnapScroller : MonoBehaviour {
 	public RectTransform listHolder;
-	public GameObject[] scrolledObjList;
 	public RectTransform center;
 
+	private Transform[] scrolledObjList;
 	private float[] objVerticalDistanceToCenter;
 	private float[] objHorizontalDistanceToCenter;
 	private float nearestDistanceToCenter;
 
 	private bool dragging = false;
-	private bool isScrollVertical;
+	public bool isScrollVertical;
 
 	private int verticalDistanceBetweenObj;
 	private int horizontalDistanceBetweenObj;
-	private int idxObjNearestToCenter;
+	public int idxObjNearestToCenter;
 	private int listLength;
 
 	// Use this for initialization
 	void Start () {
+		scrolledObjList = new Transform[listHolder.childCount];
+		for (int i = 0; i < scrolledObjList.Length; i++) {
+			scrolledObjList [i] = listHolder.GetChild (i);
+		}
 		listLength = scrolledObjList.Length;
 		objVerticalDistanceToCenter = new float[listLength];
 		objHorizontalDistanceToCenter = new float[listLength];
@@ -38,9 +42,17 @@ public class ScrollRectSnap : MonoBehaviour {
 	void Update () {		
 		for (int i = 0; i < listLength; i++) {
 			objVerticalDistanceToCenter[i] = Mathf.Abs(center.transform.position.y - scrolledObjList [i].transform.position.y);
-			if (objVerticalDistanceToCenter [i] < nearestDistanceToCenter) {
-				nearestDistanceToCenter = objVerticalDistanceToCenter [i];
-				idxObjNearestToCenter = i;
+			objHorizontalDistanceToCenter[i] = Mathf.Abs(center.transform.position.x - scrolledObjList [i].transform.position.x);
+			if (isScrollVertical) {
+				if (objVerticalDistanceToCenter [i] < nearestDistanceToCenter) {
+					nearestDistanceToCenter = objVerticalDistanceToCenter [i];
+					idxObjNearestToCenter = i;
+				}
+			} else {
+				if (objHorizontalDistanceToCenter [i] < nearestDistanceToCenter) {
+					nearestDistanceToCenter = objHorizontalDistanceToCenter [i];
+					idxObjNearestToCenter = i;
+				}
 			}
 		}
 
