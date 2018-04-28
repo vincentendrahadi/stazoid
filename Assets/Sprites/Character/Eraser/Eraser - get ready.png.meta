@@ -136,7 +136,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 1700
-        width: 530
+        width: 523
         height: 850
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -150,7 +150,7 @@ TextureImporter:
         serializedVersion: 2
         x: 530
         y: 1700
-        width: 530
+        width: 520
         height: 850
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -164,7 +164,7 @@ TextureImporter:
         serializedVersion: 2
         x: 1060
         y: 1700
-        width: 530
+        width: 516
         height: 850
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -176,9 +176,9 @@ TextureImporter:
       name: Eraser - get ready_3
       rect:
         serializedVersion: 2
-        x: 1590
-        y: 1700
-        width: 530
+        x: 1586
+        y: 1696
+        width: 522
         height: 850
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -386,7 +386,7 @@ TextureImporter:
       name: Eraser - get ready_18
       rect:
         serializedVersion: 2
-        x: 2120
+        x: 2111
         y: 0
         width: 530
         height: 850

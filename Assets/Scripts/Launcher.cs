@@ -44,8 +44,8 @@ public class Launcher : Photon.PunBehaviour {
 
 	private bool isConnecting;
 	private Button currentCharacter;
-	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.3f, 0.3f, 1);
-	private Vector3 ZOOMED_CHARACTER_SCALE = new Vector3(0.5f, 0.5f, 1);
+	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.5f, 0.5f, 1);
+	private Vector3 ZOOMED_CHARACTER_SCALE = new Vector3(0.8f, 0.8f, 1);
 
 	void Start() {
 		foreach (Button button in menuButtons) {
