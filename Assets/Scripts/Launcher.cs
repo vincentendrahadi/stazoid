@@ -31,6 +31,13 @@ public class Launcher : Photon.PunBehaviour {
 	[SerializeField]
 	private Text characterNameDisplay;
 
+	[SerializeField]
+	private AudioSource tappingButtons;
+
+	[SerializeField]
+	private AudioSource bgmSound;
+
+
 	private bool isConnecting;
 	private Button currentCharacter;
 	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.3f, 0.3f, 1);
@@ -44,6 +51,15 @@ public class Launcher : Photon.PunBehaviour {
 			characterList [i].interactable = false;
 		}
 		currentCharacter = characterList [0];
+	}
+
+	void Start () {
+		bgmSound.volume = PlayerPrefs.GetFloat ("bgmVolume");
+		tappingButtons.volume = PlayerPrefs.GetFloat ("sfxVolume");
+		if (PlayerPrefs.GetInt ("isMute") == 1) {
+			bgmSound.volume = 0;
+			tappingButtons.volume = 0;
+		}
 	}
 
 	public string getNPCCharacterName() {

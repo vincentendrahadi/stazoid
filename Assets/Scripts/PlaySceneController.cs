@@ -26,6 +26,10 @@ public class PlaySceneController : MonoBehaviour {
 
 	private static bool isMute;
 
+	const int BGM_VOLUME = 1;
+	const int SFX_VOLUME = 2;
+	const int MUTE_TOGGLE = 3;
+
 	void Awake() {
 		bgmSlider.value = PlayerPrefs.GetFloat("bgmVolume");
 		sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
@@ -43,10 +47,18 @@ public class PlaySceneController : MonoBehaviour {
 
 	}
 
-	public void saveState() {
-		PlayerPrefs.SetInt ("isMute",isMute == true ? 1 : 0);
-		PlayerPrefs.SetFloat("bgmVolume", bgmSlider.value);
-		PlayerPrefs.SetFloat("sfxVolume", sfxSlider.value);
+	public void saveState(int state) {
+		switch (state) {
+			case 1:
+				PlayerPrefs.SetFloat ("bgmVolume", bgmSlider.value);
+				break;
+			case 2:	
+				PlayerPrefs.SetFloat ("sfxVolume", sfxSlider.value);
+				break;
+			case 3:
+				PlayerPrefs.SetInt ("isMute", isMute == true ? 1 : 0);
+				break;
+		}
 	}
 
 	public void showPauseCanvas() {
@@ -69,14 +81,14 @@ public class PlaySceneController : MonoBehaviour {
 			sfxSource [1].volume = sfxSlider.value;
 			isMute = false;
 		}
-		saveState ();
+		saveState (MUTE_TOGGLE);
 	}
 
 	public void bgmVolume() {
 		if (!isMute) {
 			bgmSource.volume = bgmSlider.value;	
 		}
-		saveState ();
+		saveState (BGM_VOLUME);
 	}
 
 	public void sfxVolume() {
@@ -84,7 +96,7 @@ public class PlaySceneController : MonoBehaviour {
 			sfxSource [0].volume = sfxSlider.value;
 			sfxSource [1].volume = sfxSlider.value;
 		}
-		saveState ();
+		saveState (SFX_VOLUME);
 	}
 }
 
