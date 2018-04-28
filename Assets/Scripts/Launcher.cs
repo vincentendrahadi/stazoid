@@ -11,6 +11,9 @@ public class Launcher : Photon.PunBehaviour {
 	private const string SINGLE_PLAYER_SCENE_NAME = "SinglePlayer";
 
 	[SerializeField]
+	private GameObject launcher;
+
+	[SerializeField]
 	private PhotonLogLevel LOG_LEVEL = PhotonLogLevel.Informational;
 	[SerializeField]
 	private byte MAX_PLAYER_PER_ROOM = 2;
@@ -25,14 +28,22 @@ public class Launcher : Photon.PunBehaviour {
 	private Button[] characterList;
 	[SerializeField]
 	private GameObject cancelButton;
-
+	[SerializeField]
+	private Text characterNameDisplay;
 
 	private bool isConnecting;
+	private Button currentCharacter;
+	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.3f, 0.3f, 1);
+	private Vector3 ZOOMED_CHARACTER_SCALE = new Vector3(0.5f, 0.5f, 1);
 
 	void Awake () {
 		PhotonNetwork.autoJoinLobby = false;
 		PhotonNetwork.automaticallySyncScene = true;
 		PhotonNetwork.logLevel = LOG_LEVEL;
+		for (int i = 0; i < characterList.Length; i++) {
+			characterList [i].interactable = false;
+		}
+		currentCharacter = characterList [0];
 	}
 
 	public string getNPCCharacterName() {
@@ -111,9 +122,15 @@ public class Launcher : Photon.PunBehaviour {
 	private Character ownCharacter;
 
 	public void chooseCharacter (Button button) {
-		selectedCharacterButton.interactable = true;
 		selectedCharacterButton = button;
-		selectedCharacterButton.interactable = false;
 	}
 
+	public void changeCharacterInteractable() {
+		currentCharacter.interactable = false;
+		currentCharacter.transform.localScale = STANDARD_CHARACTER_SCALE;
+		currentCharacter = characterList [SnapScroller.idxObjNearestToCenter];
+		currentCharacter.interactable = true;
+		currentCharacter.transform.localScale = ZOOMED_CHARACTER_SCALE;
+		characterNameDisplay.text = (currentCharacter.transform.GetChild (0).GetComponent <Text> ().text).ToUpper();
+	}
 }
