@@ -79,9 +79,13 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private GameObject characterPictHolder;
 	[SerializeField]
-	private GameObject ownPicture;
+	private Image ownPicture;
 	[SerializeField]
-	private GameObject opponentPicture;
+	private Image opponentPicture;
+	[SerializeField]
+	private Text ownNameText;
+	[SerializeField]
+	private Text opponentNameText;
 
 	[SerializeField]
 	private GameObject countDownPanel;
@@ -215,10 +219,12 @@ public class SinglePlayerController : MonoBehaviour {
 		// Set character picture
 		int ownPictIndex;
 		int opponentPictIndex;
-		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), CharacterHolder.Instance.OwnCharacterName));
-		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), CharacterHolder.Instance.NpcCharacterName));
-		ownPicture.GetComponent<Image>().sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
-		opponentPicture.GetComponent<Image>().sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
+		ownNameText.text = CharacterHolder.Instance.OwnCharacterName;
+		opponentNameText.text = CharacterHolder.Instance.NpcCharacterName;
+		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), ownNameText.text));
+		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), opponentNameText.text));
+		ownPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
+		opponentPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 	}
 
 	void Update () {
