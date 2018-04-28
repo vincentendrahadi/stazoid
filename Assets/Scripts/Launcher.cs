@@ -80,7 +80,7 @@ public class Launcher : Photon.PunBehaviour {
 	public void PlayWithNPC() {
 		CharacterHolder.Instance.OwnCharacterName = selectedCharacterButton.transform.GetChild (0).GetComponent <Text> ().text;
 		CharacterHolder.Instance.NpcCharacterName = getNPCCharacterName ();
-		SceneManager.LoadScene (SINGLE_PLAYER_SCENE_NAME);
+		SceneManager.LoadScene (GameScene.SINGLE_PLAYER);
 	}
 
 	public void Connect () {

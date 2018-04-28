@@ -449,7 +449,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	#region others
 
 	public override void OnLeftRoom () {
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene (GameScene.LOBBY);
 	}
 
 	public void leaveRoom () {

@@ -486,7 +486,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 
 	public void quitRoom() {
-		SceneManager.LoadScene ("Lobby");
+		SceneManager.LoadScene (GameScene.LOBBY);
 	}
 	void setResult (int result) {
 		if (result == Result.LOSE) {

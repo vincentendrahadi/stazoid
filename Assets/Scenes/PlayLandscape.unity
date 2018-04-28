@@ -4824,7 +4824,6 @@ GameObject:
   - component: {fileID: 999557895}
   - component: {fileID: 999557898}
   - component: {fileID: 999557897}
-  - component: {fileID: 999557896}
   m_Layer: 5
   m_Name: PopUpMenu
   m_TagString: Untagged
@@ -4855,17 +4854,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 540}
   m_SizeDelta: {x: 835, y: 577}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &999557896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 999557894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8a181f2e3857534ea65f1095aefb627, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &999557897
 MonoBehaviour:
   m_ObjectHideFlags: 0
