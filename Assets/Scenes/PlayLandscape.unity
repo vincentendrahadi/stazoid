@@ -4527,7 +4527,7 @@ MonoBehaviour:
   sfxSource:
   - {fileID: 0}
   - {fileID: 0}
-  bgmToggle: {fileID: 1356141882}
+  muteToggle: {fileID: 0}
   sfxToggle: {fileID: 0}
   bgmSlider: {fileID: 0}
   sfxSlider: {fileID: 0}
@@ -6866,7 +6866,7 @@ MonoBehaviour:
   sfxSource:
   - {fileID: 157743572}
   - {fileID: 2115485356}
-  bgmToggle: {fileID: 1356141882}
+  muteToggle: {fileID: 1356141882}
   sfxToggle: {fileID: 0}
   bgmSlider: {fileID: 742217958}
   sfxSlider: {fileID: 208443487}
