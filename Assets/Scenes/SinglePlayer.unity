@@ -3454,7 +3454,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300008, guid: b9e0aa950518da444bac4d6c092dc2eb, type: 3}
+  m_Sprite: {fileID: 21300008, guid: 2baf1e5bc415b034a8a5e8bfac2fe015, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6910,7 +6910,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b9e0aa950518da444bac4d6c092dc2eb, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 2baf1e5bc415b034a8a5e8bfac2fe015, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
