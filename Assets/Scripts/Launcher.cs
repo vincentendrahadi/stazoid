@@ -12,6 +12,10 @@ public class Launcher : Photon.PunBehaviour {
 
 	[SerializeField]
 	private GameObject launcher;
+	[SerializeField]
+	private AudioSource audioSource;
+	[SerializeField]
+	private Button[] menuButtons;
 
 	[SerializeField]
 	private PhotonLogLevel LOG_LEVEL = PhotonLogLevel.Informational;
@@ -42,6 +46,14 @@ public class Launcher : Photon.PunBehaviour {
 	private Button currentCharacter;
 	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.3f, 0.3f, 1);
 	private Vector3 ZOOMED_CHARACTER_SCALE = new Vector3(0.5f, 0.5f, 1);
+
+	void Start() {
+		foreach (Button button in menuButtons) {
+			button.onClick.AddListener (delegate {
+				audioSource.PlayOneShot(GameSFX.TAP_MENU);
+			});
+		}
+	}
 
 	void Awake () {
 		PhotonNetwork.autoJoinLobby = false;
@@ -138,6 +150,7 @@ public class Launcher : Photon.PunBehaviour {
 	private Character ownCharacter;
 
 	public void chooseCharacter (Button button) {
+		audioSource.PlayOneShot (GameSFX.CHOSE_CHAR);
 		selectedCharacterButton = button;
 	}
 
