@@ -53,6 +53,13 @@ public class Launcher : Photon.PunBehaviour {
 				audioSource.PlayOneShot(GameSFX.TAP_MENU);
 			});
 		}
+
+		bgmSound.volume = PlayerPrefs.GetFloat ("bgmVolume");
+		tappingButtons.volume = PlayerPrefs.GetFloat ("sfxVolume");
+		if (PlayerPrefs.GetInt ("isMute") == 1) {
+			bgmSound.volume = 0;
+			tappingButtons.volume = 0;
+		}
 	}
 
 	void Awake () {
@@ -63,15 +70,6 @@ public class Launcher : Photon.PunBehaviour {
 			characterList [i].interactable = false;
 		}
 		currentCharacter = characterList [0];
-	}
-
-	void Start () {
-		bgmSound.volume = PlayerPrefs.GetFloat ("bgmVolume");
-		tappingButtons.volume = PlayerPrefs.GetFloat ("sfxVolume");
-		if (PlayerPrefs.GetInt ("isMute") == 1) {
-			bgmSound.volume = 0;
-			tappingButtons.volume = 0;
-		}
 	}
 
 	public string getNPCCharacterName() {

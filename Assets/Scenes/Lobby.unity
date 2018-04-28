@@ -1670,12 +1670,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launcher: {fileID: 1189370736}
-  audioSource: {fileID: 1435096096}
-  menuButtons:
-  - {fileID: 1529269697}
-  - {fileID: 1529269697}
-  - {fileID: 456517365}
-  - {fileID: 1148143837}
   LOG_LEVEL: 0
   MAX_PLAYER_PER_ROOM: 2
   playButton: {fileID: 1344599694}
@@ -1686,6 +1680,8 @@ MonoBehaviour:
   - {fileID: 136416430}
   cancelButton: {fileID: 456517363}
   characterNameDisplay: {fileID: 1691808731}
+  tappingButtons: {fileID: 1435096096}
+  bgmSound: {fileID: 2015944756}
 --- !u!114 &1189370739
 MonoBehaviour:
   m_ObjectHideFlags: 0
