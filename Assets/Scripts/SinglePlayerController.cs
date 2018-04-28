@@ -77,6 +77,13 @@ public class SinglePlayerController : MonoBehaviour {
 	private GameObject opponentCharacterObject;
 
 	[SerializeField]
+	private GameObject characterPictHolder;
+	[SerializeField]
+	private GameObject ownPicture;
+	[SerializeField]
+	private GameObject opponentPicture;
+
+	[SerializeField]
 	private GameObject countDownPanel;
 
 	[SerializeField]
@@ -134,6 +141,10 @@ public class SinglePlayerController : MonoBehaviour {
 
 	private bool isPaused;
 
+	enum CharacterName {
+		Pencil,
+		Eraser
+	}
 
 	void Start () {
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
@@ -200,6 +211,14 @@ public class SinglePlayerController : MonoBehaviour {
 		npcAttackTimeMultiplier = 1.0f;
 		npcAttackTimeMultiplierTime = 0;
 		npcAttackTime = Random.Range (3, npcComboTimer + 1);
+
+		// Set character picture
+		int ownPictIndex;
+		int opponentPictIndex;
+		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), CharacterHolder.Instance.OwnCharacterName));
+		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), CharacterHolder.Instance.NpcCharacterName));
+		ownPicture.GetComponent<Image>().sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
+		opponentPicture.GetComponent<Image>().sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 	}
 
 	void Update () {

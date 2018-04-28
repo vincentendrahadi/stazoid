@@ -80,6 +80,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private GameObject opponentCharacterObject;
 
 	[SerializeField]
+	private GameObject characterPictHolder;
+	[SerializeField]
+	private GameObject ownPicture;
+	[SerializeField]
+	private GameObject opponentPicture;
+
+	[SerializeField]
 	private GameObject countDownPanel;
 
 	[SerializeField]
@@ -121,6 +128,11 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private List <Vector3> numberButtonDefaultPositions;
 
 	private bool resultReceived;
+
+	enum CharacterName {
+		Pencil,
+		Eraser
+	}
 
 	#region Gameplay related
 
@@ -174,6 +186,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 		// Initialize result received
 		resultReceived = false;
+
+		// Set character picture
+		int ownPictIndex;
+		int opponentPictIndex;
+		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), CharacterHolder.Instance.OwnCharacterName));
+		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), CharacterHolder.Instance.NpcCharacterName));
+		ownPicture.GetComponent<Image>().sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
+		opponentPicture.GetComponent<Image>().sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 	}
 
 	void Update () {
