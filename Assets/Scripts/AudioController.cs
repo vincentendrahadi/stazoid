@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlaySceneController : MonoBehaviour {
-	[SerializeField]
-	private Canvas pauseCanvas;
-
+public class AudioController : MonoBehaviour {
 	[SerializeField]
 	private AudioSource bgmSource;
 	[SerializeField]
@@ -15,8 +12,6 @@ public class PlaySceneController : MonoBehaviour {
 
 	[SerializeField]
 	private Toggle muteToggle;
-	[SerializeField]
-	private Toggle sfxToggle;
 
 	[SerializeField]
 	private Slider bgmSlider;
@@ -30,6 +25,12 @@ public class PlaySceneController : MonoBehaviour {
 	const int SFX_VOLUME = 2;
 	const int MUTE_TOGGLE = 3;
 
+	class MaxSound : MonoBehaviour {
+		public const float BGM = 1f;
+		public const float TAPPING = 0.3f;
+		public const float SOUND = 1f;
+	}
+
 	void Awake() {
 		bgmSlider.value = PlayerPrefs.GetFloat("bgmVolume");
 		sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
@@ -40,9 +41,9 @@ public class PlaySceneController : MonoBehaviour {
 			sfxSource [1].volume = 0f;
 		} else {
 			muteToggle.isOn = false;
-			bgmSource.volume =  bgmSlider.value;
-			sfxSource [0].volume = sfxSlider.value;
-			sfxSource [1].volume = sfxSlider.value;
+			bgmSource.volume =  bgmSlider.value * MaxSound.BGM;
+			sfxSource [0].volume = sfxSlider.value * MaxSound.TAPPING;
+			sfxSource [1].volume = sfxSlider.value * MaxSound.SOUND;
 		}
 
 	}
@@ -61,14 +62,6 @@ public class PlaySceneController : MonoBehaviour {
 		}
 	}
 
-	public void showPauseCanvas() {
-		pauseCanvas.gameObject.SetActive (true);
-	}
-
-	public void hidePauseCanvas() {
-		pauseCanvas.gameObject.SetActive (false);
-	}
-
 	public void toggleMute() {
 		if (muteToggle.isOn) {
 			bgmSource.volume = 0f;
@@ -76,9 +69,9 @@ public class PlaySceneController : MonoBehaviour {
 			sfxSource [1].volume = 0f;
 			isMute = true;
 		} else {
-			bgmSource.volume =  bgmSlider.value;
-			sfxSource [0].volume = sfxSlider.value;
-			sfxSource [1].volume = sfxSlider.value;
+			bgmSource.volume =  bgmSlider.value * MaxSound.BGM;
+			sfxSource [0].volume = sfxSlider.value * MaxSound.TAPPING;
+			sfxSource [1].volume = sfxSlider.value * MaxSound.SOUND;
 			isMute = false;
 		}
 		saveState (MUTE_TOGGLE);
@@ -86,15 +79,15 @@ public class PlaySceneController : MonoBehaviour {
 
 	public void bgmVolume() {
 		if (!isMute) {
-			bgmSource.volume = bgmSlider.value;	
+			bgmSource.volume = bgmSlider.value * MaxSound.BGM;	
 		}
 		saveState (BGM_VOLUME);
 	}
 
 	public void sfxVolume() {
 		if (!isMute) {
-			sfxSource [0].volume = sfxSlider.value;
-			sfxSource [1].volume = sfxSlider.value;
+			sfxSource [0].volume = sfxSlider.value * MaxSound.TAPPING;
+			sfxSource [1].volume = sfxSlider.value * MaxSound.SOUND;
 		}
 		saveState (SFX_VOLUME);
 	}
