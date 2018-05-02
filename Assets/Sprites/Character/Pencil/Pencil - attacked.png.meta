@@ -9,6 +9,10 @@ TextureImporter:
     21300004: Pencil - attacked_3
     21300006: Pencil - attacked_4
     21300008: Pencil - attacked_17
+    21300010: Pencil - lose_0
+    21300012: Pencil - lose_1
+    21300014: Pencil - lose_2
+    21300016: Pencil - lose_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -179,6 +183,62 @@ TextureImporter:
         width: 573
         height: 629
       alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - lose_0
+      rect:
+        serializedVersion: 2
+        x: 4082
+        y: 1771
+        width: 574
+        height: 620
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - lose_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 886
+        width: 570
+        height: 620
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - lose_2
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 888
+        width: 579
+        height: 638
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pencil - lose_3
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 888
+        width: 577
+        height: 622
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []

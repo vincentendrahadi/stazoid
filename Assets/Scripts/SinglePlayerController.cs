@@ -344,6 +344,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 
 	void npcAttack() {
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
 		++npcComboCount;
 
 		int npcDifficulty = Random.Range (0, 3);
@@ -393,6 +394,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 	public void judgeAnswer() {
 		if (int.Parse (answerText.text) == problemSet.Value) {
+			ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
 			generateNewProblem ();
 
 			// Play sound effects
@@ -467,6 +469,7 @@ public class SinglePlayerController : MonoBehaviour {
 	public void npcUseSpecial() {
 		opponentSpecialGauge = 0;
 		opponentCharacter.npcUseSpecial ();
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
 	}
 					
 	public void useSpecial () {
@@ -475,6 +478,7 @@ public class SinglePlayerController : MonoBehaviour {
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;
 		npcAttackTimeMultiplier = 1.15f;
+		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
 	}
 
 	public Button[] getNumberButtons() {
@@ -550,13 +554,19 @@ public class SinglePlayerController : MonoBehaviour {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
 				sound.PlayOneShot (GameSFX.WIN);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.WIN);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
 			} else {
 				resultText.text = "DRAW";
 				sound.PlayOneShot (GameSFX.DRAW);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
 			sound.PlayOneShot (GameSFX.LOSE);
+			ownCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
+			opponentCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 		}
 		yield return new WaitForSeconds (GAME_OVER_DELAY);
 		quitRoom ();
