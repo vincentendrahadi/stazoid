@@ -111,11 +111,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private AudioSource tappingSound;
 
 	[SerializeField]
-	private AttackBall ownAttackBall;
+	private GameObject ownAttackBallPrefab;
 	[SerializeField]
 	private Vector3 ownAttackBallSpawnPosition;
 	[SerializeField]
-	private AttackBall opponentAttackBall;
+	private GameObject opponentAttackBallPrefab;
+	[SerializeField]
+	private Vector3 opponentAttackBallSpawnPosition;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -297,7 +299,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			ownAttackBall.launch (damage);
+			GameObject ownAttackBallPrefab = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition);
+			ownAttackBallPrefab.GetComponent <AttackBall> ().setDamage (damage);
 
 			// Call RPC
 			this.photonView.RPC ("opponentAttack ", PhotonTargets.Others, damage);
@@ -313,7 +316,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	[PunRPC]
 	void opponentAttack (float damage) {
-		opponentAttackBall.launch (damage);
+		GameObject opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition);
+		opponentAttackBall.GetComponent <AttackBall> ().setDamage (damage);
 	}
 
 	public void hitOwn (float damage) {

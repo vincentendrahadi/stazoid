@@ -108,11 +108,11 @@ public class SinglePlayerController : MonoBehaviour {
 	private AudioSource tappingSound;
 
 	[SerializeField]
-	private AttackBall ownAttackBall;
+	private GameObject ownAttackBallPrefab;
 	[SerializeField]
 	private Vector3 ownAttackBallSpawnPosition;
 	[SerializeField]
-	private AttackBall opponentAttackBall;
+	private GameObject opponentAttackBallPrefab;
 	[SerializeField]
 	private Vector3 opponentAttackBallSpawnPosition;
 
@@ -373,33 +373,15 @@ public class SinglePlayerController : MonoBehaviour {
 
 		npcComboTimer = opponentCharacter.getComboTimer ();
 
-
-		// Increase own special gauge
+		// Increase opponent's special gauge
 		opponentSpecialGauge += opponentCharacter.getSpecialBarIncrease () [npcDifficulty];
 		if (opponentSpecialGauge >= 1) {
 			opponentSpecialGauge = 1;
 		}
-
-		// Decrease opponent's health
+			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
-		ownHealthGauge -= damage;
-		if (ownHealthGauge <= 0) {
-			npcWin = true;
-			isBlocked = true;
-			setResult (Result.LOSE);
-		}
-		// Increase opponent's special gauge
-		ownSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
-		if (ownSpecialGauge >= 1) {
-			ownSpecialGauge = 1;
-		}
-		opponentAttackBall.launch (damage);
-
-		// Modify Slider
-		modifyOpponentSpecialGauge(opponentSpecialGauge);
-		modifyOpponentHealthGauge (opponentHealthGauge);
-		modifyOwnHealthGauge (ownHealthGauge);
-		modifyOwnSpecialGauge (ownSpecialGauge);
+		GameObject opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition);
+		opponentAttackBall.GetComponent <AttackBall> ().setDamage (damage);
 	}
 
 	public void judgeAnswer() {
@@ -424,36 +406,17 @@ public class SinglePlayerController : MonoBehaviour {
 				}
 				specialButton.SetActive (true);
 			}
-
-			// Decrease opponent's health
-			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER)*10;
-			opponentHealthGauge -= damage;
-			if (opponentHealthGauge <= 0) {
-				ownWin = true;
-				isBlocked = true;			
-				setResult (Result.WIN);
-			}
-
-			// Increase opponent's special gauge
-			opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
-			if (opponentSpecialGauge >= 1) {
-				opponentSpecialGauge = 1;
-			}
-
-			ownAttackBall.launch (damage);
-
-			// Call RPC
-			modifyOpponentSpecialGauge(opponentSpecialGauge);
-			modifyOpponentHealthGauge (opponentHealthGauge);
-			modifyOwnHealthGauge (ownHealthGauge);
-			modifyOwnSpecialGauge (ownSpecialGauge);
+				
+			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+			GameObject ownAttackBallPrefab = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition);
+			ownAttackBallPrefab.GetComponent <AttackBall> ().setDamage (damage);
 		} else {
 			resetCombo ();
 
 			// Play sound effects
 			tappingSound.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
-		answerText.text = "0";
+		deleteAnswer ();
 	}
 		
 	void modifyOpponentSpecialGauge (float specialGauge) {
@@ -474,6 +437,38 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 	}
 		
+	public void hitOwn (float damage) {
+		// Decrease own health
+		ownHealthGauge -= damage;
+		if (ownHealthGauge <= 0) {
+			npcWin = true;
+			isBlocked = true;
+			setResult (Result.LOSE);
+		}
+
+		// Increase own special gauge
+		ownSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+		if (ownSpecialGauge >= 1) {
+			ownSpecialGauge = 1;
+		}
+	}
+
+	public void hitOpponent (float damage) {
+		// Decrease opponent's health
+		opponentHealthGauge -= damage;
+		if (opponentHealthGauge <= 0) {
+			ownWin = true;
+			isBlocked = true;			
+			setResult (Result.WIN);
+		}
+
+		// Increase opponent's special gauge
+		opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+		if (opponentSpecialGauge >= 1) {
+			opponentSpecialGauge = 1;
+		}
+	}
+
 	void modifyOwnHealthGauge (float healthGauge) {
 		ownHealthGauge = healthGauge;
 	}

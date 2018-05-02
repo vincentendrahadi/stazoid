@@ -25,21 +25,19 @@ public class AttackBall : MonoBehaviour {
 			if (isMultiplayer) {
 				GameController.Instance.hitOwn (damage);
 			} else {
-				// TODO: isi d sini VE
+				SinglePlayerController.Instance.hitOwn (damage);
 			}
 		} else {
 			if (isMultiplayer) {
 				GameController.Instance.hitOpponent (damage);
 			} else {
-				// Sama kayak di atas
+				SinglePlayerController.Instance.hitOpponent (damage);
 			}
 		}
 	}
 		
-	public void launch (float damage) {
-		transform.position = INITIAL_POSITION;
+	public void setDamage(float damage) {
 		this.damage = damage;
-		this.gameObject.SetActive (true);
 	}
 
 }
