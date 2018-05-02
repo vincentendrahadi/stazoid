@@ -299,8 +299,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			GameObject ownAttackBallPrefab = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition);
-			ownAttackBallPrefab.GetComponent <AttackBall> ().setDamage (damage);
+			GameObject ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity);
+			ownAttackBall.GetComponent <AttackBall> ().setDamage (damage);
 
 			// Call RPC
 			this.photonView.RPC ("opponentAttack ", PhotonTargets.Others, damage);
@@ -316,7 +316,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	[PunRPC]
 	void opponentAttack (float damage) {
-		GameObject opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition);
+		GameObject opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity);
 		opponentAttackBall.GetComponent <AttackBall> ().setDamage (damage);
 	}
 

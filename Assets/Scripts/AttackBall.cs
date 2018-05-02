@@ -34,6 +34,7 @@ public class AttackBall : MonoBehaviour {
 				SinglePlayerController.Instance.hitOpponent (damage);
 			}
 		}
+		Destroy (gameObject);
 	}
 		
 	public void setDamage(float damage) {
