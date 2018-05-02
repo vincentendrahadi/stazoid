@@ -3,7 +3,39 @@ guid: 78b4ce85e498e9e488375ff2979865d8
 timeCreated: 1525263565
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Eraser - lose_3
+    21300002: Eraser - get up_0
+    21300004: Eraser - get up_1
+    21300006: Eraser - get up_10
+    21300008: Eraser - get up_11
+    21300010: Eraser - get up_2
+    21300012: Eraser - get up_13
+    21300014: Eraser - get up_15
+    21300016: Eraser - get up_16
+    21300018: Eraser - get up_17
+    21300020: Eraser - get up_18
+    21300022: Eraser - get up_19
+    21300024: Eraser - get up_20
+    21300026: Eraser - get up_21
+    21300028: Eraser - get up_22
+    21300030: Eraser - get up_23
+    21300032: Eraser - get up_24
+    21300034: Eraser - get up_25
+    21300036: Eraser - get up_26
+    21300038: Eraser - draw_4
+    21300040: Eraser - get up_28
+    21300042: Eraser - get up_29
+    21300044: Eraser - get up_30
+    21300046: Eraser - draw_2
+    21300048: Eraser - get up_32
+    21300050: Eraser - get up_33
+    21300052: Eraser - draw_1
+    21300054: Eraser - get up_35
+    21300056: Eraser - draw_0
+    21300058: Eraser - get up_37
+    21300060: Eraser - get up_38
+    21300062: Eraser - get up_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -40,7 +72,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -66,9 +98,175 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Eraser - lose_3
+      rect:
+        serializedVersion: 2
+        x: 1449
+        y: 2999
+        width: 601
+        height: 683
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get up_0
+      rect:
+        serializedVersion: 2
+        x: 2796
+        y: 3002
+        width: 565
+        height: 715
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get up_1
+      rect:
+        serializedVersion: 2
+        x: 4569
+        y: 3002
+        width: 469
+        height: 700
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get up_2
+      rect:
+        serializedVersion: 2
+        x: 5687
+        y: 3002
+        width: 513
+        height: 738
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - draw_4
+      rect:
+        serializedVersion: 2
+        x: 5479
+        y: 2016
+        width: 493
+        height: 854
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - draw_2
+      rect:
+        serializedVersion: 2
+        x: 1832
+        y: 1032
+        width: 519
+        height: 849
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - draw_1
+      rect:
+        serializedVersion: 2
+        x: 3623
+        y: 1033
+        width: 543
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - draw_0
+      rect:
+        serializedVersion: 2
+        x: 4828
+        y: 1031
+        width: 536
+        height: 850
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - get up_4
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 61
+        width: 506
+        height: 856
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 

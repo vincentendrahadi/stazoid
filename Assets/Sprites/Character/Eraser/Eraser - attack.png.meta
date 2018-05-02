@@ -3,7 +3,22 @@ guid: d294e89c097b3b34dbb4ec2fd8005763
 timeCreated: 1525263592
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Eraser - attack_0
+    21300002: Eraser - attack_1
+    21300004: Eraser - attack_2
+    21300006: Eraser - attack_3
+    21300008: Eraser - attack_4
+    21300010: Eraser - attack_5
+    21300012: Eraser - attack_6
+    21300014: Eraser - attack_7
+    21300016: Eraser - attack_8
+    21300018: Eraser - attack_9
+    21300020: Eraser - attack_10
+    21300022: Eraser - attack_11
+    21300024: Eraser - attack_12
+    21300026: Eraser - attack_13
+    21300028: Eraser - attack_14
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -40,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -66,9 +81,259 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Eraser - attack_0
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 1088
+        width: 452
+        height: 854
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_1
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 1091
+        width: 458
+        height: 854
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_2
+      rect:
+        serializedVersion: 2
+        x: 1143
+        y: 1088
+        width: 483
+        height: 854
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_3
+      rect:
+        serializedVersion: 2
+        x: 1707
+        y: 1094
+        width: 506
+        height: 851
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_4
+      rect:
+        serializedVersion: 2
+        x: 2294
+        y: 1097
+        width: 494
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_5
+      rect:
+        serializedVersion: 2
+        x: 2869
+        y: 1094
+        width: 514
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_6
+      rect:
+        serializedVersion: 2
+        x: 3461
+        y: 1097
+        width: 518
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_7
+      rect:
+        serializedVersion: 2
+        x: 4051
+        y: 1094
+        width: 526
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_8
+      rect:
+        serializedVersion: 2
+        x: 4646
+        y: 1094
+        width: 535
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_9
+      rect:
+        serializedVersion: 2
+        x: 5256
+        y: 1097
+        width: 538
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_10
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 71
+        width: 538
+        height: 848
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_11
+      rect:
+        serializedVersion: 2
+        x: 692
+        y: 73
+        width: 528
+        height: 849
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_12
+      rect:
+        serializedVersion: 2
+        x: 1287
+        y: 70
+        width: 518
+        height: 849
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_13
+      rect:
+        serializedVersion: 2
+        x: 1885
+        y: 70
+        width: 512
+        height: 849
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Eraser - attack_14
+      rect:
+        serializedVersion: 2
+        x: 2478
+        y: 70
+        width: 506
+        height: 849
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 
