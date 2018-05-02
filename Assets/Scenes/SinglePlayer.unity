@@ -6697,13 +6697,15 @@ GameObject:
   - component: {fileID: 1650176192}
   - component: {fileID: 1650176194}
   - component: {fileID: 1650176193}
+  - component: {fileID: 1650176195}
+  - component: {fileID: 1650176196}
   m_Layer: 0
-  m_Name: Own Attack Ball
+  m_Name: Attack Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1650176192
 Transform:
   m_ObjectHideFlags: 0
@@ -6726,7 +6728,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.31261334, y: -0.000000029802322}
@@ -6776,6 +6778,38 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1650176195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1650176191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37a16b9bbfc48d48ad7329e6edf59c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SPEED: 20
+--- !u!50 &1650176196
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1650176191}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 2
 --- !u!1 &1659456144
 GameObject:
   m_ObjectHideFlags: 0
@@ -8341,13 +8375,14 @@ GameObject:
   - component: {fileID: 1992197665}
   - component: {fileID: 1992197666}
   - component: {fileID: 1992197667}
+  - component: {fileID: 1992197668}
   m_Layer: 0
-  m_Name: Opponent's Attack Ball
+  m_Name: Attack Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1992197665
 Transform:
   m_ObjectHideFlags: 0
@@ -8414,12 +8449,24 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.31261334, y: -0.000000029802322}
   m_Size: {x: 1.2799999, y: 0.53999996}
   m_Direction: 0
+--- !u!114 &1992197668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1992197664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37a16b9bbfc48d48ad7329e6edf59c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SPEED: -20
 --- !u!1 &2018430435
 GameObject:
   m_ObjectHideFlags: 0
