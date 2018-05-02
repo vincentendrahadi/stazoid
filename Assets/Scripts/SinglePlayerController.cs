@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +27,7 @@ public class SinglePlayerController : MonoBehaviour {
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
+	private const float GAME_OVER_DELAY = 5.0f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -76,6 +77,17 @@ public class SinglePlayerController : MonoBehaviour {
 	private GameObject opponentCharacterObject;
 
 	[SerializeField]
+	private GameObject characterPictHolder;
+	[SerializeField]
+	private Image ownPicture;
+	[SerializeField]
+	private Image opponentPicture;
+	[SerializeField]
+	private Text ownNameText;
+	[SerializeField]
+	private Text opponentNameText;
+
+	[SerializeField]
 	private GameObject countDownPanel;
 
 	[SerializeField]
@@ -87,6 +99,7 @@ public class SinglePlayerController : MonoBehaviour {
 	private GameObject resultPanel;
 	[SerializeField]
 	private Text resultText;
+
     [SerializeField]
     private Image resultImage;
     [SerializeField]
@@ -95,6 +108,16 @@ public class SinglePlayerController : MonoBehaviour {
     private Button resultBackToMenu;
 
     private bool isBlocked = true;
+
+
+	[SerializeField]
+	private AudioSource backgroundMusic;
+	[SerializeField]
+	private AudioSource sound;
+	[SerializeField]
+	private AudioSource tappingSound;
+
+
 	private bool isHealthGaugeZero = false;
 	private bool ownWin = false;
 	private bool npcWin = false;
@@ -123,15 +146,27 @@ public class SinglePlayerController : MonoBehaviour {
 	private Character ownCharacter;
 	private Character opponentCharacter;
 
+	private Animator ownCharacterAnimator;
+	private Animator opponentCharacterAnimator;
+
 	private List<string> characterList;
 
 	private List <Vector3> numberButtonDefaultPositions;
 
+	private bool isPaused;
 
+	enum CharacterName {
+		Pencil,
+		Eraser
+	}
 
 	void Start () {
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
+		ownCharacterAnimator = ownCharacterObject.GetComponent<Animator> ();
+		ownCharacterAnimator.runtimeAnimatorController = Resources.Load (ownCharacter.getControllerPath()) as RuntimeAnimatorController;
 		opponentCharacter = (Character)opponentCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.NpcCharacterName));
+		opponentCharacterAnimator = opponentCharacterObject.GetComponent<Animator> ();
+		opponentCharacterAnimator.runtimeAnimatorController = Resources.Load (opponentCharacter.getControllerPath()) as RuntimeAnimatorController;
 
 		blockingPanel.SetActive (false);
 		countDownPanel.SetActive (true);
@@ -144,6 +179,7 @@ public class SinglePlayerController : MonoBehaviour {
 		foreach (Button button in numberButtons) {
 			button.onClick.AddListener (delegate {
 				addNumberToAnswer (button.name [9]);
+				tappingSound.PlayOneShot(GameSFX.TAP_NUMBER);
 			});
 			numberButtonDefaultPositions.Add (button.transform.position);
 		}
@@ -151,12 +187,15 @@ public class SinglePlayerController : MonoBehaviour {
 		// Add onClick listener to all difficulty buttons
 		difficultyButtons [Difficulty.EASY].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.EASY);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 		difficultyButtons [Difficulty.MEDIUM].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.MEDIUM);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 		difficultyButtons [Difficulty.HARD].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.HARD);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 
 		// Initialize combo & comboTimer
@@ -188,59 +227,84 @@ public class SinglePlayerController : MonoBehaviour {
 		npcAttackTimeMultiplier = 1.0f;
 		npcAttackTimeMultiplierTime = 0;
 		npcAttackTime = Random.Range (3, npcComboTimer + 1);
+
+		// Set character picture
+		int ownPictIndex;
+		int opponentPictIndex;
+		ownNameText.text = CharacterHolder.Instance.OwnCharacterName;
+		opponentNameText.text = CharacterHolder.Instance.NpcCharacterName;
+		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), ownNameText.text));
+		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), opponentNameText.text));
+		ownPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
+		opponentPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 	}
 
 	void Update () {
 
-		// Animate bars
-		AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
-		AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
-		AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
-		AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
+		if (!isPaused) {
 
-		if (countDownPanel.activeInHierarchy || blockingPanel.activeInHierarchy || resultPanel.activeInHierarchy) {
-			isBlocked = true;
-		} else {
-			isBlocked = false;
-		}
+			// Animate bars
+			AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
+			AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
+			AnimateSlider (ownHealthBarSlider, ownHealthGauge, HEALTH_BAR_MODIFIER);
+			AnimateSlider (opponentHealthBarSlider, opponentHealthGauge, HEALTH_BAR_MODIFIER);
 
-		if (!isBlocked) {
-			// Update combo timer
-			if (comboTimer > 0) {
-				comboTimer -= Time.deltaTime;
-				comboTimerSlider.value = comboTimer;
+			if (countDownPanel.activeInHierarchy || blockingPanel.activeInHierarchy || resultPanel.activeInHierarchy) {
+				isBlocked = true;
 			} else {
-				resetCombo ();
+				isBlocked = false;
 			}
 
-			//Update npc combo timer
-			if (npcComboTimer > 0) {
-				npcComboTimer -= Time.deltaTime;
-			} else {
-				npcComboCount = 0;
-			}
-			
-			//Update npc attack time
-			if (npcAttackTime > 0) {
-				npcAttackTime -= Time.deltaTime;
-			} else {
-				npcAttack ();
-			}
+			if (!isBlocked) {
+				// Update combo timer
+				if (comboTimer > 0) {
+					comboTimer -= Time.deltaTime;
+					comboTimerSlider.value = comboTimer;
+				} else {
+					resetCombo ();
+				}
 
-			//Update npc attack time multiplier because of special
-			if (npcAttackTimeMultiplierTime > 0) {
-				npcAttackTimeMultiplierTime -= Time.deltaTime;
-			} else {
-				npcAttackTimeMultiplier = 1.0f;
-			}
-
-			//NPC use special
-			if (opponentSpecialGauge >= 1) {
-				npcUseSpecial ();
-			}
+				//Update npc combo timer
+				if (npcComboTimer > 0) {
+					npcComboTimer -= Time.deltaTime;
+				} else {
+					npcComboCount = 0;
+				}
 				
-		}
+				//Update npc attack time
+				if (npcAttackTime > 0) {
+					npcAttackTime -= Time.deltaTime;
+				} else {
+					npcAttack ();
+				}
 
+				//Update npc attack time multiplier because of special
+				if (npcAttackTimeMultiplierTime > 0) {
+					npcAttackTimeMultiplierTime -= Time.deltaTime;
+				} else {
+					npcAttackTimeMultiplier = 1.0f;
+				}
+
+				//NPC use special
+				if (opponentSpecialGauge >= 1) {
+					npcUseSpecial ();
+				}
+					
+			}
+
+		}
+	}
+
+	public void pauseGame() {
+		isPaused = true;
+		ownCharacter.setPause ();
+		opponentCharacter.setPause ();
+	}
+
+	public void resumeGame() {
+		isPaused = false;
+		ownCharacter.setUnpause ();
+		opponentCharacter.setUnpause ();
 	}
 		
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
@@ -343,6 +407,9 @@ public class SinglePlayerController : MonoBehaviour {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
 
+			// Play sound effects
+			tappingSound.PlayOneShot (GameSFX.ANSWER_CORRECT);
+
 			// Add combo
 			++combo;
 			comboText.text = "" + combo;
@@ -352,6 +419,9 @@ public class SinglePlayerController : MonoBehaviour {
 			ownSpecialGauge += ownCharacter.getSpecialBarIncrease () [difficulty];
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
+				if (!specialButton.activeSelf) {
+					sound.PlayOneShot (GameSFX.SPECIAL_FULL);
+				}
 				specialButton.SetActive (true);
 			}
 
@@ -377,6 +447,9 @@ public class SinglePlayerController : MonoBehaviour {
 			modifyOwnSpecialGauge (ownSpecialGauge);
 		} else {
 			resetCombo ();
+
+			// Play sound effects
+			tappingSound.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
 		answerText.text = "0";
 	}
@@ -392,6 +465,9 @@ public class SinglePlayerController : MonoBehaviour {
 	void modifyOwnSpecialGauge (float specialGauge) {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
+			if (!specialButton.activeSelf) {
+				sound.PlayOneShot (GameSFX.SPECIAL_FULL);
+			}
 			specialButton.SetActive (true);
 		}
 	}
@@ -406,6 +482,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 					
 	public void useSpecial () {
+		sound.PlayOneShot (GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;
@@ -421,7 +498,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 
 	public void quitRoom() {
-		SceneManager.LoadScene ("Lobby");
+		SceneManager.LoadScene (GameScene.LOBBY);
 	}
 	void setResult (int result) {
 		if (result == Result.LOSE) {
@@ -502,21 +579,28 @@ public class SinglePlayerController : MonoBehaviour {
 
 	IEnumerator announceWinner () {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
+		backgroundMusic.volume = 0.5f;
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
+				sound.PlayOneShot (GameSFX.WIN);
                 adjustResultImage();
             } else {
 				resultText.text = "DRAW";
                 adjustResultImage();
+                sound.PlayOneShot (GameSFX.DRAW);
+
             }
 		} else {
 			resultText.text = "LOSE";
             adjustResultImage();
+            sound.PlayOneShot (GameSFX.LOSE);
         }
 
         resultScore.gameObject.SetActive(true);
         resultBackToMenu.gameObject.SetActive(true);
+        //yield return new WaitForSeconds (GAME_OVER_DELAY);
+		//quitRoom ();
     }
 		
 }

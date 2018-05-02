@@ -11,6 +11,13 @@ public class Launcher : Photon.PunBehaviour {
 	private const string SINGLE_PLAYER_SCENE_NAME = "SinglePlayer";
 
 	[SerializeField]
+	private GameObject launcher;
+	[SerializeField]
+	private AudioSource audioSource;
+	[SerializeField]
+	private Button[] menuButtons;
+
+	[SerializeField]
 	private PhotonLogLevel LOG_LEVEL = PhotonLogLevel.Informational;
 	[SerializeField]
 	private byte MAX_PLAYER_PER_ROOM = 2;
@@ -25,14 +32,44 @@ public class Launcher : Photon.PunBehaviour {
 	private Button[] characterList;
 	[SerializeField]
 	private GameObject cancelButton;
+	[SerializeField]
+	private Text characterNameDisplay;
+
+	[SerializeField]
+	private AudioSource tappingButtons;
+
+	[SerializeField]
+	private AudioSource bgmSound;
 
 
 	private bool isConnecting;
+	private Button currentCharacter;
+	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.5f, 0.5f, 1);
+	private Vector3 ZOOMED_CHARACTER_SCALE = new Vector3(0.8f, 0.8f, 1);
+
+	void Start() {
+		foreach (Button button in menuButtons) {
+			button.onClick.AddListener (delegate {
+				audioSource.PlayOneShot(GameSFX.TAP_MENU);
+			});
+		}
+
+		bgmSound.volume = PlayerPrefs.GetFloat ("bgmVolume");
+		tappingButtons.volume = PlayerPrefs.GetFloat ("sfxVolume");
+		if (PlayerPrefs.GetInt ("isMute") == 1) {
+			bgmSound.volume = 0;
+			tappingButtons.volume = 0;
+		}
+	}
 
 	void Awake () {
 		PhotonNetwork.autoJoinLobby = false;
 		PhotonNetwork.automaticallySyncScene = true;
 		PhotonNetwork.logLevel = LOG_LEVEL;
+		for (int i = 0; i < characterList.Length; i++) {
+			characterList [i].interactable = false;
+		}
+		currentCharacter = characterList [0];
 	}
 
 	public string getNPCCharacterName() {
@@ -43,7 +80,7 @@ public class Launcher : Photon.PunBehaviour {
 	public void PlayWithNPC() {
 		CharacterHolder.Instance.OwnCharacterName = selectedCharacterButton.transform.GetChild (0).GetComponent <Text> ().text;
 		CharacterHolder.Instance.NpcCharacterName = getNPCCharacterName ();
-		SceneManager.LoadScene (SINGLE_PLAYER_SCENE_NAME);
+		SceneManager.LoadScene (GameScene.SINGLE_PLAYER);
 	}
 
 	public void Connect () {
@@ -111,9 +148,16 @@ public class Launcher : Photon.PunBehaviour {
 	private Character ownCharacter;
 
 	public void chooseCharacter (Button button) {
-		selectedCharacterButton.interactable = true;
+		audioSource.PlayOneShot (GameSFX.CHOSE_CHAR);
 		selectedCharacterButton = button;
-		selectedCharacterButton.interactable = false;
 	}
 
+	public void changeCharacterInteractable() {
+		currentCharacter.interactable = false;
+		currentCharacter.transform.localScale = STANDARD_CHARACTER_SCALE;
+		currentCharacter = characterList [SnapScroller.idxObjNearestToCenter];
+		currentCharacter.interactable = true;
+		currentCharacter.transform.localScale = ZOOMED_CHARACTER_SCALE;
+		characterNameDisplay.text = (currentCharacter.transform.GetChild (0).GetComponent <Text> ().text).ToUpper();
+	}
 }

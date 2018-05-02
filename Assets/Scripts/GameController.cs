@@ -32,6 +32,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
+	private const float GAME_OVER_DELAY = 5.0f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -79,6 +80,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private GameObject opponentCharacterObject;
 
 	[SerializeField]
+	private GameObject characterPictHolder;
+	[SerializeField]
+	private Image ownPicture;
+	[SerializeField]
+	private Image opponentPicture;
+	[SerializeField]
+	private Text ownNameText;
+	[SerializeField]
+	private Text opponentNameText;
+
+	[SerializeField]
 	private GameObject countDownPanel;
 
 	[SerializeField]
@@ -90,6 +102,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private WinCounter ownWinCounter;
 	[SerializeField]
 	private WinCounter opponentWinCounter;
+
+	[SerializeField]
+	private AudioSource backgroundMusic;
+	[SerializeField]
+	private AudioSource sound;
+	[SerializeField]
+	private AudioSource tappingSound;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -107,14 +126,24 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private Character ownCharacter;
 	private Character opponentCharacter;
 
+	private Animator ownCharacterAnimator;
+	private Animator opponentCharacterAnimator;
+
 	private List <Vector3> numberButtonDefaultPositions;
 
 	private bool resultReceived;
+
+	enum CharacterName {
+		Pencil,
+		Eraser
+	}
 
 	#region Gameplay related
 
 	void Start () {
 		ownCharacter = (Character)ownCharacterObject.AddComponent (System.Type.GetType (CharacterHolder.Instance.OwnCharacterName));
+		ownCharacterAnimator = ownCharacterObject.GetComponent<Animator> ();
+		ownCharacterAnimator.runtimeAnimatorController = Resources.Load (ownCharacter.getControllerPath()) as RuntimeAnimatorController;
 		this.photonView.RPC ("assignOpponentCharacter", PhotonTargets.Others, CharacterHolder.Instance.OwnCharacterName);
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
@@ -122,6 +151,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		foreach (Button button in numberButtons) {
 			button.onClick.AddListener (delegate {
 				addNumberToAnswer (button.name [9]);
+				tappingSound.PlayOneShot(GameSFX.TAP_NUMBER);
 			});
 			numberButtonDefaultPositions.Add (button.transform.position);
 		}
@@ -129,12 +159,15 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		// Add onClick listener to all difficulty buttons
 		difficultyButtons [Difficulty.EASY].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.EASY);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 		difficultyButtons [Difficulty.MEDIUM].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.MEDIUM);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 		difficultyButtons [Difficulty.HARD].onClick.AddListener (delegate {
 			changeDifficulty (Difficulty.HARD);
+			tappingSound.PlayOneShot(GameSFX.TAP_DIFFICULTY);
 		});
 
 		// Initialize combo & comboTimer
@@ -157,6 +190,16 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 		// Initialize result received
 		resultReceived = false;
+
+		// Set character picture
+		int ownPictIndex;
+		int opponentPictIndex;
+		ownNameText.text = CharacterHolder.Instance.OwnCharacterName;
+		opponentNameText.text = CharacterHolder.Instance.NpcCharacterName;
+		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), ownNameText.text));
+		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), opponentNameText.text));
+		ownPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
+		opponentPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 	}
 
 	void Update () {
@@ -228,6 +271,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
 
+			// Play sound effects
+			tappingSound.PlayOneShot (GameSFX.ANSWER_CORRECT);
+
 			// Add combo
 			++combo;
 			comboText.text = "" + combo;
@@ -237,6 +283,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			ownSpecialGauge += ownCharacter.getSpecialBarIncrease () [difficulty];
 			if (ownSpecialGauge >= 1) {
 				ownSpecialGauge = 1;
+				if (!specialButton.activeSelf) {
+					sound.PlayOneShot (GameSFX.SPECIAL_FULL);
+				}
 				specialButton.SetActive (true);
 			}
 
@@ -260,6 +309,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 		} else {
 			resetCombo ();
+
+			// Play sound effects
+			tappingSound.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
 		deleteAnswer ();
 	}
@@ -273,6 +325,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	void modifyOwnSpecialGauge (float specialGauge) {
 		ownSpecialGauge = specialGauge;
 		if (ownSpecialGauge >= 1) {
+			if (!specialButton.activeSelf) {
+				sound.PlayOneShot (GameSFX.SPECIAL_FULL);
+			}
 			specialButton.SetActive (true);
 		}
 	}
@@ -324,6 +379,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	}
 					
 	public void useSpecial () {
+		sound.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
@@ -341,6 +397,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[PunRPC]
 	public void assignOpponentCharacter (string characterName) {
 		opponentCharacter = (Character)opponentCharacterObject.AddComponent (System.Type.GetType (characterName));
+		opponentCharacterAnimator = opponentCharacterObject.GetComponent<Animator> ();
+		opponentCharacterAnimator.runtimeAnimatorController = Resources.Load (opponentCharacter.getControllerPath()) as RuntimeAnimatorController;
 		opponentSpecialGauge = 0;
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 		opponentHealthBarSlider.maxValue = opponentHealthGauge;
@@ -369,16 +427,21 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	IEnumerator announceWinner () {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
-
+		backgroundMusic.volume = 0.5f;
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
+				sound.PlayOneShot (GameSFX.WIN);
 			} else {
 				resultText.text = "DRAW";
+				sound.PlayOneShot (GameSFX.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
+			sound.PlayOneShot (GameSFX.LOSE);
 		}
+		yield return new WaitForSeconds (GAME_OVER_DELAY);
+		leaveRoom ();
 	}
 		
 	#endregion
@@ -386,7 +449,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	#region others
 
 	public override void OnLeftRoom () {
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene (GameScene.LOBBY);
 	}
 
 	public void leaveRoom () {

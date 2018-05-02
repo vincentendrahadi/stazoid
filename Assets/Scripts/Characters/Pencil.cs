@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Pencil : Character {
+	private const string CONTROLLER_PATH = "Animations/Pencil/PencilController";
 
 	private static int MAX_HP = 200;
 	private static float COMBO_TIMER = 5;
@@ -24,16 +25,18 @@ public class Pencil : Character {
 	private int[] shuffleKeypadArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 	void Update () {
-		// Manage button shuffle
-		if (shuffledTime > 0 && isShuffled) {
-			shuffledTime -= Time.deltaTime;
-			if (shuffledTime < 0) {
-				if (isNPC == true) {
-					npcRevertKeypad ();
-				} else {
-					revertKeypad ();
-				}
+		if (!isPaused) {
+			// Manage button shuffle
+			if (shuffledTime > 0 && isShuffled) {
+				shuffledTime -= Time.deltaTime;
+				if (shuffledTime < 0) {
+					if (isNPC == true) {
+						npcRevertKeypad ();
+					} else {
+						revertKeypad ();
+					}
 
+				}
 			}
 		}
 	}
@@ -48,6 +51,10 @@ public class Pencil : Character {
 		specialBarIncrease [Difficulty.EASY] = EASY_INCREASE;
 		specialBarIncrease [Difficulty.MEDIUM] = MEDIUM_INCREASE;
 		specialBarIncrease [Difficulty.HARD] = HARD_INCREASE;
+	}
+
+	public override string getControllerPath() {
+		return CONTROLLER_PATH;
 	}
 
 	public override KeyValuePair<string, int> generateProblem (int difficulty)
