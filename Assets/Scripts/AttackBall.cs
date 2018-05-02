@@ -5,6 +5,8 @@ using UnityEngine;
 public class AttackBall : MonoBehaviour {
 	[SerializeField]
 	private float SPEED = 20.0f;
+	[SerializeField]
+	private Vector3 INITIAL_POSITION;
 
 	private float damage;
 	bool isMultiplayer;
@@ -18,6 +20,7 @@ public class AttackBall : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
+		gameObject.SetActive (false);
 		if (collision.gameObject.name == "Own Character") {
 			if (isMultiplayer) {
 				GameController.Instance.hitOwn (damage);
@@ -34,6 +37,7 @@ public class AttackBall : MonoBehaviour {
 	}
 		
 	public void launch (float damage) {
+		transform.position = INITIAL_POSITION;
 		this.damage = damage;
 		this.gameObject.SetActive (true);
 	}
