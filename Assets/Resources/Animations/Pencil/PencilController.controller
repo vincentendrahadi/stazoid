@@ -526,7 +526,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Draw
-  m_Speed: 1
+  m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -726,6 +726,6 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 516, y: 144, z: 0}
   m_EntryPosition: {x: 132, y: 48, z: 0}
-  m_ExitPosition: {x: 1044, y: 84, z: 0}
+  m_ExitPosition: {x: 996, y: 132, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102578730921887930}
