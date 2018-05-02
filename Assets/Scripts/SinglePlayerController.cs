@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -100,6 +100,16 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private Text resultText;
 
+    [SerializeField]
+    private Image resultImage;
+    [SerializeField]
+    private Text resultScore;
+    [SerializeField]
+    private Button resultBackToMenu;
+
+    private bool isBlocked = true;
+
+
 	[SerializeField]
 	private AudioSource backgroundMusic;
 	[SerializeField]
@@ -107,7 +117,7 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private AudioSource tappingSound;
 
-	private bool isBlocked = true;
+
 	private bool isHealthGaugeZero = false;
 	private bool ownWin = false;
 	private bool npcWin = false;
@@ -161,6 +171,8 @@ public class SinglePlayerController : MonoBehaviour {
 		blockingPanel.SetActive (false);
 		countDownPanel.SetActive (true);
 		isBlocked = true;
+        resultBackToMenu.gameObject.SetActive(false);
+        resultScore.gameObject.SetActive(false);
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
 		numberButtonDefaultPositions = new List <Vector3> ();
@@ -498,12 +510,15 @@ public class SinglePlayerController : MonoBehaviour {
 		if (!(npcWin && ownWin)) {
 			if (result == Result.LOSE) {
 				resultText.text = getResultText (opponentHealthGauge / opponentCharacter.getMaxHp ());
+                adjustResultImage();
 			} else {
 				resultText.text = getResultText (ownHealthGauge / ownCharacter.getMaxHp ());
-			}
+                adjustResultImage();
+            }
 		} else {
 			resultText.text = "DOUBLE K.O";
-		}
+            adjustResultImage();
+        }
 
 		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
 			StopCoroutine (newRound ());
@@ -522,11 +537,29 @@ public class SinglePlayerController : MonoBehaviour {
 		} else if (healthPercentage < 0.1f) {
 			return "GREAT";
 		} else {
-			return "K.O";
+            return "K.O";
 		}
 	}
 
-	IEnumerator newRound () {
+    void adjustResultImage(){
+        if (resultText.text == "WIN") {
+            resultImage.gameObject.SetActive(true);
+            resultImage.sprite = Resources.Load<Sprite>("resultWin");
+            resultText.gameObject.SetActive(false);
+        }
+        else if (resultText.text == "K.O") {
+            resultImage.gameObject.SetActive(true);
+            resultImage.sprite = Resources.Load<Sprite>("resultKO");
+            resultText.gameObject.SetActive(false);
+        }
+        else
+        {
+            resultImage.gameObject.SetActive(false);
+            resultText.gameObject.SetActive(true);
+        }
+    }
+
+    IEnumerator newRound () {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
 
 		ownHealthGauge = ownCharacter.getMaxHp ();
@@ -536,7 +569,8 @@ public class SinglePlayerController : MonoBehaviour {
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 
 		resultText.text = "";
-		resultPanel.SetActive (false);
+        adjustResultImage();
+        resultPanel.SetActive (false);
 
 		generateNewProblem ();
 
@@ -550,16 +584,23 @@ public class SinglePlayerController : MonoBehaviour {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
 				sound.PlayOneShot (GameSFX.WIN);
-			} else {
+                adjustResultImage();
+            } else {
 				resultText.text = "DRAW";
-				sound.PlayOneShot (GameSFX.DRAW);
-			}
+                adjustResultImage();
+                sound.PlayOneShot (GameSFX.DRAW);
+
+            }
 		} else {
 			resultText.text = "LOSE";
-			sound.PlayOneShot (GameSFX.LOSE);
-		}
-		yield return new WaitForSeconds (GAME_OVER_DELAY);
-		quitRoom ();
-	}
+            adjustResultImage();
+            sound.PlayOneShot (GameSFX.LOSE);
+        }
+
+        resultScore.gameObject.SetActive(true);
+        resultBackToMenu.gameObject.SetActive(true);
+        //yield return new WaitForSeconds (GAME_OVER_DELAY);
+		//quitRoom ();
+    }
 		
 }
