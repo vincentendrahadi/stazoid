@@ -51,4 +51,5 @@ MonoBehaviour:
   - playerWin
   - setOpponentResult
   - setResult
+  - opponentAttack
   DisableAutoOpenWizard: 1

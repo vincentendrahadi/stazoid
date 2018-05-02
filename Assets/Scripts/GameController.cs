@@ -110,6 +110,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[SerializeField]
 	private AudioSource tappingSound;
 
+	[SerializeField]
+	private AttackBall ownAttackBall;
+	[SerializeField]
+	private Vector3 ownAttackBallSpawnPosition;
+	[SerializeField]
+	private AttackBall opponentAttackBall;
+
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
 	private int difficulty;
@@ -289,24 +296,12 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 				specialButton.SetActive (true);
 			}
 
-			// Decrease opponent's health
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			opponentHealthGauge -= damage;
-
-			// Increase opponent's special gauge
-			opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
-			if (opponentSpecialGauge >= 1) {
-				opponentSpecialGauge = 1;
-			}
+			ownAttackBall.launch (damage);
 
 			// Call RPC
+			this.photonView.RPC ("opponentAttack ", PhotonTargets.Others, damage);
 			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-			this.photonView.RPC ("modifyOwnHealthGauge", PhotonTargets.Others, opponentHealthGauge);
-			this.photonView.RPC ("modifyOwnSpecialGauge", PhotonTargets.Others, opponentSpecialGauge);
-			if (opponentHealthGauge <= 0) {
-				resultPanel.SetActive (true);
-				this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
-			}
 		} else {
 			resetCombo ();
 
@@ -317,13 +312,20 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	}
 
 	[PunRPC]
-	void modifyOpponentSpecialGauge (float specialGauge) {
-		opponentSpecialGauge = specialGauge;
+	void opponentAttack (float damage) {
+		opponentAttackBall.launch (damage);
 	}
 
-	[PunRPC]
-	void modifyOwnSpecialGauge (float specialGauge) {
-		ownSpecialGauge = specialGauge;
+	public void hitOwn (float damage) {
+		// Decrease own health
+		ownHealthGauge -= damage;
+		if (ownHealthGauge <= 0) {
+			resultPanel.SetActive (true);
+			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
+		}
+
+		// Increace own special gauge
+		ownSpecialGauge = damage / DAMAGE_TO_SPECIAL_DIVISOR;
 		if (ownSpecialGauge >= 1) {
 			if (!specialButton.activeSelf) {
 				sound.PlayOneShot (GameSFX.SPECIAL_FULL);
@@ -332,12 +334,18 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		}
 	}
 
-	[PunRPC]
-	void modifyOwnHealthGauge (float healthGauge) {
-		ownHealthGauge = healthGauge;
-		if (ownHealthGauge <= 0) {
+	public void hitOpponent (float damage) {
+		// Decrease opponent's health
+		opponentHealthGauge -= damage;
+		if (opponentHealthGauge <= 0) {
 			resultPanel.SetActive (true);
-			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
+			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
+		}
+
+		// Increase opponent's special gauge
+		opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+		if (opponentSpecialGauge >= 1) {
+			opponentSpecialGauge = 1;
 		}
 	}
 
