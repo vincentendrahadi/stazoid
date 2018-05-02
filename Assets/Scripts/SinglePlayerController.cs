@@ -107,6 +107,15 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private AudioSource tappingSound;
 
+	[SerializeField]
+	private AttackBall ownAttackBall;
+	[SerializeField]
+	private Vector3 ownAttackBallSpawnPosition;
+	[SerializeField]
+	private AttackBall opponentAttackBall;
+	[SerializeField]
+	private Vector3 opponentAttackBallSpawnPosition;
+
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
 	private bool ownWin = false;
@@ -384,6 +393,7 @@ public class SinglePlayerController : MonoBehaviour {
 		if (ownSpecialGauge >= 1) {
 			ownSpecialGauge = 1;
 		}
+		opponentAttackBall.launch (damage);
 
 		// Modify Slider
 		modifyOpponentSpecialGauge(opponentSpecialGauge);
@@ -429,6 +439,8 @@ public class SinglePlayerController : MonoBehaviour {
 			if (opponentSpecialGauge >= 1) {
 				opponentSpecialGauge = 1;
 			}
+
+			ownAttackBall.launch (damage);
 
 			// Call RPC
 			modifyOpponentSpecialGauge(opponentSpecialGauge);
