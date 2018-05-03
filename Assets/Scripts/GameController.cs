@@ -317,7 +317,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	[PunRPC]
 	void opponentAttack (float damage) {
-		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.Euler(Vector3.left)).GetComponent <AttackBall> ();
 		opponentAttackBall.setDamage (damage);
 		opponentAttackBall.setOwn (false);
 	}

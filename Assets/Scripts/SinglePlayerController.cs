@@ -381,6 +381,7 @@ public class SinglePlayerController : MonoBehaviour {
 			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
 		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		opponentAttackBall.transform.rotation = new Quaternion(0f, 180f, 0f, 1f);
 		opponentAttackBall.setDamage (damage);
 		opponentAttackBall.setOwn (false);
 	}
@@ -409,7 +410,7 @@ public class SinglePlayerController : MonoBehaviour {
 			}
 				
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
 			ownAttackBall.setDamage (damage);
 			ownAttackBall.setOwn (true);
 		} else {

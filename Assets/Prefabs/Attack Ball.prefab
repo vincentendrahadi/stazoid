@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212309480533943644}
   - component: {fileID: 70160269810034074}
   - component: {fileID: 114477900332603290}
+  - component: {fileID: 95775484887740526}
   m_Layer: 0
   m_Name: Opponent's Attack Ball
   m_TagString: Untagged
@@ -57,6 +58,23 @@ CapsuleCollider2D:
   m_Offset: {x: 0.19776344, y: -0.009224}
   m_Size: {x: 0.2592464, y: 0.4006757}
   m_Direction: 0
+--- !u!95 &95775484887740526
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925588752637138}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 34320a4df47722d47b34ed0b38f83c00, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114477900332603290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8348f392eced8384589c73b04532c4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SPEED: 20
+  SPEED: 50
 --- !u!212 &212309480533943644
 SpriteRenderer:
   m_ObjectHideFlags: 1
