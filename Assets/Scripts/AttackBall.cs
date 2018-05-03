@@ -25,15 +25,17 @@ public class AttackBall : MonoBehaviour {
 			} else {
 				SinglePlayerController.Instance.hitOwn (damage);
 			}
-		} else {
+			transform.GetComponent<Animator>().SetTrigger (AnimationCommand.HIT);
+			Destroy (gameObject);
+		} else if (other.gameObject.name == "Opponent's Character") {
 			if (isMultiplayer) {
 				GameController.Instance.hitOpponent (damage);
 			} else {
 				SinglePlayerController.Instance.hitOpponent (damage);
 			}
+			transform.GetComponent<Animator>().SetTrigger (AnimationCommand.HIT);
+			Destroy (gameObject);
 		}
-		transform.GetComponent<Animator>().SetTrigger (AnimationCommand.HIT);
-		Destroy (gameObject);
 	}
 		
 	public void setDamage (float damage) {
