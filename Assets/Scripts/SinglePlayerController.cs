@@ -443,6 +443,7 @@ public class SinglePlayerController : MonoBehaviour {
 	public void hitOwn (float damage) {
 		// Decrease own health
 		ownHealthGauge -= damage;
+		ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (ownHealthGauge <= 0) {
 			npcWin = true;
 			isBlocked = true;
@@ -459,6 +460,7 @@ public class SinglePlayerController : MonoBehaviour {
 	public void hitOpponent (float damage) {
 		// Decrease opponent's health
 		opponentHealthGauge -= damage;
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
 			ownWin = true;
 			isBlocked = true;			
