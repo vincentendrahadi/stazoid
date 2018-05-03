@@ -6,19 +6,19 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: Eraser - attack_0
     21300002: Eraser - attack_1
-    21300004: Eraser - attack_2
-    21300006: Eraser - attack_3
-    21300008: Eraser - attack_4
-    21300010: Eraser - attack_5
-    21300012: Eraser - attack_6
-    21300014: Eraser - attack_7
+    21300004: Eraser - attack_0
+    21300006: Eraser - attack_2
+    21300008: Eraser - attack_3
+    21300010: Eraser - attack_4
+    21300012: Eraser - attack_1
+    21300014: Eraser - attack_6
     21300016: Eraser - attack_8
-    21300018: Eraser - attack_9
-    21300020: Eraser - attack_10
-    21300022: Eraser - attack_11
-    21300024: Eraser - attack_12
-    21300026: Eraser - attack_13
-    21300028: Eraser - attack_14
+    21300018: Eraser - attack_7
+    21300020: Eraser - attack_8
+    21300022: Eraser - attack_9
+    21300024: Eraser - attack_10
+    21300026: Eraser - attack_11
+    21300028: Eraser - attack_12
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -128,34 +128,6 @@ TextureImporter:
       name: Eraser - attack_0
       rect:
         serializedVersion: 2
-        x: 76
-        y: 1088
-        width: 452
-        height: 854
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Eraser - attack_1
-      rect:
-        serializedVersion: 2
-        x: 605
-        y: 1091
-        width: 458
-        height: 854
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Eraser - attack_2
-      rect:
-        serializedVersion: 2
         x: 1143
         y: 1088
         width: 483
@@ -167,7 +139,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_3
+      name: Eraser - attack_2
       rect:
         serializedVersion: 2
         x: 1707
@@ -181,7 +153,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_4
+      name: Eraser - attack_3
       rect:
         serializedVersion: 2
         x: 2294
@@ -195,7 +167,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_5
+      name: Eraser - attack_4
       rect:
         serializedVersion: 2
         x: 2869
@@ -209,7 +181,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_6
+      name: Eraser - attack_1
       rect:
         serializedVersion: 2
         x: 3461
@@ -223,7 +195,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_7
+      name: Eraser - attack_6
       rect:
         serializedVersion: 2
         x: 4051
@@ -237,21 +209,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_8
-      rect:
-        serializedVersion: 2
-        x: 4646
-        y: 1094
-        width: 535
-        height: 848
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Eraser - attack_9
+      name: Eraser - attack_7
       rect:
         serializedVersion: 2
         x: 5256
@@ -265,7 +223,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_10
+      name: Eraser - attack_8
       rect:
         serializedVersion: 2
         x: 76
@@ -279,7 +237,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_11
+      name: Eraser - attack_9
       rect:
         serializedVersion: 2
         x: 692
@@ -293,7 +251,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_12
+      name: Eraser - attack_10
       rect:
         serializedVersion: 2
         x: 1287
@@ -307,7 +265,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_13
+      name: Eraser - attack_11
       rect:
         serializedVersion: 2
         x: 1885
@@ -321,7 +279,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - attack_14
+      name: Eraser - attack_12
       rect:
         serializedVersion: 2
         x: 2478

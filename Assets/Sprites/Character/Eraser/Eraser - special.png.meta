@@ -236,48 +236,6 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Eraser - special_7
-      rect:
-        serializedVersion: 2
-        x: 5063
-        y: 1066
-        width: 515
-        height: 855
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Eraser - special_8
-      rect:
-        serializedVersion: 2
-        x: 65
-        y: 96
-        width: 493
-        height: 858
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Eraser - special_9
-      rect:
-        serializedVersion: 2
-        x: 1175
-        y: 92
-        width: 465
-        height: 847
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
       name: Eraser - special_10
       rect:
         serializedVersion: 2
