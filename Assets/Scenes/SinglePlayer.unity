@@ -6880,7 +6880,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1684455191}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 28.29, y: -9.1, z: 13.5}
+  m_LocalPosition: {x: 26.3, y: -9.1, z: 13.5}
   m_LocalScale: {x: 2.3, y: 2.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7184,7 +7184,7 @@ MonoBehaviour:
   ownAttackBallSpawnPosition: {x: -12.868, y: -0.9350004, z: 13.6}
   opponentAttackBallPrefab: {fileID: 1925588752637138, guid: c88eb3010792bed408f5cbef8df5c517,
     type: 2}
-  opponentAttackBallSpawnPosition: {x: 14.858, y: -0.9350004, z: 13.6}
+  opponentAttackBallSpawnPosition: {x: 12.868, y: -0.9350004, z: 13.6}
 --- !u!4 &1762323241
 Transform:
   m_ObjectHideFlags: 0
