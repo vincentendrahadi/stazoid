@@ -8,5 +8,6 @@ public class AnimationCommand : MonoBehaviour {
 	public static string WIN = "win";
 	public static string LOSE = "lose";
 	public static string DRAW = "draw";
+	public static string HIT = "hit";
 }
 

@@ -33,6 +33,7 @@ public class AttackBall : MonoBehaviour {
 				SinglePlayerController.Instance.hitOpponent (damage);
 			}
 		}
+		transform.GetComponent<Animator>().SetTrigger (AnimationCommand.HIT);
 		Destroy (gameObject);
 	}
 		

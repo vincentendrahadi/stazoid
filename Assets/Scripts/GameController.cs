@@ -280,6 +280,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
 
+			ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
+
 			// Play sound effects
 			tappingSound.PlayOneShot (GameSFX.ANSWER_CORRECT);
 
@@ -317,14 +319,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	[PunRPC]
 	void opponentAttack (float damage) {
-		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.Euler(Vector3.left)).GetComponent <AttackBall> ();
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		opponentAttackBall.transform.Rotate (new Vector3 (0f, 180f));
 		opponentAttackBall.setDamage (damage);
 		opponentAttackBall.setOwn (false);
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
 	}
 
 	public void hitOwn (float damage) {
 		// Decrease own health
 		ownHealthGauge -= damage;
+		ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (ownHealthGauge <= 0) {
 			resultPanel.SetActive (true);
 			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
@@ -343,6 +348,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	public void hitOpponent (float damage) {
 		// Decrease opponent's health
 		opponentHealthGauge -= damage;
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
 			resultPanel.SetActive (true);
 			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
@@ -396,6 +402,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		sound.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
+		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
 		opponentCharacter.photonView.RPC ("useSpecial", PhotonTargets.Others);
 	}
@@ -446,13 +453,19 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
 				sound.PlayOneShot (GameSFX.WIN);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.WIN);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
 			} else {
 				resultText.text = "DRAW";
 				sound.PlayOneShot (GameSFX.DRAW);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
 			sound.PlayOneShot (GameSFX.LOSE);
+			ownCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
+			opponentCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 		}
 		yield return new WaitForSeconds (GAME_OVER_DELAY);
 		leaveRoom ();

@@ -381,7 +381,7 @@ public class SinglePlayerController : MonoBehaviour {
 			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
 		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
-		opponentAttackBall.transform.rotation = new Quaternion(0f, 180f, 0f, 1f);
+		opponentAttackBall.transform.Rotate (new Vector3 (0f, 180f));
 		opponentAttackBall.setDamage (damage);
 		opponentAttackBall.setOwn (false);
 	}
