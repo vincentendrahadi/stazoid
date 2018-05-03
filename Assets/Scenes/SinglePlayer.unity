@@ -3888,6 +3888,7 @@ GameObject:
   - component: {fileID: 794880648}
   - component: {fileID: 794880647}
   - component: {fileID: 794880649}
+  - component: {fileID: 794880650}
   m_Layer: 0
   m_Name: Own Character
   m_TagString: Untagged
@@ -4020,6 +4021,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.23, y: 8.5}
   m_EdgeRadius: 0
+--- !u!50 &794880650
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 794880644}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &844948882
 GameObject:
   m_ObjectHideFlags: 0
@@ -6840,6 +6861,7 @@ GameObject:
   - component: {fileID: 1684455195}
   - component: {fileID: 1684455194}
   - component: {fileID: 1684455196}
+  - component: {fileID: 1684455197}
   m_Layer: 0
   m_Name: Opponent's Character
   m_TagString: Untagged
@@ -6956,7 +6978,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 2.5700004, y: 4.1900005}
@@ -6972,6 +6994,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.14, y: 8.380001}
   m_EdgeRadius: 0
+--- !u!50 &1684455197
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684455191}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1703587298
 GameObject:
   m_ObjectHideFlags: 0

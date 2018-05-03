@@ -18,9 +18,8 @@ public class AttackBall : MonoBehaviour {
 		transform.position += Vector3.right * SPEED * Time.deltaTime * (isOwn ? 1 : -1);
 	}
 
-	void OnCollisionEnter (Collision collision) {
-		gameObject.SetActive (false);
-		if (collision.gameObject.name == "Own Character") {
+	void OnTriggerEnter2D (Collider2D other) {
+		if (other.gameObject.name == "Own Character") {
 			if (isMultiplayer) {
 				GameController.Instance.hitOwn (damage);
 			} else {
