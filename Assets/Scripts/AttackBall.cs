@@ -5,21 +5,20 @@ using UnityEngine;
 public class AttackBall : MonoBehaviour {
 	[SerializeField]
 	private float SPEED = 20.0f;
-	[SerializeField]
-	private Vector3 INITIAL_POSITION;
 
 	private float damage;
-	bool isMultiplayer;
+	private bool isMultiplayer;
+	private bool isOwn;
 
 	void Start () {
 		isMultiplayer = GameController.Instance != null;
 	}
 
 	void FixedUpdate () {
-		transform.position += Vector3.right * SPEED * Time.deltaTime;
+		transform.position += Vector3.right * SPEED * Time.deltaTime * (isOwn ? 1 : -1);
 	}
 
-	void OnCollisionEnter(Collision collision) {
+	void OnCollisionEnter (Collision collision) {
 		gameObject.SetActive (false);
 		if (collision.gameObject.name == "Own Character") {
 			if (isMultiplayer) {
@@ -37,8 +36,12 @@ public class AttackBall : MonoBehaviour {
 		Destroy (gameObject);
 	}
 		
-	public void setDamage(float damage) {
+	public void setDamage (float damage) {
 		this.damage = damage;
+	}
+
+	public void setOwn (bool isOwn) {
+		this.isOwn = isOwn;
 	}
 
 }

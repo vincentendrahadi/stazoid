@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4574624846163582}
   - component: {fileID: 212309480533943644}
   - component: {fileID: 70160269810034074}
-  - component: {fileID: 114990021369172780}
+  - component: {fileID: 114477900332603290}
   m_Layer: 0
   m_Name: Opponent's Attack Ball
   m_TagString: Untagged
@@ -57,7 +57,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.19776344, y: -0.009224}
   m_Size: {x: 0.2592464, y: 0.4006757}
   m_Direction: 0
---- !u!114 &114990021369172780
+--- !u!114 &114477900332603290
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -65,10 +65,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1925588752637138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37a16b9bbfc48d48ad7329e6edf59c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8348f392eced8384589c73b04532c4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SPEED: -10
+  SPEED: 20
 --- !u!212 &212309480533943644
 SpriteRenderer:
   m_ObjectHideFlags: 1

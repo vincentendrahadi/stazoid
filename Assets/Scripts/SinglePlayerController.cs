@@ -380,8 +380,9 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
-		GameObject opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity);
-		opponentAttackBall.GetComponent <AttackBall> ().setDamage (damage);
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		opponentAttackBall.setDamage (damage);
+		opponentAttackBall.setOwn (false);
 	}
 
 	public void judgeAnswer() {
@@ -408,8 +409,9 @@ public class SinglePlayerController : MonoBehaviour {
 			}
 				
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			GameObject ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity);
-			ownAttackBall.GetComponent <AttackBall> ().setDamage (damage);
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			ownAttackBall.setDamage (damage);
+			ownAttackBall.setOwn (true);
 		} else {
 			resetCombo ();
 
