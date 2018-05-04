@@ -28,6 +28,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
 	private const float GAME_OVER_DELAY = 5.0f;
+	private const float BURN_TIME = 1.5f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -115,6 +116,8 @@ public class SinglePlayerController : MonoBehaviour {
 	private GameObject opponentAttackBallPrefab;
 	[SerializeField]
 	private Vector3 opponentAttackBallSpawnPosition;
+	[SerializeField]
+	private GameObject explosionPrefab;
 
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
@@ -142,11 +145,16 @@ public class SinglePlayerController : MonoBehaviour {
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
 
+	private float ownBurntTimer;
+	private float opponentBurntTimer;
+
 	private Character ownCharacter;
 	private Character opponentCharacter;
 
 	private Animator ownCharacterAnimator;
 	private Animator opponentCharacterAnimator;
+	private Animator ownExplosionAnimator;
+	private Animator opponentExplosionAnimator;
 
 	private List<string> characterList;
 
@@ -251,6 +259,18 @@ public class SinglePlayerController : MonoBehaviour {
 			} else {
 				isBlocked = false;
 			}
+
+			if (ownBurntTimer > 0) {
+				ownBurntTimer -= Time.deltaTime;
+			} else {
+				unburnCharacter (ownCharacterObject);
+			}
+			if (opponentBurntTimer > 0) {
+				opponentBurntTimer -= Time.deltaTime;
+			} else {
+				unburnCharacter (opponentCharacterObject);
+			}
+
 
 			if (!isBlocked) {
 				// Update combo timer
@@ -482,6 +502,11 @@ public class SinglePlayerController : MonoBehaviour {
 		opponentSpecialGauge = 0;
 		opponentCharacter.npcUseSpecial ();
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Vector3 ownExplosionPosition = explosionPrefab.transform.position;
+		ownExplosionPosition.x *= -1;
+		Instantiate (explosionPrefab, ownExplosionPosition, Quaternion.identity);
+		burnCharacter (ownCharacterObject);
+		ownBurntTimer = BURN_TIME;
 	}
 					
 	public void useSpecial () {
@@ -491,6 +516,17 @@ public class SinglePlayerController : MonoBehaviour {
 		npcAttackTimeMultiplierTime = 5.0f;
 		npcAttackTimeMultiplier = 1.15f;
 		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		burnCharacter (opponentCharacterObject);
+		opponentBurntTimer = BURN_TIME;
+	}
+
+	private void burnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (0f, 0f, 0f);
+	}
+
+	private void unburnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
 	}
 
 	public Button[] getNumberButtons() {
@@ -504,6 +540,7 @@ public class SinglePlayerController : MonoBehaviour {
 	public void quitRoom() {
 		SceneManager.LoadScene (GameScene.LOBBY);
 	}
+
 	void setResult (int result) {
 		if (result == Result.LOSE) {
 			opponentWinCounter.add ();
