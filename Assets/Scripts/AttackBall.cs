@@ -9,13 +9,16 @@ public class AttackBall : MonoBehaviour {
 	private float damage;
 	private bool isMultiplayer;
 	private bool isOwn;
-
+	private Animator attackBallAnimator;
+	private Vector3 movementTrajectory;
 	void Start () {
 		isMultiplayer = GameController.Instance != null;
+		attackBallAnimator = transform.GetComponent<Animator> ();
+		movementTrajectory = Vector3.right * SPEED * Time.deltaTime * (isOwn ? 1 : -1);
 	}
 
 	void FixedUpdate () {
-		transform.position += Vector3.right * SPEED * Time.deltaTime * (isOwn ? 1 : -1);
+		transform.position += movementTrajectory;
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -25,7 +28,7 @@ public class AttackBall : MonoBehaviour {
 			} else {
 				SinglePlayerController.Instance.hitOwn (damage);
 			}
-			transform.GetComponent<Animator>().SetTrigger (AnimationCommand.HIT);
+			attackBallAnimator.SetTrigger (AnimationCommand.HIT);
 			Destroy (gameObject);
 		} else if (other.gameObject.name == "Opponent's Character") {
 			if (isMultiplayer) {
@@ -33,7 +36,7 @@ public class AttackBall : MonoBehaviour {
 			} else {
 				SinglePlayerController.Instance.hitOpponent (damage);
 			}
-			transform.GetComponent<Animator>().SetTrigger (AnimationCommand.HIT);
+			attackBallAnimator.SetTrigger (AnimationCommand.HIT);
 			Destroy (gameObject);
 		}
 	}
@@ -46,4 +49,12 @@ public class AttackBall : MonoBehaviour {
 		this.isOwn = isOwn;
 	}
 
+	public void pauseAttack() {
+		attackBallAnimator.enabled = false;
+		movementTrajectory = Vector3.zero;
+	}
+
+	public void resumeAttack() {
+		movementTrajectory = Vector3.right * SPEED * Time.deltaTime * (isOwn ? 1 : -1);
+	}
 }
