@@ -5044,7 +5044,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 491, y: 121}
+  m_AnchoredPosition: {x: 470, y: 121}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1028734066
@@ -7272,6 +7272,8 @@ MonoBehaviour:
   opponentAttackBallPrefab: {fileID: 1925588752637138, guid: c88eb3010792bed408f5cbef8df5c517,
     type: 2}
   opponentAttackBallSpawnPosition: {x: 12.868, y: -0.9350004, z: 0}
+  explosionPrefab: {fileID: 1630331371517052, guid: c38a5701fcbf46b47be0ab9a09aee8b4,
+    type: 2}
 --- !u!4 &1762323241
 Transform:
   m_ObjectHideFlags: 0

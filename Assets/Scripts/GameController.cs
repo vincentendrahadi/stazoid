@@ -33,6 +33,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
 	private const float GAME_OVER_DELAY = 5.0f;
+	private const float BURN_TIME = 1.5f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -118,6 +119,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private GameObject opponentAttackBallPrefab;
 	[SerializeField]
 	private Vector3 opponentAttackBallSpawnPosition;
+	[SerializeField]
+	private GameObject explosionPrefab;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -131,6 +134,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
+
+	private float ownBurntTimer;
+	private float opponentBurntTimer;
 
 	private Character ownCharacter;
 	private Character opponentCharacter;
@@ -218,6 +224,18 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			comboTimerSlider.value = comboTimer;
 		} else {
 			resetCombo ();
+		}
+
+		// check burn state
+		if (ownBurntTimer > 0) {
+			ownBurntTimer -= Time.deltaTime;
+		} else {
+			unburnCharacter (ownCharacterObject);
+		}
+		if (opponentBurntTimer > 0) {
+			opponentBurntTimer -= Time.deltaTime;
+		} else {
+			unburnCharacter (opponentCharacterObject);
 		}
 
 		// Animate bars
@@ -403,8 +421,19 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
 		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		burnCharacter (opponentCharacterObject);
+		opponentBurntTimer = BURN_TIME;
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
 		opponentCharacter.photonView.RPC ("useSpecial", PhotonTargets.Others);
+	}
+
+	private void burnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (0f, 0f, 0f);
+	}
+
+	private void unburnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
 	}
 
 	public Button[] getNumberButtons() {

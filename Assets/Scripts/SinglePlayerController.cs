@@ -153,8 +153,6 @@ public class SinglePlayerController : MonoBehaviour {
 
 	private Animator ownCharacterAnimator;
 	private Animator opponentCharacterAnimator;
-	private Animator ownExplosionAnimator;
-	private Animator opponentExplosionAnimator;
 
 	private List<string> characterList;
 
@@ -247,6 +245,8 @@ public class SinglePlayerController : MonoBehaviour {
 	void Update () {
 
 		if (!isPaused) {
+			opponentCharacterAnimator.enabled = true;
+			ownCharacterAnimator.enabled = true;
 
 			// Animate bars
 			AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
@@ -308,7 +308,9 @@ public class SinglePlayerController : MonoBehaviour {
 				}
 					
 			}
-
+		} else {
+			opponentCharacterAnimator.enabled = false;
+			ownCharacterAnimator.enabled = false;
 		}
 	}
 
@@ -316,18 +318,12 @@ public class SinglePlayerController : MonoBehaviour {
 		isPaused = true;
 		ownCharacter.setPause ();
 		opponentCharacter.setPause ();
-		ownCharacterAnimator.enabled = false;
-		opponentCharacterAnimator.enabled = false;
-		BroadcastMessage ("pauseAttack");
 	}
 
 	public void resumeGame() {
 		isPaused = false;
 		ownCharacter.setUnpause ();
 		opponentCharacter.setUnpause ();
-		ownCharacterAnimator.enabled = true;
-		opponentCharacterAnimator.enabled = true;
-		BroadcastMessage ("resumeAttack");
 	}
 		
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
@@ -387,13 +383,13 @@ public class SinglePlayerController : MonoBehaviour {
 		//Set npc attack time
 		switch (npcDifficulty) {
 			case 0:
-				npcAttackTime = Random.Range (1.5f, 5);
+				npcAttackTime = Random.Range (1, 4);
 				break;
 			case 1: 
 				npcAttackTime = Random.Range (2, opponentCharacter.getComboTimer () + 1);
 				break;
 			case 2:
-				npcAttackTime = Random.Range (3, opponentCharacter.getComboTimer () + 3);
+				npcAttackTime = Random.Range (3, opponentCharacter.getComboTimer () + 2);
 				break;
 		};
 
@@ -406,7 +402,7 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
-		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity, this.transform).GetComponent <AttackBall> ();
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
 		opponentAttackBall.transform.Rotate (new Vector3 (0f, 180f));
 		opponentAttackBall.setDamage (damage);
 		opponentAttackBall.setOwn (false);
@@ -436,7 +432,7 @@ public class SinglePlayerController : MonoBehaviour {
 			}
 				
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity, this.transform).GetComponent <AttackBall> ();
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
 			ownAttackBall.setDamage (damage);
 			ownAttackBall.setOwn (true);
 		} else {
@@ -589,14 +585,10 @@ public class SinglePlayerController : MonoBehaviour {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
 
 		ownHealthGauge = ownCharacter.getMaxHp ();
-		modifyOwnSpecialGauge (0);
 		combo = 0;
 		comboTimer = 0;
 
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
-		modifyOpponentSpecialGauge (0);
-		npcComboCount = 0;
-		npcComboTimer = 0;
 
 		resultText.text = "";
 		resultPanel.SetActive (false);
