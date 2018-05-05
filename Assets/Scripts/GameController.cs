@@ -425,7 +425,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		burnCharacter (opponentCharacterObject);
 		opponentBurntTimer = BURN_TIME;
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-		opponentCharacter.photonView.RPC ("useSpecial", PhotonTargets.Others);
+		this.photonView.RPC ("opponentUseSpecial", PhotonTargets.Others);
+	}
+
+	[PunRPC]
+	public void opponentUseSpecial () {
+		sound.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		burnCharacter (ownCharacterObject);
+		ownBurntTimer = BURN_TIME;
+		opponentCharacter.useSpecial ();
 	}
 
 	private void burnCharacter (GameObject characterObj) {
