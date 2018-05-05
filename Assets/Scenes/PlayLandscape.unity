@@ -257,12 +257,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1762323244}
-        m_MethodName: hideCanvas
-        m_Mode: 2
+      - m_Target: {fileID: 793139241}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
-          m_ObjectArgument: {fileID: 793139244}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Canvas, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7205,7 +7205,6 @@ GameObject:
   - component: {fileID: 1762323240}
   - component: {fileID: 1762323242}
   - component: {fileID: 1762323243}
-  - component: {fileID: 1762323244}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -7331,17 +7330,6 @@ MonoBehaviour:
   muteToggle: {fileID: 1356141882}
   bgmSlider: {fileID: 742217958}
   sfxSlider: {fileID: 208443487}
---- !u!114 &1762323244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762323239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2409fb4f471d5eb44ba3efb4725f8034, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1765714888
 GameObject:
   m_ObjectHideFlags: 0
@@ -7429,16 +7417,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1762323244}
-        m_MethodName: showCanvas
-        m_Mode: 2
+      - m_Target: {fileID: 793139241}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
-          m_ObjectArgument: {fileID: 793139244}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Canvas, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null

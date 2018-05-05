@@ -4632,12 +4632,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1762323243}
-        m_MethodName: hideCanvas
-        m_Mode: 2
+      - m_Target: {fileID: 435606060}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
-          m_ObjectArgument: {fileID: 435606063}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Canvas, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7352,7 +7352,6 @@ GameObject:
   - component: {fileID: 1762323241}
   - component: {fileID: 1762323240}
   - component: {fileID: 1762323242}
-  - component: {fileID: 1762323243}
   m_Layer: 0
   m_Name: SinglePlayerController
   m_TagString: Untagged
@@ -7410,9 +7409,6 @@ MonoBehaviour:
   opponentWinCounter: {fileID: 703170619}
   resultPanel: {fileID: 1566288492}
   resultText: {fileID: 1329481492}
-  resultImage: {fileID: 482569897}
-  resultScore: {fileID: 2117487300}
-  resultBackToMenu: {fileID: 1698526936}
   backgroundMusic: {fileID: 1419660566}
   sound: {fileID: 1805174695}
   tappingSound: {fileID: 875848450}
@@ -7424,6 +7420,9 @@ MonoBehaviour:
   opponentAttackBallSpawnPosition: {x: 12.868, y: -0.9350004, z: 13.6}
   explosionPrefab: {fileID: 1630331371517052, guid: c38a5701fcbf46b47be0ab9a09aee8b4,
     type: 2}
+  resultImage: {fileID: 482569897}
+  resultScore: {fileID: 2117487300}
+  resultBackToMenu: {fileID: 1698526936}
 --- !u!4 &1762323241
 Transform:
   m_ObjectHideFlags: 0
@@ -7455,17 +7454,6 @@ MonoBehaviour:
   muteToggle: {fileID: 572858804}
   bgmSlider: {fileID: 1122652715}
   sfxSlider: {fileID: 2119390624}
---- !u!114 &1762323243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1762323239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2409fb4f471d5eb44ba3efb4725f8034, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1765714888
 GameObject:
   m_ObjectHideFlags: 0
@@ -7553,16 +7541,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1762323243}
-        m_MethodName: showCanvas
-        m_Mode: 2
+      - m_Target: {fileID: 435606060}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
-          m_ObjectArgument: {fileID: 435606063}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Canvas, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1762323240}
         m_MethodName: pauseGame
