@@ -207,14 +207,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		resultReceived = false;
 
 		// Set character picture
-		int ownPictIndex;
-		int opponentPictIndex;
 		ownNameText.text = CharacterHolder.Instance.OwnCharacterName;
-		opponentNameText.text = CharacterHolder.Instance.NpcCharacterName;
-		ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), ownNameText.text));
-		opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), opponentNameText.text));
+		int ownPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), ownNameText.text));
 		ownPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[ownPictIndex].sprite;
-		opponentPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 	}
 
 	void Update () {
@@ -468,6 +463,10 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 		opponentHealthBarSlider.maxValue = opponentHealthGauge;
 		opponentHealthBarSlider.value = opponentHealthGauge;
+
+		opponentNameText.text = characterName;
+		int opponentPictIndex = (int) System.Convert.ToUInt32(System.Enum.Parse(typeof(CharacterName), opponentNameText.text));
+		opponentPicture.sprite = characterPictHolder.GetComponentsInChildren<Image>()[opponentPictIndex].sprite;
 
 		blockingPanel.SetActive (false);
 		countDownPanel.SetActive (true);
