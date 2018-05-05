@@ -86,7 +86,7 @@ public class Launcher : Photon.PunBehaviour {
 		}
 		currentCharacter = characterList [0];
 
-		selectedCharacterButton = characterList [0];
+		SnapScroller.idxObjNearestToCenter = 0;
 	}
 
 	public string getNPCCharacterName() {
