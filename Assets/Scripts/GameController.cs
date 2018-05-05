@@ -33,6 +33,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
 	private const float GAME_OVER_DELAY = 5.0f;
+	private const float BURN_TIME = 1.5f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -110,6 +111,17 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[SerializeField]
 	private AudioSource tappingSound;
 
+	[SerializeField]
+	private GameObject ownAttackBallPrefab;
+	[SerializeField]
+	private Vector3 ownAttackBallSpawnPosition;
+	[SerializeField]
+	private GameObject opponentAttackBallPrefab;
+	[SerializeField]
+	private Vector3 opponentAttackBallSpawnPosition;
+	[SerializeField]
+	private GameObject explosionPrefab;
+
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
 	private int difficulty;
@@ -122,6 +134,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
+
+	private float ownBurntTimer;
+	private float opponentBurntTimer;
 
 	private Character ownCharacter;
 	private Character opponentCharacter;
@@ -211,6 +226,18 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			resetCombo ();
 		}
 
+		// check burn state
+		if (ownBurntTimer > 0) {
+			ownBurntTimer -= Time.deltaTime;
+		} else {
+			unburnCharacter (ownCharacterObject);
+		}
+		if (opponentBurntTimer > 0) {
+			opponentBurntTimer -= Time.deltaTime;
+		} else {
+			unburnCharacter (opponentCharacterObject);
+		}
+
 		// Animate bars
 		AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
 		AnimateSlider (opponentSpecialBarSlider, opponentSpecialGauge, SPECIAL_BAR_MODIFIER);
@@ -271,6 +298,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (int.Parse (answerText.text) == problemSet.Value) {
 			generateNewProblem ();
 
+			ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
+
 			// Play sound effects
 			tappingSound.PlayOneShot (GameSFX.ANSWER_CORRECT);
 
@@ -289,24 +318,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 				specialButton.SetActive (true);
 			}
 
-			// Decrease opponent's health
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			opponentHealthGauge -= damage;
-
-			// Increase opponent's special gauge
-			opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
-			if (opponentSpecialGauge >= 1) {
-				opponentSpecialGauge = 1;
-			}
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			ownAttackBall.setDamage (damage);
+			ownAttackBall.setOwn (true);
 
 			// Call RPC
+			this.photonView.RPC ("opponentAttack", PhotonTargets.Others, damage);
 			this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-			this.photonView.RPC ("modifyOwnHealthGauge", PhotonTargets.Others, opponentHealthGauge);
-			this.photonView.RPC ("modifyOwnSpecialGauge", PhotonTargets.Others, opponentSpecialGauge);
-			if (opponentHealthGauge <= 0) {
-				resultPanel.SetActive (true);
-				this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
-			}
 		} else {
 			resetCombo ();
 
@@ -317,13 +336,25 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	}
 
 	[PunRPC]
-	void modifyOpponentSpecialGauge (float specialGauge) {
-		opponentSpecialGauge = specialGauge;
+	void opponentAttack (float damage) {
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		opponentAttackBall.transform.Rotate (new Vector3 (0f, 180f));
+		opponentAttackBall.setDamage (damage);
+		opponentAttackBall.setOwn (false);
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
 	}
 
-	[PunRPC]
-	void modifyOwnSpecialGauge (float specialGauge) {
-		ownSpecialGauge = specialGauge;
+	public void hitOwn (float damage) {
+		// Decrease own health
+		ownHealthGauge -= damage;
+		ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
+		if (ownHealthGauge <= 0) {
+			resultPanel.SetActive (true);
+			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
+		}
+
+		// Increace own special gauge
+		ownSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
 		if (ownSpecialGauge >= 1) {
 			if (!specialButton.activeSelf) {
 				sound.PlayOneShot (GameSFX.SPECIAL_FULL);
@@ -332,13 +363,25 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		}
 	}
 
-	[PunRPC]
-	void modifyOwnHealthGauge (float healthGauge) {
-		ownHealthGauge = healthGauge;
-		if (ownHealthGauge <= 0) {
+	public void hitOpponent (float damage) {
+		// Decrease opponent's health
+		opponentHealthGauge -= damage;
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
+		if (opponentHealthGauge <= 0) {
 			resultPanel.SetActive (true);
-			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
+			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
 		}
+
+		// Increase opponent's special gauge
+		opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+		if (opponentSpecialGauge >= 1) {
+			opponentSpecialGauge = 1;
+		}
+	}
+
+	[PunRPC]
+	void modifyOpponentSpecialGauge (float opponentSpecialGauge) {
+		this.opponentSpecialGauge = opponentSpecialGauge;
 	}
 
 	string getResultText (float healthPercentage) {
@@ -382,8 +425,30 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		sound.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
 		ownSpecialGauge = 0;
 		specialButton.SetActive (false);
+		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		burnCharacter (opponentCharacterObject);
+		opponentBurntTimer = BURN_TIME;
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
-		opponentCharacter.photonView.RPC ("useSpecial", PhotonTargets.Others);
+		this.photonView.RPC ("opponentUseSpecial", PhotonTargets.Others);
+	}
+
+	[PunRPC]
+	public void opponentUseSpecial () {
+		sound.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		burnCharacter (ownCharacterObject);
+		ownBurntTimer = BURN_TIME;
+		opponentCharacter.useSpecial ();
+	}
+
+	private void burnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (0f, 0f, 0f);
+	}
+
+	private void unburnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
 	}
 
 	public Button[] getNumberButtons() {
@@ -432,13 +497,19 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
 				sound.PlayOneShot (GameSFX.WIN);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.WIN);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
 			} else {
 				resultText.text = "DRAW";
 				sound.PlayOneShot (GameSFX.DRAW);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
 			}
 		} else {
 			resultText.text = "LOSE";
 			sound.PlayOneShot (GameSFX.LOSE);
+			ownCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
+			opponentCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 		}
 		yield return new WaitForSeconds (GAME_OVER_DELAY);
 		leaveRoom ();

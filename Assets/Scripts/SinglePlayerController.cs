@@ -28,6 +28,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
 	private const float GAME_OVER_DELAY = 5.0f;
+	private const float BURN_TIME = 1.5f;
 
 	[SerializeField]
 	private float COMBO_MULTIPLIER;
@@ -100,16 +101,6 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private Text resultText;
 
-    [SerializeField]
-    private Image resultImage;
-    [SerializeField]
-    private Text resultScore;
-    [SerializeField]
-    private Button resultBackToMenu;
-
-    private bool isBlocked = true;
-
-
 	[SerializeField]
 	private AudioSource backgroundMusic;
 	[SerializeField]
@@ -117,7 +108,25 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private AudioSource tappingSound;
 
+	[SerializeField]
+	private GameObject ownAttackBallPrefab;
+	[SerializeField]
+	private Vector3 ownAttackBallSpawnPosition;
+	[SerializeField]
+	private GameObject opponentAttackBallPrefab;
+	[SerializeField]
+	private Vector3 opponentAttackBallSpawnPosition;
+	[SerializeField]
+	private GameObject explosionPrefab;
 
+	[SerializeField]
+	private Image resultImage;
+	[SerializeField]
+	private Text resultScore;
+	[SerializeField]
+	private Button resultBackToMenu;
+
+	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
 	private bool ownWin = false;
 	private bool npcWin = false;
@@ -142,6 +151,9 @@ public class SinglePlayerController : MonoBehaviour {
 
 	private float opponentSpecialGauge;
 	private float opponentHealthGauge;
+
+	private float ownBurntTimer;
+	private float opponentBurntTimer;
 
 	private Character ownCharacter;
 	private Character opponentCharacter;
@@ -171,8 +183,8 @@ public class SinglePlayerController : MonoBehaviour {
 		blockingPanel.SetActive (false);
 		countDownPanel.SetActive (true);
 		isBlocked = true;
-        resultBackToMenu.gameObject.SetActive(false);
-        resultScore.gameObject.SetActive(false);
+		resultBackToMenu.gameObject.SetActive(false);
+		resultScore.gameObject.SetActive(false);
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
 		numberButtonDefaultPositions = new List <Vector3> ();
@@ -242,6 +254,8 @@ public class SinglePlayerController : MonoBehaviour {
 	void Update () {
 
 		if (!isPaused) {
+			opponentCharacterAnimator.enabled = true;
+			ownCharacterAnimator.enabled = true;
 
 			// Animate bars
 			AnimateSlider (ownSpecialBarSlider, ownSpecialGauge, SPECIAL_BAR_MODIFIER);
@@ -254,6 +268,18 @@ public class SinglePlayerController : MonoBehaviour {
 			} else {
 				isBlocked = false;
 			}
+
+			if (ownBurntTimer > 0) {
+				ownBurntTimer -= Time.deltaTime;
+			} else {
+				unburnCharacter (ownCharacterObject);
+			}
+			if (opponentBurntTimer > 0) {
+				opponentBurntTimer -= Time.deltaTime;
+			} else {
+				unburnCharacter (opponentCharacterObject);
+			}
+
 
 			if (!isBlocked) {
 				// Update combo timer
@@ -291,7 +317,9 @@ public class SinglePlayerController : MonoBehaviour {
 				}
 					
 			}
-
+		} else {
+			opponentCharacterAnimator.enabled = false;
+			ownCharacterAnimator.enabled = false;
 		}
 	}
 
@@ -356,6 +384,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 
 	void npcAttack() {
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
 		++npcComboCount;
 
 		int npcDifficulty = Random.Range (0, 3);
@@ -375,36 +404,22 @@ public class SinglePlayerController : MonoBehaviour {
 
 		npcComboTimer = opponentCharacter.getComboTimer ();
 
-
-		// Increase own special gauge
+		// Increase opponent's special gauge
 		opponentSpecialGauge += opponentCharacter.getSpecialBarIncrease () [npcDifficulty];
 		if (opponentSpecialGauge >= 1) {
 			opponentSpecialGauge = 1;
 		}
-
-		// Decrease opponent's health
+			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
-		ownHealthGauge -= damage;
-		if (ownHealthGauge <= 0) {
-			npcWin = true;
-			isBlocked = true;
-			setResult (Result.LOSE);
-		}
-		// Increase opponent's special gauge
-		ownSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
-		if (ownSpecialGauge >= 1) {
-			ownSpecialGauge = 1;
-		}
-
-		// Modify Slider
-		modifyOpponentSpecialGauge(opponentSpecialGauge);
-		modifyOpponentHealthGauge (opponentHealthGauge);
-		modifyOwnHealthGauge (ownHealthGauge);
-		modifyOwnSpecialGauge (ownSpecialGauge);
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		opponentAttackBall.transform.Rotate (new Vector3 (0f, 180f));
+		opponentAttackBall.setDamage (damage);
+		opponentAttackBall.setOwn (false);
 	}
 
 	public void judgeAnswer() {
 		if (int.Parse (answerText.text) == problemSet.Value) {
+			ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACK);
 			generateNewProblem ();
 
 			// Play sound effects
@@ -424,34 +439,18 @@ public class SinglePlayerController : MonoBehaviour {
 				}
 				specialButton.SetActive (true);
 			}
-
-			// Decrease opponent's health
-			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER)*10;
-			opponentHealthGauge -= damage;
-			if (opponentHealthGauge <= 0) {
-				ownWin = true;
-				isBlocked = true;			
-				setResult (Result.WIN);
-			}
-
-			// Increase opponent's special gauge
-			opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
-			if (opponentSpecialGauge >= 1) {
-				opponentSpecialGauge = 1;
-			}
-
-			// Call RPC
-			modifyOpponentSpecialGauge(opponentSpecialGauge);
-			modifyOpponentHealthGauge (opponentHealthGauge);
-			modifyOwnHealthGauge (ownHealthGauge);
-			modifyOwnSpecialGauge (ownSpecialGauge);
+				
+			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			ownAttackBall.setDamage (damage);
+			ownAttackBall.setOwn (true);
 		} else {
 			resetCombo ();
 
 			// Play sound effects
 			tappingSound.PlayOneShot (GameSFX.ANSWER_FALSE);
 		}
-		answerText.text = "0";
+		deleteAnswer ();
 	}
 		
 	void modifyOpponentSpecialGauge (float specialGauge) {
@@ -472,6 +471,40 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 	}
 		
+	public void hitOwn (float damage) {
+		// Decrease own health
+		ownHealthGauge -= damage;
+		ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
+		if (ownHealthGauge <= 0) {
+			npcWin = true;
+			isBlocked = true;
+			setResult (Result.LOSE);
+		}
+
+		// Increase own special gauge
+		ownSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+		if (ownSpecialGauge >= 1) {
+			ownSpecialGauge = 1;
+		}
+	}
+
+	public void hitOpponent (float damage) {
+		// Decrease opponent's health
+		opponentHealthGauge -= damage;
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
+		if (opponentHealthGauge <= 0) {
+			ownWin = true;
+			isBlocked = true;			
+			setResult (Result.WIN);
+		}
+
+		// Increase opponent's special gauge
+		opponentSpecialGauge += damage / DAMAGE_TO_SPECIAL_DIVISOR;
+		if (opponentSpecialGauge >= 1) {
+			opponentSpecialGauge = 1;
+		}
+	}
+
 	void modifyOwnHealthGauge (float healthGauge) {
 		ownHealthGauge = healthGauge;
 	}
@@ -479,6 +512,12 @@ public class SinglePlayerController : MonoBehaviour {
 	public void npcUseSpecial() {
 		opponentSpecialGauge = 0;
 		opponentCharacter.npcUseSpecial ();
+		opponentCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Vector3 ownExplosionPosition = explosionPrefab.transform.position;
+		ownExplosionPosition.x *= -1;
+		Instantiate (explosionPrefab, ownExplosionPosition, Quaternion.identity);
+		burnCharacter (ownCharacterObject);
+		ownBurntTimer = BURN_TIME;
 	}
 					
 	public void useSpecial () {
@@ -487,6 +526,18 @@ public class SinglePlayerController : MonoBehaviour {
 		specialButton.SetActive (false);
 		npcAttackTimeMultiplierTime = 5.0f;
 		npcAttackTimeMultiplier = 1.15f;
+		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
+		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		burnCharacter (opponentCharacterObject);
+		opponentBurntTimer = BURN_TIME;
+	}
+
+	private void burnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (0f, 0f, 0f);
+	}
+
+	private void unburnCharacter (GameObject characterObj) {
+		characterObj.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
 	}
 
 	public Button[] getNumberButtons() {
@@ -500,6 +551,7 @@ public class SinglePlayerController : MonoBehaviour {
 	public void quitRoom() {
 		SceneManager.LoadScene (GameScene.LOBBY);
 	}
+
 	void setResult (int result) {
 		if (result == Result.LOSE) {
 			opponentWinCounter.add ();
@@ -510,15 +562,15 @@ public class SinglePlayerController : MonoBehaviour {
 		if (!(npcWin && ownWin)) {
 			if (result == Result.LOSE) {
 				resultText.text = getResultText (opponentHealthGauge / opponentCharacter.getMaxHp ());
-                adjustResultImage();
+				adjustResultImage();
 			} else {
 				resultText.text = getResultText (ownHealthGauge / ownCharacter.getMaxHp ());
-                adjustResultImage();
-            }
+				adjustResultImage();
+			}
 		} else {
 			resultText.text = "DOUBLE K.O";
-            adjustResultImage();
-        }
+			adjustResultImage();
+		}
 
 		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
 			StopCoroutine (newRound ());
@@ -537,29 +589,29 @@ public class SinglePlayerController : MonoBehaviour {
 		} else if (healthPercentage < 0.1f) {
 			return "GREAT";
 		} else {
-            return "K.O";
+			return "K.O";
 		}
 	}
 
-    void adjustResultImage(){
-        if (resultText.text == "WIN") {
-            resultImage.gameObject.SetActive(true);
-            resultImage.sprite = Resources.Load<Sprite>("resultWin");
-            resultText.gameObject.SetActive(false);
-        }
-        else if (resultText.text == "K.O") {
-            resultImage.gameObject.SetActive(true);
-            resultImage.sprite = Resources.Load<Sprite>("resultKO");
-            resultText.gameObject.SetActive(false);
-        }
-        else
-        {
-            resultImage.gameObject.SetActive(false);
-            resultText.gameObject.SetActive(true);
-        }
-    }
+	void adjustResultImage(){
+		if (resultText.text == "WIN") {
+			resultImage.gameObject.SetActive(true);
+			resultImage.sprite = Resources.Load<Sprite>("resultWin");
+			resultText.gameObject.SetActive(false);
+		}
+		else if (resultText.text == "K.O") {
+			resultImage.gameObject.SetActive(true);
+			resultImage.sprite = Resources.Load<Sprite>("resultKO");
+			resultText.gameObject.SetActive(false);
+		}
+		else
+		{
+			resultImage.gameObject.SetActive(false);
+			resultText.gameObject.SetActive(true);
+		}
+	}
 
-    IEnumerator newRound () {
+	IEnumerator newRound () {
 		yield return new WaitForSeconds (ANNOUNCEMENT_DELAY);
 
 		ownHealthGauge = ownCharacter.getMaxHp ();
@@ -569,8 +621,7 @@ public class SinglePlayerController : MonoBehaviour {
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 
 		resultText.text = "";
-        adjustResultImage();
-        resultPanel.SetActive (false);
+		resultPanel.SetActive (false);
 
 		generateNewProblem ();
 
@@ -584,23 +635,18 @@ public class SinglePlayerController : MonoBehaviour {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
 				resultText.text = "WIN";
 				sound.PlayOneShot (GameSFX.WIN);
-                adjustResultImage();
-            } else {
+			} else {
 				resultText.text = "DRAW";
-                adjustResultImage();
-                sound.PlayOneShot (GameSFX.DRAW);
-
-            }
+				sound.PlayOneShot (GameSFX.DRAW);
+			}
 		} else {
 			resultText.text = "LOSE";
-            adjustResultImage();
-            sound.PlayOneShot (GameSFX.LOSE);
-        }
-
-        resultScore.gameObject.SetActive(true);
-        resultBackToMenu.gameObject.SetActive(true);
-        //yield return new WaitForSeconds (GAME_OVER_DELAY);
-		//quitRoom ();
-    }
+			sound.PlayOneShot (GameSFX.LOSE);
+		}
+		resultScore.gameObject.SetActive(true);
+		resultBackToMenu.gameObject.SetActive(true);
+		// yield return new WaitForSeconds (GAME_OVER_DELAY);
+		// quitRoom ();
+	}
 		
 }

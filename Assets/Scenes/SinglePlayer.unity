@@ -3522,7 +3522,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300008, guid: b9e0aa950518da444bac4d6c092dc2eb, type: 3}
+  m_Sprite: {fileID: 21300008, guid: 2baf1e5bc415b034a8a5e8bfac2fe015, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3955,6 +3955,8 @@ GameObject:
   - component: {fileID: 794880645}
   - component: {fileID: 794880648}
   - component: {fileID: 794880647}
+  - component: {fileID: 794880649}
+  - component: {fileID: 794880650}
   m_Layer: 0
   m_Name: Own Character
   m_TagString: Untagged
@@ -4062,6 +4064,51 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!61 &794880649
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 794880644}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.6773176, y: 4.25}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 5, y: 8.48}
+    newSize: {x: 4.49, y: 8.49}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.3546352, y: 8.5}
+  m_EdgeRadius: 0
+--- !u!50 &794880650
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 794880644}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &844948882
 GameObject:
   m_ObjectHideFlags: 0
@@ -5008,7 +5055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 491, y: 121}
+  m_AnchoredPosition: {x: 470, y: 121}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1028734066
@@ -6884,6 +6931,8 @@ GameObject:
   - component: {fileID: 1684455192}
   - component: {fileID: 1684455195}
   - component: {fileID: 1684455194}
+  - component: {fileID: 1684455196}
+  - component: {fileID: 1684455197}
   m_Layer: 0
   m_Name: Opponent's Character
   m_TagString: Untagged
@@ -6924,7 +6973,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1684455191}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 28.29, y: -9.1, z: 13.5}
+  m_LocalPosition: {x: 26.3, y: -9.1, z: 13.5}
   m_LocalScale: {x: 2.3, y: 2.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6981,7 +7030,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b9e0aa950518da444bac4d6c092dc2eb, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 2baf1e5bc415b034a8a5e8bfac2fe015, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6991,6 +7040,51 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!61 &1684455196
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684455191}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.9306715, y: 4.1900005}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 5.54, y: 8.900001}
+    newSize: {x: 5.23, y: 8.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.861342, y: 8.380001}
+  m_EdgeRadius: 0
+--- !u!50 &1684455197
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684455191}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1698526935
 GameObject:
   m_ObjectHideFlags: 0
@@ -7322,6 +7416,14 @@ MonoBehaviour:
   backgroundMusic: {fileID: 1419660566}
   sound: {fileID: 1805174695}
   tappingSound: {fileID: 875848450}
+  ownAttackBallPrefab: {fileID: 1925588752637138, guid: c88eb3010792bed408f5cbef8df5c517,
+    type: 2}
+  ownAttackBallSpawnPosition: {x: -12.868, y: -0.9350004, z: 13.6}
+  opponentAttackBallPrefab: {fileID: 1925588752637138, guid: c88eb3010792bed408f5cbef8df5c517,
+    type: 2}
+  opponentAttackBallSpawnPosition: {x: 12.868, y: -0.9350004, z: 13.6}
+  explosionPrefab: {fileID: 1630331371517052, guid: c38a5701fcbf46b47be0ab9a09aee8b4,
+    type: 2}
 --- !u!4 &1762323241
 Transform:
   m_ObjectHideFlags: 0
