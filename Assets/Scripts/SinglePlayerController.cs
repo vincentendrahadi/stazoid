@@ -559,7 +559,7 @@ public class SinglePlayerController : MonoBehaviour {
 				resultImage.sprite = getResultSprite (ownHealthGauge / ownCharacter.getMaxHp ());
 			}
 		} else {
-			//resultText.text = "DOUBLE K.O";
+			resultImage.sprite = ResultSprite.DOUBLE_KO;
 		}
 
 		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
@@ -622,8 +622,6 @@ public class SinglePlayerController : MonoBehaviour {
 			opponentCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 		}
 		panelClickToQuit.SetActive (true);
-		// yield return new WaitForSeconds (GAME_OVER_DELAY);
-		// quitRoom ();
 	}
 		
 }

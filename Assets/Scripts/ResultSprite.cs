@@ -9,6 +9,7 @@ public class ResultSprite : MonoBehaviour
 	public static Sprite DRAW = Resources.Load<Sprite>(SPRITE_PATH + "Draw");
 	public static Sprite LOSE = Resources.Load<Sprite>(SPRITE_PATH + "Lose");
 	public static Sprite KO = Resources.Load<Sprite>(SPRITE_PATH + "KO");
+	public static Sprite DOUBLE_KO = Resources.Load<Sprite>(SPRITE_PATH + "Double KO");
 	public static Sprite GREAT = Resources.Load<Sprite>(SPRITE_PATH + "Great");
 	public static Sprite PERFECT = Resources.Load<Sprite>(SPRITE_PATH + "Prefect");
 }
