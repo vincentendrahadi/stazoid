@@ -37,11 +37,15 @@ public class Launcher : Photon.PunBehaviour {
 
 	[SerializeField]
 	private AudioSource tappingButtons;
-
 	[SerializeField]
 	private AudioSource bgmSound;
 
+	[SerializeField]
+	private GameObject canvasCaracterSelection;
+	[SerializeField]
+	private GameObject canvasWaiting;
 
+	private bool isPlayingOnline;
 	private bool isConnecting;
 	private Button currentCharacter;
 	private Vector3 STANDARD_CHARACTER_SCALE = new Vector3(0.45f, 0.45f, 1);
@@ -51,6 +55,17 @@ public class Launcher : Photon.PunBehaviour {
 		foreach (Button button in menuButtons) {
 			button.onClick.AddListener (delegate {
 				audioSource.PlayOneShot(GameSFX.TAP_MENU);
+			});
+		}
+
+		foreach (Button character in characterList) {
+			character.onClick.AddListener (delegate {
+				chooseCharacter(character);
+				if (isPlayingOnline) {
+					Connect();
+				} else {
+					PlayWithNPC();
+				}
 			});
 		}
 
@@ -70,6 +85,8 @@ public class Launcher : Photon.PunBehaviour {
 			characterList [i].interactable = false;
 		}
 		currentCharacter = characterList [0];
+
+		selectedCharacterButton = characterList [0];
 	}
 
 	public string getNPCCharacterName() {
@@ -85,9 +102,8 @@ public class Launcher : Photon.PunBehaviour {
 
 	public void Connect () {
 		isConnecting = true;
-		statusText.SetActive (true);
-		playButton.interactable = false;
-		cancelButton.SetActive (true);
+		canvasWaiting.SetActive(true);
+		canvasCaracterSelection.SetActive(false);
 
 		if (PhotonNetwork.connected) {
 			PhotonNetwork.JoinRandomRoom ();
@@ -111,9 +127,8 @@ public class Launcher : Photon.PunBehaviour {
 		Debug.Log ("Stazoid/Launcher: OnDisconnectedFromPhoton() was called by PUN");
 
 		isConnecting = false;
-		statusText.SetActive (false);
-		playButton.interactable = true;
-		cancelButton.SetActive (false);
+		canvasWaiting.SetActive(false);
+		canvasCaracterSelection.SetActive(true);
 	}
 
 	public override void OnPhotonRandomJoinFailed (object[] codeAndMsg) {
@@ -145,7 +160,17 @@ public class Launcher : Photon.PunBehaviour {
 		}
 	}
 
-	private Character ownCharacter;
+	public void choosePlayingOnline() {
+		isPlayingOnline = true;
+		canvasCaracterSelection.SetActive (true);
+		changeCharacterInteractable ();
+	}
+
+	public void choosePlayingOffline() {
+		isPlayingOnline = false;
+		canvasCaracterSelection.SetActive (true);
+		changeCharacterInteractable ();
+	}
 
 	public void chooseCharacter (Button button) {
 		audioSource.PlayOneShot (GameSFX.CHOSE_CHAR);
