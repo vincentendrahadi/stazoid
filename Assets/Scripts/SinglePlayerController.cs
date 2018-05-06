@@ -485,7 +485,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 	public void hitOpponent (float damage) {
 		// Decrease opponent's health
-		opponentHealthGauge -= damage*5;
+		opponentHealthGauge -= damage;
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
 			ownWin = true;
