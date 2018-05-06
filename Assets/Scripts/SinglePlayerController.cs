@@ -589,8 +589,10 @@ public class SinglePlayerController : MonoBehaviour {
 		ownHealthGauge = ownCharacter.getMaxHp ();
 		combo = 0;
 		comboTimer = 0;
+		ownSpecialGauge = 0;
 
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
+		opponentSpecialGauge = 0;
 
 		resultImage.sprite = null;
 		resultPanel.SetActive (false);
