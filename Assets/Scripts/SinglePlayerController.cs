@@ -99,7 +99,9 @@ public class SinglePlayerController : MonoBehaviour {
 	[SerializeField]
 	private GameObject resultPanel;
 	[SerializeField]
-	private Text resultText;
+	private Image resultImage;
+	[SerializeField]
+	private GameObject panelClickToQuit;
 
 	[SerializeField]
 	private AudioSource backgroundMusic;
@@ -118,13 +120,6 @@ public class SinglePlayerController : MonoBehaviour {
 	private Vector3 opponentAttackBallSpawnPosition;
 	[SerializeField]
 	private GameObject explosionPrefab;
-
-	[SerializeField]
-	private Image resultImage;
-	[SerializeField]
-	private Text resultScore;
-	[SerializeField]
-	private Button resultBackToMenu;
 
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
@@ -183,8 +178,6 @@ public class SinglePlayerController : MonoBehaviour {
 		blockingPanel.SetActive (false);
 		countDownPanel.SetActive (true);
 		isBlocked = true;
-		resultBackToMenu.gameObject.SetActive(false);
-		resultScore.gameObject.SetActive(false);
 
 		// Add onClick listener to all number buttons and get default position of all number buttons
 		numberButtonDefaultPositions = new List <Vector3> ();
@@ -561,15 +554,12 @@ public class SinglePlayerController : MonoBehaviour {
 		resultPanel.SetActive (true);
 		if (!(npcWin && ownWin)) {
 			if (result == Result.LOSE) {
-				resultText.text = getResultText (opponentHealthGauge / opponentCharacter.getMaxHp ());
-				adjustResultImage();
+				resultImage.sprite = getResultSprite (opponentHealthGauge / opponentCharacter.getMaxHp ());
 			} else {
-				resultText.text = getResultText (ownHealthGauge / ownCharacter.getMaxHp ());
-				adjustResultImage();
+				resultImage.sprite = getResultSprite (ownHealthGauge / ownCharacter.getMaxHp ());
 			}
 		} else {
-			resultText.text = "DOUBLE K.O";
-			adjustResultImage();
+			resultImage.sprite = ResultSprite.DOUBLE_KO;
 		}
 
 		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
@@ -583,31 +573,13 @@ public class SinglePlayerController : MonoBehaviour {
 		ownWin = false;
 	}
 
-	string getResultText (float healthPercentage) {
+	Sprite getResultSprite (float healthPercentage) {
 		if (healthPercentage > 0.99f) {
-			return "PERFECT";
+			return ResultSprite.PERFECT;
 		} else if (healthPercentage < 0.1f) {
-			return "GREAT";
+			return ResultSprite.GREAT;
 		} else {
-			return "K.O";
-		}
-	}
-
-	void adjustResultImage(){
-		if (resultText.text == "WIN") {
-			resultImage.gameObject.SetActive(true);
-			resultImage.sprite = Resources.Load<Sprite>("resultWin");
-			resultText.gameObject.SetActive(false);
-		}
-		else if (resultText.text == "K.O") {
-			resultImage.gameObject.SetActive(true);
-			resultImage.sprite = Resources.Load<Sprite>("resultKO");
-			resultText.gameObject.SetActive(false);
-		}
-		else
-		{
-			resultImage.gameObject.SetActive(false);
-			resultText.gameObject.SetActive(true);
+			return ResultSprite.KO;
 		}
 	}
 
@@ -620,7 +592,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 
-		resultText.text = "";
+		resultImage.sprite = null;
 		resultPanel.SetActive (false);
 
 		generateNewProblem ();
@@ -633,20 +605,23 @@ public class SinglePlayerController : MonoBehaviour {
 		backgroundMusic.volume = 0.5f;
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
-				resultText.text = "WIN";
+				resultImage.sprite = ResultSprite.WIN;
 				sound.PlayOneShot (GameSFX.WIN);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.WIN);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
 			} else {
-				resultText.text = "DRAW";
+				resultImage.sprite = ResultSprite.DRAW;
 				sound.PlayOneShot (GameSFX.DRAW);
+				ownCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
+				opponentCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
 			}
 		} else {
-			resultText.text = "LOSE";
+			resultImage.sprite = ResultSprite.LOSE;
 			sound.PlayOneShot (GameSFX.LOSE);
+			ownCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
+			opponentCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 		}
-		resultScore.gameObject.SetActive(true);
-		resultBackToMenu.gameObject.SetActive(true);
-		// yield return new WaitForSeconds (GAME_OVER_DELAY);
-		// quitRoom ();
+		panelClickToQuit.SetActive (true);
 	}
 		
 }
