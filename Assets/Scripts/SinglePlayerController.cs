@@ -320,12 +320,14 @@ public class SinglePlayerController : MonoBehaviour {
 		isPaused = true;
 		ownCharacter.setPause ();
 		opponentCharacter.setPause ();
+		BroadcastMessage ("pauseAttack");
 	}
 
 	public void resumeGame() {
 		isPaused = false;
 		ownCharacter.setUnpause ();
 		opponentCharacter.setUnpause ();
+		BroadcastMessage ("resumeAttack");
 	}
 		
 	void AnimateSlider (Slider slider, float gauge, float modifier) {
@@ -404,7 +406,7 @@ public class SinglePlayerController : MonoBehaviour {
 		}
 			
 		float damage = opponentCharacter.getDamage () [npcDifficulty] * (1 + npcComboCount * COMBO_MULTIPLIER);
-		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+		AttackBall opponentAttackBall = Instantiate (opponentAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity, this.transform).GetComponent <AttackBall> ();
 		opponentAttackBall.transform.Rotate (new Vector3 (0f, 180f));
 		opponentAttackBall.setDamage (damage);
 		opponentAttackBall.setOwn (false);
@@ -434,7 +436,7 @@ public class SinglePlayerController : MonoBehaviour {
 			}
 				
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity, this.transform).GetComponent <AttackBall> ();
 			ownAttackBall.setDamage (damage);
 			ownAttackBall.setOwn (true);
 		} else {
@@ -483,7 +485,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 	public void hitOpponent (float damage) {
 		// Decrease opponent's health
-		opponentHealthGauge -= damage;
+		opponentHealthGauge -= damage*5;
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
 			ownWin = true;
