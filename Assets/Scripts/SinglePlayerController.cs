@@ -27,7 +27,6 @@ public class SinglePlayerController : MonoBehaviour {
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
-	private const float GAME_OVER_DELAY = 5.0f;
 	private const float BURN_TIME = 1.5f;
 
 	[SerializeField]
