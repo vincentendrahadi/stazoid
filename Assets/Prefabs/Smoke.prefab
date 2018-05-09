@@ -9,48 +9,48 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1630331371517052}
+  m_RootGameObject: {fileID: 1145135532886240}
   m_IsPrefabParent: 1
---- !u!1 &1630331371517052
+--- !u!1 &1145135532886240
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4599681076630484}
-  - component: {fileID: 212042058834917706}
-  - component: {fileID: 95380033460357972}
+  - component: {fileID: 4816976588597552}
+  - component: {fileID: 212269209028123700}
+  - component: {fileID: 95297106318907270}
   m_Layer: 0
-  m_Name: Explosion
+  m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4599681076630484
+--- !u!4 &4816976588597552
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1630331371517052}
+  m_GameObject: {fileID: 1145135532886240}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 19.906, y: -9.2, z: 10}
-  m_LocalScale: {x: 25, y: 25, z: 1}
+  m_LocalPosition: {x: 11.2, y: -9, z: 11}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95380033460357972
+--- !u!95 &95297106318907270
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1630331371517052}
+  m_GameObject: {fileID: 1145135532886240}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d3d1a201942a14b489b3f7998cbf0c7c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0bd400890b1135b44b744b3e6d814349, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -58,12 +58,12 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!212 &212042058834917706
+--- !u!212 &212269209028123700
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1630331371517052}
+  m_GameObject: {fileID: 1145135532886240}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -92,12 +92,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300006, guid: a60c437654e33414faf6303a3da47327, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300002, guid: 74b7fa86ad2fdb94e8a0d4d5b5c618d6, type: 3}
+  m_Color: {r: 0.60294116, g: 0.60294116, b: 0.60294116, a: 0.603}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.44, y: 0.46}
+  m_Size: {x: 1.07, y: 0.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

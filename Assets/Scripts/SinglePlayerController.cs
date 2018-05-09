@@ -119,6 +119,8 @@ public class SinglePlayerController : MonoBehaviour {
 	private Vector3 opponentAttackBallSpawnPosition;
 	[SerializeField]
 	private GameObject explosionPrefab;
+	[SerializeField]
+	private GameObject smokePrefab;
 
 	private bool isBlocked = true;
 	private bool isHealthGaugeZero = false;
@@ -508,6 +510,10 @@ public class SinglePlayerController : MonoBehaviour {
 		Vector3 ownExplosionPosition = explosionPrefab.transform.position;
 		ownExplosionPosition.x *= -1;
 		Instantiate (explosionPrefab, ownExplosionPosition, Quaternion.identity);
+		Vector3 ownSmokePosition = smokePrefab.transform.position;
+		ownSmokePosition.x *= -1;
+		GameObject smoke = (GameObject) Instantiate (smokePrefab, ownSmokePosition, Quaternion.identity);
+		smoke.transform.localScale = new Vector3(smoke.transform.localScale.x * (-1), smoke.transform.localScale.y, 1);
 		burnCharacter (ownCharacterObject);
 		ownBurntTimer = BURN_TIME;
 	}
@@ -520,6 +526,7 @@ public class SinglePlayerController : MonoBehaviour {
 		npcAttackTimeMultiplier = 1.15f;
 		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
 		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		Instantiate (smokePrefab, smokePrefab.transform.position, Quaternion.identity);
 		burnCharacter (opponentCharacterObject);
 		opponentBurntTimer = BURN_TIME;
 	}
