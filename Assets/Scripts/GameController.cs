@@ -122,6 +122,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private Vector3 opponentAttackBallSpawnPosition;
 	[SerializeField]
 	private GameObject explosionPrefab;
+	[SerializeField]
+	private GameObject smokePrefab;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -423,6 +425,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		specialButton.SetActive (false);
 		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
 		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		Instantiate (smokePrefab, smokePrefab.transform.position, Quaternion.identity);
 		burnCharacter (opponentCharacterObject);
 		opponentBurntTimer = BURN_TIME;
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
@@ -436,6 +439,10 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		Vector3 ownExplosionPosition = explosionPrefab.transform.position;
 		ownExplosionPosition.x *= -1;
 		Instantiate (explosionPrefab, ownExplosionPosition, Quaternion.identity);
+		Vector3 ownSmokePosition = smokePrefab.transform.position;
+		ownSmokePosition.x *= -1;
+		GameObject smoke = (GameObject) Instantiate (smokePrefab, ownSmokePosition, Quaternion.identity);
+		smoke.transform.localScale = new Vector3(smoke.transform.localScale.x * (-1), smoke.transform.localScale.y, 1);
 		burnCharacter (ownCharacterObject);
 		ownBurntTimer = BURN_TIME;
 		opponentCharacter.useSpecial ();
