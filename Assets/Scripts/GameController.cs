@@ -347,7 +347,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownHealthGauge -= damage;
 		ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (ownHealthGauge <= 0) {
-			resultPanel.SetActive (true);
 			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
 		}
 
@@ -366,7 +365,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		opponentHealthGauge -= damage;
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
-			resultPanel.SetActive (true);
 			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
 		}
 
@@ -409,6 +407,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		} else {
 			resultImage.sprite = ResultSprite.DOUBLE_KO;
 		}
+		resultPanel.SetActive (true);
 			
 		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
 			StopCoroutine (newRound ());
@@ -490,6 +489,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		comboTimer = 0;
 
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
+
+		resultReceived = false;
 
 		resultImage.sprite = null;
 		resultPanel.SetActive (false);
