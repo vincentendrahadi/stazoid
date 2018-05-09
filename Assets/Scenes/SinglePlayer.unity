@@ -7574,6 +7574,8 @@ MonoBehaviour:
   opponentAttackBallSpawnPosition: {x: 12.868, y: -0.9350004, z: 13.6}
   explosionPrefab: {fileID: 1630331371517052, guid: c38a5701fcbf46b47be0ab9a09aee8b4,
     type: 2}
+  smokePrefab: {fileID: 1145135532886240, guid: cf7534741a0c94d4c8b192744b0ec541,
+    type: 2}
 --- !u!4 &1762323241
 Transform:
   m_ObjectHideFlags: 0
