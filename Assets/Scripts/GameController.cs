@@ -317,7 +317,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
 			ownAttackBall.setDamage (damage);
 			ownAttackBall.setOwn (true);
 
