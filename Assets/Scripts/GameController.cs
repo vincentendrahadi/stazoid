@@ -484,6 +484,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 
+		resultReceived = false;
+
 		resultImage.sprite = null;
 		resultPanel.SetActive (false);
 
