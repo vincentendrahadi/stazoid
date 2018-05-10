@@ -32,7 +32,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private const int WIN_NEEDED = 3;
 
 	private const float ANNOUNCEMENT_DELAY = 3.0f;
-	private const float GAME_OVER_DELAY = 5.0f;
 	private const float BURN_TIME = 1.5f;
 
 	[SerializeField]
@@ -97,7 +96,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	[SerializeField]
 	private GameObject resultPanel;
 	[SerializeField]
-	private Text resultText;
+	private Image resultImage;
+	[SerializeField]
+	private GameObject panelClickToQuit;
 
 	[SerializeField]
 	private WinCounter ownWinCounter;
@@ -121,6 +122,8 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	private Vector3 opponentAttackBallSpawnPosition;
 	[SerializeField]
 	private GameObject explosionPrefab;
+	[SerializeField]
+	private GameObject smokePrefab;
 
 	private KeyValuePair<string, int> problemSet;
 	private int solution;
@@ -314,7 +317,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 			}
 
 			float damage = ownCharacter.getDamage () [difficulty] * (1 + combo * COMBO_MULTIPLIER);
-			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, opponentAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
+			AttackBall ownAttackBall = Instantiate (ownAttackBallPrefab, ownAttackBallSpawnPosition, Quaternion.identity).GetComponent <AttackBall> ();
 			ownAttackBall.setDamage (damage);
 			ownAttackBall.setOwn (true);
 
@@ -344,7 +347,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		ownHealthGauge -= damage;
 		ownCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (ownHealthGauge <= 0) {
-			resultPanel.SetActive (true);
 			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.WIN);
 		}
 
@@ -363,7 +365,6 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		opponentHealthGauge -= damage;
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
-			resultPanel.SetActive (true);
 			this.photonView.RPC ("setResult", PhotonTargets.Others, Result.LOSE);
 		}
 
@@ -379,13 +380,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		this.opponentSpecialGauge = opponentSpecialGauge;
 	}
 
-	string getResultText (float healthPercentage) {
+	 Sprite getResultSprite (float healthPercentage) {
 		if (healthPercentage > 0.99f) {
-			return "PERFECT";
+			return ResultSprite.PERFECT;
 		} else if (healthPercentage < 0.1f) {
-			return "GREAT";
+			return ResultSprite.GREAT;
 		} else {
-			return "K.O";
+			return ResultSprite.KO;
 		}
 	}
 
@@ -399,13 +400,14 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		if (!resultReceived) {
 			resultReceived = true;
 			if (result == Result.LOSE) {
-				resultText.text = getResultText (opponentHealthGauge / opponentCharacter.getMaxHp ());
+				resultImage.sprite = getResultSprite (opponentHealthGauge / opponentCharacter.getMaxHp ());
 			} else {
-				resultText.text = getResultText (ownHealthGauge / ownCharacter.getMaxHp ());
+				resultImage.sprite = getResultSprite (ownHealthGauge / ownCharacter.getMaxHp ());
 			}
 		} else {
-			resultText.text = "DOUBLE K.O";
+			resultImage.sprite = ResultSprite.DOUBLE_KO;
 		}
+		resultPanel.SetActive (true);
 			
 		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
 			StopCoroutine (newRound ());
@@ -422,6 +424,7 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		specialButton.SetActive (false);
 		ownCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
 		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		Instantiate (smokePrefab, smokePrefab.transform.position, Quaternion.identity);
 		burnCharacter (opponentCharacterObject);
 		opponentBurntTimer = BURN_TIME;
 		this.photonView.RPC ("modifyOpponentSpecialGauge", PhotonTargets.Others, ownSpecialGauge);
@@ -432,7 +435,13 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 	public void opponentUseSpecial () {
 		sound.PlayOneShot(GameSFX.SPECIAL_LAUNCH);
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.SPECIAL);
-		Instantiate (explosionPrefab, explosionPrefab.transform.position, Quaternion.identity);
+		Vector3 ownExplosionPosition = explosionPrefab.transform.position;
+		ownExplosionPosition.x *= -1;
+		Instantiate (explosionPrefab, ownExplosionPosition, Quaternion.identity);
+		Vector3 ownSmokePosition = smokePrefab.transform.position;
+		ownSmokePosition.x *= -1;
+		GameObject smoke = (GameObject) Instantiate (smokePrefab, ownSmokePosition, Quaternion.identity);
+		smoke.transform.localScale = new Vector3(smoke.transform.localScale.x * (-1), smoke.transform.localScale.y, 1);
 		burnCharacter (ownCharacterObject);
 		ownBurntTimer = BURN_TIME;
 		opponentCharacter.useSpecial ();
@@ -481,7 +490,9 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 
 		opponentHealthGauge = opponentCharacter.getMaxHp ();
 
-		resultText.text = "";
+		resultReceived = false;
+
+		resultImage.sprite = null;
 		resultPanel.SetActive (false);
 
 		generateNewProblem ();
@@ -494,24 +505,23 @@ public class GameController : Photon.PunBehaviour, IPunObservable {
 		backgroundMusic.volume = 0.5f;
 		if (ownWinCounter.getWinCount () == WIN_NEEDED) {
 			if (opponentWinCounter.getWinCount () < WIN_NEEDED) {
-				resultText.text = "WIN";
+				resultImage.sprite = ResultSprite.WIN;
 				sound.PlayOneShot (GameSFX.WIN);
 				ownCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 				opponentCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
 			} else {
-				resultText.text = "DRAW";
+				resultImage.sprite = ResultSprite.DRAW;
 				sound.PlayOneShot (GameSFX.DRAW);
 				ownCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
 				opponentCharacterAnimator.SetTrigger (AnimationCommand.DRAW);
 			}
 		} else {
-			resultText.text = "LOSE";
+			resultImage.sprite = ResultSprite.LOSE;
 			sound.PlayOneShot (GameSFX.LOSE);
 			ownCharacterAnimator.SetTrigger (AnimationCommand.LOSE);
 			opponentCharacterAnimator.SetTrigger (AnimationCommand.WIN);
 		}
-		yield return new WaitForSeconds (GAME_OVER_DELAY);
-		leaveRoom ();
+		panelClickToQuit.SetActive (true);
 	}
 		
 	#endregion
