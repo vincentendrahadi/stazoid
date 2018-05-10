@@ -350,10 +350,7 @@ public class SinglePlayerController : MonoBehaviour {
 	}
 
 	public void backspace () {
-		answerText.text = answerText.text.Substring (0, answerText.text.Length - 1);
-		if (answerText.text == "") {
-			answerText.text = "0";
-		}
+		answerText.text = "0";
 	}
 
 	public void deleteAnswer () {
@@ -486,7 +483,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 	public void hitOpponent (float damage) {
 		// Decrease opponent's health
-		opponentHealthGauge -= damage;
+		opponentHealthGauge -= damage * 3;
 		opponentCharacterAnimator.SetTrigger (AnimationCommand.ATTACKED);
 		if (opponentHealthGauge <= 0) {
 			ownWin = true;
@@ -570,13 +567,8 @@ public class SinglePlayerController : MonoBehaviour {
 			resultImage.sprite = ResultSprite.DOUBLE_KO;
 		}
 
-		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
-			StopCoroutine (newRound ());
-			StartCoroutine (newRound ());
-		} else {
-			StopCoroutine (announceWinner ());
-			StartCoroutine (announceWinner ());
-		}
+		StartCoroutine (judgeWinner ());
+
 		npcWin = false;
 		ownWin = false;
 	}
@@ -588,6 +580,17 @@ public class SinglePlayerController : MonoBehaviour {
 			return ResultSprite.GREAT;
 		} else {
 			return ResultSprite.KO;
+		}
+	}
+
+	IEnumerator judgeWinner() {
+		yield return new WaitForSeconds (1.0f);
+		if (ownWinCounter.getWinCount () < WIN_NEEDED && opponentWinCounter.getWinCount () < WIN_NEEDED) {
+			StopCoroutine (newRound ());
+			StartCoroutine (newRound ());
+		} else {
+			StopCoroutine (announceWinner ());
+			StartCoroutine (announceWinner ());
 		}
 	}
 
@@ -607,6 +610,7 @@ public class SinglePlayerController : MonoBehaviour {
 
 		generateNewProblem ();
 
+		specialButton.SetActive (false);
 		countDownPanel.SetActive (true);
 	}
 

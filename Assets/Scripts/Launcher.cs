@@ -68,13 +68,21 @@ public class Launcher : Photon.PunBehaviour {
 				}
 			});
 		}
-
-		bgmSound.volume = PlayerPrefs.GetFloat ("bgmVolume");
-		tappingButtons.volume = PlayerPrefs.GetFloat ("sfxVolume");
-		if (PlayerPrefs.GetInt ("isMute") == 1) {
-			bgmSound.volume = 0;
-			tappingButtons.volume = 0;
+		if (PlayerPrefs.GetFloat ("bgmVolume") == null && PlayerPrefs.GetFloat ("sfxVolume") == null) {
+			bgmSound.volume = 50;
+			tappingButtons.volume = 50;
+			PlayerPrefs.SetFloat ("bgmVolume", bgmSound.volume);
+			PlayerPrefs.SetFloat ("sfxVolume", tappingButtons.volume);
+			PlayerPrefs.SetInt ("isMute", 0);
+		} else {
+			bgmSound.volume = PlayerPrefs.GetFloat ("bgmVolume");
+			tappingButtons.volume = PlayerPrefs.GetFloat ("sfxVolume");
+			if (PlayerPrefs.GetInt ("isMute") == 1) {
+				bgmSound.volume = 0;
+				tappingButtons.volume = 0;
+			}
 		}
+
 	}
 
 	void Awake () {
